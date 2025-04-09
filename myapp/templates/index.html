@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -10,8 +11,41 @@
 <body>
     <div class="container">
         <div class="seccion clasificacion">
-            <h2>Clasificación de Liga</h2>
-            <!-- Acá irán los datos que scrapes -->
+            <div class="seccion clasificacion">
+                <h2>Clasificación de Liga Profesional</h2>
+            
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Equipo</th>
+                            <th>PJ</th>
+                            <th>G</th>
+                            <th>E</th>
+                            <th>P</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>Pts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for equipo in tabla %}
+                        <tr>
+                            <td>{{ equipo.position }}</td>
+                            <td>{{ equipo.team }}</td>
+                            <td>{{ equipo.played }}</td>
+                            <td>{{ equipo.wins }}</td>
+                            <td>{{ equipo.draws }}</td>
+                            <td>{{ equipo.losses }}</td>
+                            <td>{{ equipo.goals_for }}</td>
+                            <td>{{ equipo.goals_against }}</td>
+                            <td>{{ equipo.points }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
         <div class="seccion estadisticas">
             <h2>Estadísticas de Jugadores</h2>
