@@ -1,0 +1,12 @@
+modules = ["python-3.12", "web"]
+
+[nix]
+channel = "stable-24_05"
+
+[[ports]]
+localPort = 3000
+externalPort = 3001
+
+[env]
+DJANGO_SETTINGS_MODULE = "scoutgine.settings"
+PYTHONUNBUFFERED = "1"
