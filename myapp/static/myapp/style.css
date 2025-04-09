@@ -1,0 +1,38 @@
+
+*{
+    background-color: red;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.seccion {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 2px solid #ccc;
+    overflow-y: auto;
+}
+
+.seccion:last-child {
+    border-right: none;
+}
+
+.clasificacion {
+    background-color: #e3f2fd;
+}
+
+.estadisticas {
+    background-color: #fff3e0;
+}
+
+.extra {
+    background-color: #ede7f6;
+}

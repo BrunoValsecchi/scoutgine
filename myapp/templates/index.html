@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Scoutgine</title>
+    <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <div class="seccion clasificacion">
+            <h2>Clasificación de Liga</h2>
+            <!-- Acá irán los datos que scrapes -->
+        </div>
+        <div class="seccion estadisticas">
+            <h2>Estadísticas de Jugadores</h2>
+            <!-- Acá irán las estadísticas -->
+        </div>
+        <div class="seccion extra">
+            <h2>Datos generales del partido</h2>
+            <div class="card">
+                <h2>{{ info.torneo }}</h2>
+                <p class="info"><strong>Ronda:</strong> {{ info.ronda }}</p>
+                <p class="info"><strong>Fecha:</strong> {{ info.fecha }}</p>
+                <p class="info"><strong>Partido:</strong> {{ info.equipo_local }} vs {{ info.equipo_visitante }}</p>
+                <p class="info"><strong>Marcador:</strong> {{ info.marcador }}</p>
+                <p class="info"><strong>Estadio:</strong> {{ info.estadio }} ({{ info.ciudad }})</p>
+                <p class="info"><strong>Árbitro:</strong> {{ info.arbitro }}</p>
+            </div>  
+        </div>
+    </div>
+</body>
+</html>
