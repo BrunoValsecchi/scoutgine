@@ -1,49 +1,23 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Scoutgine</title>
+    <!-- Estilos AG Grid -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-grid.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-theme-alpine.min.css">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.noStyle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    
+    <title>Scoutgine</title>
     <link rel="stylesheet" href="{% static 'myapp/style.css' %}" />
   </head>
   <body>
     <div class="container">
-
-      <div class="seccion clasificacion">
-        <h2>Clasificación de Liga Profesional</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Pos</th>
-              <th>Equipo</th>
-              <th>PJ</th>
-              <th>G</th>
-              <th>E</th>
-              <th>P</th>
-              <th>GF</th>
-              <th>GC</th>
-              <th>Pts</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for team in tabla %}
-            <tr>
-              <td>{{ team.position }}</td>
-              <td>{{ team.team }}</td>
-              <td>{{ team.played }}</td>
-              <td>{{ team.wins }}</td>
-              <td>{{ team.draws }}</td>
-              <td>{{ team.losses }}</td>
-              <td>{{ team.goals_for }}</td>
-              <td>{{ team.goals_against }}</td>
-              <td>{{ team.points }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
+      <!-- Resto del contenido existente -->
       <div>
         <h2>Gráfico de estadísticas seleccionadas</h2>
         {{ grafico|safe }}
@@ -62,26 +36,89 @@
         </div>
       </div>
 
-      <div class="seccion extra">
-        <h2>Datos generales del partido</h2>
-        <div class="card">
-          <h2>{{ info2.torneo }}</h2>
-          <p class="info"><strong>Ronda:</strong> {{ info2.ronda }}</p>
-          <p class="info"><strong>Fecha:</strong> {{ info2.fecha }}</p>
-          <p class="info"><strong>Partido:</strong> {{ info2.equipo_local }} vs {{ info2.equipo_visitante }}</p>
-          <p class="info"><strong>Marcador:</strong> {{ info2.marcador }}</p>
-          <p class="info"><strong>Estadio:</strong> {{ info2.estadio }} ({{ info2.ciudad }})</p>
-          <p class="info"><strong>Árbitro:</strong> {{ info2.arbitro }}</p>
-        </div>
-      </div>
-
       <div>
         <h2>Estadísticas detalladas</h2>
-
+        {{ tabla|safe }}
       </div>
+    </div>  
 
-    </div>
+    <h2>Tabla Interactiva con AG Grid</h2>
+    
+    <!-- Este div debe estar visible para que AG Grid funcione -->
+    <div id="myGrid" class="ag-theme-alpine" style="height: 500px; width: 100%; display: block;"></div>
 
-  
+    <script>
+      // Función para asegurar que AG Grid se inicialice correctamente
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log("DOM completamente cargado");
+        
+        try {
+          // Intentamos usar los datos de Django
+          let rowData;
+          let columnDefs;
+          
+          try {
+            // Intentar usar los datos de Django
+            rowData = JSON.parse('{{ tabla_data|escapejs }}');
+            
+            // Procesamos los column_defs para ordenar 'player' primero y limitar a 8 columnas
+            const allColumnDefs = JSON.parse('{{ column_defs|escapejs }}');
+            
+            // Encontrar el índice de la columna 'player'
+            const playerIndex = allColumnDefs.findIndex(col => col.field === 'player');
+            
+            // Reordenar columnas para poner 'player' primero
+            if (playerIndex !== -1) {
+              // Extraer la definición de la columna 'player'
+              const playerColDef = allColumnDefs[playerIndex];
+              
+              // Crear nuevo array con 'player' primero
+              columnDefs = [playerColDef];
+              
+              // Agregar las demás columnas (excepto 'player') hasta un máximo de 7 más
+              allColumnDefs.forEach((colDef, index) => {
+                if (index !== playerIndex && columnDefs.length < 8) {
+                  columnDefs.push(colDef);
+                }
+              });
+            } else {
+              // Si no se encuentra 'player', usar las primeras 8 columnas
+              columnDefs = allColumnDefs.slice(0, 8);
+            }
+            
+            console.log("Datos de Django cargados:", rowData);
+            console.log("Columnas procesadas:", columnDefs);
+          } catch (parseError) {
+            console.error("Error al parsear datos de Django:", parseError);
+            
+          }
+          
+          // Configuración de AG Grid
+          const gridOptions = {
+            columnDefs: columnDefs,
+            rowData: rowData,
+            defaultColDef: {
+              sortable: true,
+              filter: true,
+              resizable: true,
+              flex: 1
+            },
+            pagination: true,
+            paginationPageSize: 10
+          };
+          
+          // Inicializar la tabla
+          const gridDiv = document.querySelector('#myGrid');
+          if (gridDiv) {
+            console.log("Elemento grid encontrado, inicializando AG Grid");
+            new agGrid.Grid(gridDiv, gridOptions);
+          } else {
+            console.error("Elemento #myGrid no encontrado en el DOM");
+          }
+        } catch (error) {
+          console.error("Error general al inicializar AG Grid:", error);
+        }
+      });
+    </script>
   </body>
 </html>

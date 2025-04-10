@@ -8,6 +8,8 @@ from pyecharts import options as opts
 from pyecharts.components import Table
 from pyecharts.options import ComponentTitleOpts
 from pyecharts.charts import Page
+from pyecharts.globals import ThemeType
+import json
 
 
 #python manage.py runserver 0.0.0.0:8000
@@ -60,8 +62,15 @@ def home(request):
     def crear_tabla_pyecharts(df):
         tabla = Table()
 
+        # Reordenar columnas: poner 'player' primero
+        columnas = list(df.columns)
+        if 'player' in columnas:
+            columnas.remove('player')
+            columnas = ['player'] + columnas
+            df = df[columnas]
+
         headers = list(df.columns)
-        rows = df.fillna(0).astype(str).values.tolist()  # Convertimos todo a string para evitar errores
+        rows = df.head(10).astype(str).values.tolist()
 
         tabla.add(headers, rows)
         tabla.set_global_opts(
@@ -72,8 +81,15 @@ def home(request):
         page.add(tabla)
         return tabla.render_embed()
 
+
     tabla = crear_tabla_pyecharts(df)
 
+    df2 = pd.DataFrame(stats_player)
+    df2.fillna(0, inplace=True)
+    df2 = df2.astype(str)
+
+    tabla_json = json.dumps(df.to_dict(orient="records"))
+    columnas_json = json.dumps([{"field": col, "sortable": True, "filter": True} for col in df2.columns])
 
     match_url = 'https://www.sofascore.com/es/football/match/inter-miami-cf-los-angeles-fc/aTjcsccKc#id:13616395'
     match_data = sofascore.get_match_dict(match_url)
@@ -129,7 +145,9 @@ def home(request):
         'info': info,
         'info2': info2,
         'grafico':grafico,
-       'tabla':tabla
+        'tabla':tabla,
+        'tabla_data': tabla_json,
+        'column_defs': columnas_json,
         
     }
 
