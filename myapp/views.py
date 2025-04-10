@@ -5,6 +5,8 @@ import pandas as pd
 import requests
 import json
 
+#python manage.py runserver 0.0.0.0:8000
+
 def home(request):
     sofascore = sfc.Sofascore()
     transfermarkt=sfc.Transfermarkt()
