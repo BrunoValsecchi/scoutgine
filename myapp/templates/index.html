@@ -1,121 +1,87 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Scoutgine</title>
-    <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
-
-</head>
-<body>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="{% static 'myapp/style.css' %}" />
+  </head>
+  <body>
     <div class="container">
-        <div class="seccion clasificacion">
-            <div class="seccion clasificacion">
-                <h2>Clasificación de Liga Profesional</h2>
-            
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Pos</th>
-                            <th>Equipo</th>
-                            <th>PJ</th>
-                            <th>G</th>
-                            <th>E</th>
-                            <th>P</th>
-                            <th>GF</th>
-                            <th>GC</th>
-                            <th>Pts</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for equipo in tabla %}
-                        <tr>
-                            <td>{{ team.position }}</td>
-                            <td>{{ team.team }}</td>
-                            <td>{{ team.played }}</td>
-                            <td>{{ team.wins }}</td>
-                            <td>{{ team.draws }}</td>
-                            <td>{{ team.losses }}</td>
-                            <td>{{ team.goals_for }}</td>
-                            <td>{{ team.goals_against }}</td>
-                            <td>{{ team.points }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            
+
+      <div class="seccion clasificacion">
+        <h2>Clasificación de Liga Profesional</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Equipo</th>
+              <th>PJ</th>
+              <th>G</th>
+              <th>E</th>
+              <th>P</th>
+              <th>GF</th>
+              <th>GC</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for team in tabla %}
+            <tr>
+              <td>{{ team.position }}</td>
+              <td>{{ team.team }}</td>
+              <td>{{ team.played }}</td>
+              <td>{{ team.wins }}</td>
+              <td>{{ team.draws }}</td>
+              <td>{{ team.losses }}</td>
+              <td>{{ team.goals_for }}</td>
+              <td>{{ team.goals_against }}</td>
+              <td>{{ team.points }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h2>Gráfico de estadísticas seleccionadas</h2>
+        {{ grafico|safe }}
+      </div>
+
+      <div class="seccion extra">
+        <h2>Datos generales del partido</h2>
+        <div class="card">
+          <h2>{{ info.torneo }}</h2>
+          <p class="info"><strong>Ronda:</strong> {{ info.ronda }}</p>
+          <p class="info"><strong>Fecha:</strong> {{ info.fecha }}</p>
+          <p class="info"><strong>Partido:</strong> {{ info.equipo_local }} vs {{ info.equipo_visitante }}</p>
+          <p class="info"><strong>Marcador:</strong> {{ info.marcador }}</p>
+          <p class="info"><strong>Estadio:</strong> {{ info.estadio }} ({{ info.ciudad }})</p>
+          <p class="info"><strong>Árbitro:</strong> {{ info.arbitro }}</p>
         </div>
-        <div class="seccion estadisticas">
-            <table border="1">
-              <thead>
-                <tr>
-                  {% for key in stats.0.keys %}
-                  <th>{{ key }}</th>
-                  {% endfor %}
-                </tr>
-              </thead>
-              <tbody>
-                {% for player in stats %}
-                <tr>
-                  {% for value in player.values %}
-                  <td>{{ value }}</td>
-                  {% endfor %}
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        <div class="seccion extra">
-            <h2>Datos generales del partido</h2>
-            <div class="card">
-                <h2>{{ info.torneo }}</h2>
-                <p class="info"><strong>Ronda:</strong> {{ info.ronda }}</p>
-                <p class="info"><strong>Fecha:</strong> {{ info.fecha }}</p>
-                <p class="info"><strong>Partido:</strong> {{ info.equipo_local }} vs {{ info.equipo_visitante }}</p>
-                <p class="info"><strong>Marcador:</strong> {{ info.marcador }}</p>
-                <p class="info"><strong>Estadio:</strong> {{ info.estadio }} ({{ info.ciudad }})</p>
-                <p class="info"><strong>Árbitro:</strong> {{ info.arbitro }}</p>
-            </div>  
+      </div>
+
+      <div class="seccion extra">
+        <h2>Datos generales del partido</h2>
+        <div class="card">
+          <h2>{{ info2.torneo }}</h2>
+          <p class="info"><strong>Ronda:</strong> {{ info2.ronda }}</p>
+          <p class="info"><strong>Fecha:</strong> {{ info2.fecha }}</p>
+          <p class="info"><strong>Partido:</strong> {{ info2.equipo_local }} vs {{ info2.equipo_visitante }}</p>
+          <p class="info"><strong>Marcador:</strong> {{ info2.marcador }}</p>
+          <p class="info"><strong>Estadio:</strong> {{ info2.estadio }} ({{ info2.ciudad }})</p>
+          <p class="info"><strong>Árbitro:</strong> {{ info2.arbitro }}</p>
         </div>
-        <div class="seccion extra">
-            <h2>Datos generales del partido</h2>
-            <div class="card">
-                <h2>{{ info2.torneo }}</h2>
-                <p class="info"><strong>Ronda:</strong> {{ info2.ronda }}</p>
-                <p class="info"><strong>Fecha:</strong> {{ info2.fecha }}</p>
-                <p class="info"><strong>Partido:</strong> {{ info2.equipo_local }} vs {{ info2.equipo_visitante }}</p>
-                <p class="info"><strong>Marcador:</strong> {{ info2.marcador }}</p>
-                <p class="info"><strong>Estadio:</strong> {{ info2.estadio }} ({{ info2.ciudad }})</p>
-                <p class="info"><strong>Árbitro:</strong> {{ info2.arbitro }}</p>
-            </div>  
-        </div>
-        
+      </div>
+
+      <div>
+        <h2>Estadísticas detalladas</h2>
+
+      </div>
+
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const rowData = [
-      { Nombre: 'Messi', Goles: 30, Asistencias: 12 },
-      { Nombre: 'Cristiano', Goles: 28, Asistencias: 7 }
-    ];
 
-    const columnDefs = Object.keys(rowData[0]).map(key => ({
-      headerName: key,
-      field: key,
-      sortable: true,
-      filter: true,
-      resizable: true
-    }));
-
-    new agGrid.Grid(document.getElementById('agGridStats'), {
-      columnDefs,
-      rowData,
-      pagination: true,
-      paginationPageSize: 10,
-    });
-  });
-</script>
-</body>
+  
+  </body>
 </html>

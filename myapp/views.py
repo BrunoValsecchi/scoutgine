@@ -3,15 +3,32 @@ import ScraperFC as sfc
 import datetime
 import pandas as pd
 import requests
-import json
+from pyecharts.charts import Bar
+from pyecharts import options as opts
+from pyecharts.components import Table
+from pyecharts.options import ComponentTitleOpts
+from pyecharts.charts import Page
+
 
 #python manage.py runserver 0.0.0.0:8000
+
 
 def home(request):
     sofascore = sfc.Sofascore()
     transfermarkt=sfc.Transfermarkt()
 
+    #def crear_grafico():
+    #    jugadores=["meassi", ["aguero"],["lavezzi"]]
+    #    goles=[50,35,15]
+    #    bar= (
+    #        Bar()
+    #        .add_xaxis(jugadores)
+    #        .add_yaxis("Goles", goles)
+    #        .set_global_opts(title_opts=opts.TitleOpts(title="Goles por Jugador"))
+    #    )
+    #    return bar.render_embed()
 
+    #grafico=crear_grafico()
 
     player_url='https://www.sofascore.com/es/jugador/lionel-messi/12994'
     stats_player = sofascore.scrape_player_league_stats(
@@ -21,8 +38,42 @@ def home(request):
         ['Forwards']
     )
 
+    def graficos_liga(df):
+        jugadores=df['player'].tolist()
+        stats_completas=[col for col in df.columns if col!='player']
+        bar= Bar()
+        bar.add_xaxis(jugadores)
+        for stat in stats_completas:
+            if stat in df.columns:
+                valores=df[stat].fillna(0).tolist()
+                bar.add_yaxis(stat.capitalize(), valores)
+        bar.set_global_opts(
+            title_opts=opts.TitleOpts(title='estadisticas'),
+            xaxis_opts=opts.AxisOpts(axislabel_opts={"rotate": 45}),
+            yaxis_opts=opts.AxisOpts(name="Valor")
+        )
+        return bar.render_embed()
+    
+    df=pd.DataFrame(stats_player)
+    grafico =graficos_liga(df)
+    
+    def crear_tabla_pyecharts(df):
+        tabla = Table()
 
-   
+        headers = list(df.columns)
+        rows = df.fillna(0).astype(str).values.tolist()  # Convertimos todo a string para evitar errores
+
+        tabla.add(headers, rows)
+        tabla.set_global_opts(
+            title_opts=ComponentTitleOpts(title="Estadísticas de Jugadores")
+        )
+
+        page = Page()
+        page.add(tabla)
+        return tabla.render_embed()
+
+    tabla = crear_tabla_pyecharts(df)
+
 
     match_url = 'https://www.sofascore.com/es/football/match/inter-miami-cf-los-angeles-fc/aTjcsccKc#id:13616395'
     match_data = sofascore.get_match_dict(match_url)
@@ -31,7 +82,7 @@ def home(request):
     
     info = {
         'torneo': match_data['tournament']['name'],
-        'ronda': match_data['roundInfo'],
+        'ronda': match_data['roundInfo']['name'],
         'fecha': datetime.datetime.fromtimestamp(match_data['startTimestamp']).strftime('%d/%m/%Y %H:%M'),
         'equipo_local': match_data['homeTeam']['name'],
         'equipo_visitante': match_data['awayTeam']['name'],
@@ -72,14 +123,14 @@ def home(request):
         #season_id=valid_seasons[year]
         #tablas_url=transfermarkt.comps[league].replace
         
-
-    
     context = {
         'stats': stats_player.to_dict(orient='records'),
-        'stats_json': json.dumps(stats_player.to_dict(orient='records')),
         'player_url': player_url,
         'info': info,
-        'info2': info2
+        'info2': info2,
+        'grafico':grafico,
+       'tabla':tabla
+        
     }
 
 
