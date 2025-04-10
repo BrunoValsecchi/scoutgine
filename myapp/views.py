@@ -3,6 +3,7 @@ import ScraperFC as sfc
 import datetime
 import pandas as pd
 import requests
+import json
 
 def home(request):
     sofascore = sfc.Sofascore()
@@ -18,18 +19,17 @@ def home(request):
         ['Forwards']
     )
 
-    print(stats_player.head())  
 
    
 
-    match_url = 'https://www.sofascore.com/es/football/match/real-madrid-arsenal/RsEgb#id:13513403'
+    match_url = 'https://www.sofascore.com/es/football/match/inter-miami-cf-los-angeles-fc/aTjcsccKc#id:13616395'
     match_data = sofascore.get_match_dict(match_url)
     
     
     
     info = {
         'torneo': match_data['tournament']['name'],
-        'ronda': match_data['roundInfo']['name'],
+        'ronda': match_data['roundInfo'],
         'fecha': datetime.datetime.fromtimestamp(match_data['startTimestamp']).strftime('%d/%m/%Y %H:%M'),
         'equipo_local': match_data['homeTeam']['name'],
         'equipo_visitante': match_data['awayTeam']['name'],
@@ -50,6 +50,7 @@ def home(request):
         'fecha': datetime.datetime.fromtimestamp(match_data['startTimestamp']).strftime('%d/%m/%Y %H:%M'),
         'equipo_local': match_data2['homeTeam']['name'],
         'equipo_visitante': match_data2['awayTeam']['name'],
+        'marcador': f"{match_data2['homeScore']['current']} - {match_data2['awayScore']['current']}",
         'estadio': match_data2['venue']['name'],
         'ciudad': match_data2['venue']['city']['name'],
         'arbitro': match_data2['referee']['name'],
@@ -73,9 +74,11 @@ def home(request):
     
     context = {
         'stats': stats_player.to_dict(orient='records'),
+        'stats_json': json.dumps(stats_player.to_dict(orient='records')),
         'player_url': player_url,
         'info': info,
         'info2': info2
     }
+
 
     return render(request, 'index.html',context)

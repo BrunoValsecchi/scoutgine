@@ -2,6 +2,13 @@
 *{
     background-color: red;
 }
+#agGridStats {
+    height: 500px;
+    width: 100%;
+    min-height: 200px;
+    background: white;
+    border: 1px solid #ccc;
+  }
 body {
     margin: 0;
     font-family: Arial, sans-serif;
