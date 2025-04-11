@@ -47,52 +47,48 @@
     <!-- Este div debe estar visible para que AG Grid funcione -->
     <div id="myGrid" class="ag-theme-alpine" style="height: 500px; width: 100%; display: block;"></div>
 
+
     <script>
       // Función para asegurar que AG Grid se inicialice correctamente
       document.addEventListener('DOMContentLoaded', function() {
         console.log("DOM completamente cargado");
-        
+    
         try {
-          // Intentamos usar los datos de Django
           let rowData;
           let columnDefs;
-          
+    
           try {
-            // Intentar usar los datos de Django
+            // Parsear los datos que vienen desde Django
             rowData = JSON.parse('{{ tabla_data|escapejs }}');
-            
-            // Procesamos los column_defs para ordenar 'player' primero y limitar a 8 columnas
             const allColumnDefs = JSON.parse('{{ column_defs|escapejs }}');
-            
-            // Encontrar el índice de la columna 'player'
+    
+            // Filtrar por minutos y goles (Top 10 goleadores con más de 200 minutos)
+            rowData = rowData
+              .filter(player => player.minutesPlayed > 200)
+              .sort((a, b) => (b.goals || 0) - (a.goals || 0))
+              .slice(0, 10);
+    
+            console.log("Top 10 goleadores con más de 200 minutos:", rowData);
+    
+            // Ordenar columnas dejando 'player' primero, máximo 8 columnas
             const playerIndex = allColumnDefs.findIndex(col => col.field === 'player');
-            
-            // Reordenar columnas para poner 'player' primero
             if (playerIndex !== -1) {
-              // Extraer la definición de la columna 'player'
               const playerColDef = allColumnDefs[playerIndex];
-              
-              // Crear nuevo array con 'player' primero
               columnDefs = [playerColDef];
-              
-              // Agregar las demás columnas (excepto 'player') hasta un máximo de 7 más
               allColumnDefs.forEach((colDef, index) => {
                 if (index !== playerIndex && columnDefs.length < 8) {
                   columnDefs.push(colDef);
                 }
               });
             } else {
-              // Si no se encuentra 'player', usar las primeras 8 columnas
               columnDefs = allColumnDefs.slice(0, 8);
             }
-            
-            console.log("Datos de Django cargados:", rowData);
+    
             console.log("Columnas procesadas:", columnDefs);
           } catch (parseError) {
             console.error("Error al parsear datos de Django:", parseError);
-            
           }
-          
+    
           // Configuración de AG Grid
           const gridOptions = {
             columnDefs: columnDefs,
@@ -106,7 +102,7 @@
             pagination: true,
             paginationPageSize: 10
           };
-          
+    
           // Inicializar la tabla
           const gridDiv = document.querySelector('#myGrid');
           if (gridDiv) {
@@ -120,5 +116,7 @@
         }
       });
     </script>
+    
+    
   </body>
 </html>

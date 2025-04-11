@@ -63,13 +63,16 @@ def home(request):
     def crear_tabla_pyecharts(df):
         tabla = Table()
 
+        if 'minutesPlayed' in df.columns:
+            df = df[df['minutesPlayed'] > 200]
+
         # Reordenar columnas: poner 'player' primero
         columnas = list(df.columns)
         if 'player' in columnas:
             columnas.remove('player')
             columnas = ['player'] + columnas
             df = df[columnas]
-
+        
         headers = list(df.columns)
         rows = df.head(10).astype(str).values.tolist()
 
@@ -139,6 +142,8 @@ def home(request):
         
         #season_id=valid_seasons[year]
         #tablas_url=transfermarkt.comps[league].replace
+        
+        
         
     context = {
         'stats': stats_player.to_dict(orient='records'),
