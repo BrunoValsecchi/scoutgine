@@ -46,10 +46,15 @@
     
     <!-- Este div debe estar visible para que AG Grid funcione -->
     <div id="myGrid" class="ag-theme-alpine" style="height: 500px; width: 100%; display: block;"></div>
+    <div>
+      <h2>Percentiles de Defensores</h2>
+      {{ grafico_percentiles|safe }}
+  </div>
+
+    <div> Grafico comparacion jugadores</div>
 
 
     <script>
-      // Función para asegurar que AG Grid se inicialice correctamente
       document.addEventListener('DOMContentLoaded', function() {
         console.log("DOM completamente cargado");
     
@@ -58,19 +63,15 @@
           let columnDefs;
     
           try {
-            // Parsear los datos que vienen desde Django
             rowData = JSON.parse('{{ tabla_data|escapejs }}');
             const allColumnDefs = JSON.parse('{{ column_defs|escapejs }}');
     
-            // Filtrar por minutos y goles (Top 10 goleadores con más de 200 minutos)
             rowData = rowData
               .filter(player => player.minutesPlayed > 200)
               .sort((a, b) => (b.goals || 0) - (a.goals || 0))
               .slice(0, 10);
     
-            console.log("Top 10 goleadores con más de 200 minutos:", rowData);
     
-            // Ordenar columnas dejando 'player' primero, máximo 8 columnas
             const playerIndex = allColumnDefs.findIndex(col => col.field === 'player');
             if (playerIndex !== -1) {
               const playerColDef = allColumnDefs[playerIndex];
@@ -89,7 +90,6 @@
             console.error("Error al parsear datos de Django:", parseError);
           }
     
-          // Configuración de AG Grid
           const gridOptions = {
             columnDefs: columnDefs,
             rowData: rowData,
@@ -103,7 +103,6 @@
             paginationPageSize: 10
           };
     
-          // Inicializar la tabla
           const gridDiv = document.querySelector('#myGrid');
           if (gridDiv) {
             console.log("Elemento grid encontrado, inicializando AG Grid");

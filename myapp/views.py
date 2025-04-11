@@ -10,6 +10,7 @@ from pyecharts.options import ComponentTitleOpts
 from pyecharts.charts import Page
 from pyecharts.globals import ThemeType
 import json
+import numpy as np
 
 
 #python manage.py runserver 0.0.0.0:8000
@@ -40,7 +41,27 @@ def home(request):
         'total',
         ['Forwards']
     )
-
+    stats_player_midfielders = sofascore.scrape_player_league_stats(
+        '2025',
+        'Argentina Liga Profesional',
+        'total',
+        ['Midfielders']
+    )
+    stats_player_defenders = sofascore.scrape_player_league_stats(
+        '2025',
+        'Argentina Liga Profesional',
+        'total',
+        ['Defenders']
+    )
+    stats_player_goalkeepers = sofascore.scrape_player_league_stats(
+        '2025',
+        'Argentina Liga Profesional',
+        'total',
+        ['Goalkeepers']
+    )
+    
+    
+    
     def graficos_liga(df):
         jugadores=df['player'].tolist()
         stats_completas=[col for col in df.columns if col!='player']
@@ -143,8 +164,62 @@ def home(request):
         #season_id=valid_seasons[year]
         #tablas_url=transfermarkt.comps[league].replace
         
+    
+        
+    def calcular_percentiles_defensa(df):
+        columna_defensores = [
+        'goals', 'assists', 'totalShots', 'shotsOnTarget', 'blockedShots',
+        'goalConversionPercentage', 'expectedGoals', 'keyPasses',
+        'accurateFinalThirdPasses', 'accuratePasses', 'passToAssist',
+        'bigChancesCreated', 'bigChancesMissed', 'successfulDribbles',
+        'successfulDribblesPercentage', 'accurateCrosses', 'accurateCrossesPercentage',
+        'accurateLongBalls', 'accurateLongBallsPercentage', 'hitWoodwork', 'offsides'
+    ]
+        
+        resultados_defensores=[]
+        for _,jugador in df_defensores.iterrows():
+            percentile_defensor={'player':jugador['player']}
+
+            for columna in columna_defensores:
+                if columna in df_defensores.columns:
+                    valor_jugador=jugador[columna]
+                    percentil=(df_defensores[columna]<=valor_jugador).mean()*100
+                    percentile_defensor[columna]=percentil
+            resultados_defensores.append(percentile_defensor)
+        return pd.DataFrame(resultados_defensores)
+    
+    df_defensores=pd.DataFrame(stats_player_defenders)
+    percentiles_defensores=calcular_percentiles_defensa(df_defensores)
         
         
+    def grafico_percentiles_defensa(df_percentiles):
+    # Limitar a 10 jugadores
+        df_percentiles = df_percentiles.head(10)
+        
+        jugadores = df_percentiles['player'].tolist()
+        bar = Bar()
+        bar.add_xaxis(jugadores)
+        
+        columnas_estadisticas = [col for col in df_percentiles.columns if col != 'player']
+        
+        for stat in columnas_estadisticas:
+            valores = df_percentiles[stat].fillna(0).tolist()
+            bar.add_yaxis(stat.capitalize(), valores)
+        
+        bar.set_global_opts(
+            title_opts=opts.TitleOpts(title='Percentiles de Defensores (Top 10)'),
+            xaxis_opts=opts.AxisOpts(axislabel_opts={"rotate": 45}),
+            yaxis_opts=opts.AxisOpts(
+                name="Percentil",
+                min_=0,
+                max_=100
+            ),
+            datazoom_opts=[opts.DataZoomOpts()]
+        )
+        
+        return bar.render_embed()
+    grafico_percentiles = grafico_percentiles_defensa(percentiles_defensores)
+
     context = {
         'stats': stats_player.to_dict(orient='records'),
         'player_url': player_url,
@@ -154,6 +229,10 @@ def home(request):
         'tabla':tabla,
         'tabla_data': tabla_json,
         'column_defs': columnas_json,
+        'percentiles_defensores': percentiles_defensores.to_dict(orient='records'),
+        'grafico_percentiles': grafico_percentiles,
+
+
         
     }
 
