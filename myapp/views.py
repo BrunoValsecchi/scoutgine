@@ -3,7 +3,7 @@ import ScraperFC as sfc
 import datetime
 import pandas as pd
 import requests
-from pyecharts.charts import Bar
+from pyecharts.charts import Bar, Radar  # Agregar Radar aquí
 from pyecharts import options as opts
 from pyecharts.components import Table
 from pyecharts.options import ComponentTitleOpts
@@ -11,6 +11,7 @@ from pyecharts.charts import Page
 from pyecharts.globals import ThemeType
 import json
 import numpy as np
+
 
 
 #python manage.py runserver 0.0.0.0:8000
@@ -59,6 +60,7 @@ def home(request):
         'total',
         ['Goalkeepers']
     )
+    
     
     
     
@@ -164,7 +166,34 @@ def home(request):
         #season_id=valid_seasons[year]
         #tablas_url=transfermarkt.comps[league].replace
         
-    
+    delanteros_fields = [
+    'goals', 'expectedGoals', 'shotsOnTarget', 'totalShots',
+    'goalConversionPercentage', 'assists', 'keyPasses', 'bigChancesCreated',
+    'bigChancesMissed', 'successfulDribbles', 'successfulDribblesPercentage',
+    'accurateFinalThirdPasses', 'passToAssist', 'hitWoodwork', 'offsides'
+]
+    mediocampistas_fields = [
+    'assists', 'keyPasses', 'accuratePasses', 'accurateFinalThirdPasses',
+    'expectedGoals', 'expectedAssists', 'passToAssist',
+    'accurateLongBalls', 'accurateLongBallsPercentage',
+    'accurateCrosses', 'accurateCrossesPercentage',
+    'interceptions', 'duelsWon', 'tacklesWon', 'successfulDribbles',
+    'successfulDribblesPercentage', 'ballRecoveries'
+]
+    defensores_fields = [
+    'tacklesWon', 'interceptions', 'clearances', 'blocks', 'duelsWon',
+    'aerialDuelsWon', 'aerialDuelsWonPercentage', 'accuratePasses',
+    'accurateLongBalls', 'accurateLongBallsPercentage', 'ballRecoveries',
+    'foulsCommitted', 'yellowCards', 'redCards'
+]
+    portero_fields = [
+    'saves', 'shotsSaved', 'savePercentage', 'cleanSheets',
+    'goalsConceded', 'expectedGoalsConceded', 'penaltiesSaved',
+    'accuratePasses', 'accurateLongBalls', 'accurateLongBallsPercentage',
+    'highClaims', 'punches', 'errorsLeadingToGoal'
+]
+
+
         
     def calcular_percentiles_defensa(df):
         columna_defensores = [
@@ -219,22 +248,78 @@ def home(request):
         
         return bar.render_embed()
     grafico_percentiles = grafico_percentiles_defensa(percentiles_defensores)
+    
+    
+    datos_radar = []
+    for _, jugador in percentiles_defensores.iterrows():
+        datos_jugador = {
+            'player': jugador['player'],
+            'percentiles': jugador.drop('player').to_dict()
+            }
+        datos_radar.append(datos_jugador)
+    
+
+    jugador1 = request.GET.get('jugador1')
+    jugador2 = request.GET.get('jugador2')
+
+    # Si no se seleccionaron jugadores, usar los primeros dos por defecto
+    if not jugador1 or not jugador2:
+        jugador1 = datos_radar[0]['player'] if datos_radar else None
+        jugador2 = datos_radar[1]['player'] if len(datos_radar) > 1 else None
+
+    # Crear el gráfico de radar
+    radar = Radar()
+    
+    # Configurar los indicadores (estadísticas)
+    schema = []
+    for stat in datos_radar[0]['percentiles'].keys():
+        schema.append({"name": stat, "max": 100})
+    
+    # Agregar los datos de los jugadores
+    radar.add_schema(schema=schema)
+    
+    # Agregar las series de datos
+    if jugador1 and jugador2:
+        jugador1_data = next((j for j in datos_radar if j['player'] == jugador1), None)
+        jugador2_data = next((j for j in datos_radar if j['player'] == jugador2), None)
+        
+        if jugador1_data and jugador2_data:
+            radar.add(
+                jugador1,
+                [list(jugador1_data['percentiles'].values())],
+                color="#f9713c"
+            )
+            radar.add(
+                jugador2,
+                [list(jugador2_data['percentiles'].values())],
+                color="#4169e1"
+            )
+    
+    # Configurar opciones globales
+    radar.set_global_opts(
+        title_opts=opts.TitleOpts(title="Comparación de Percentiles"),
+        legend_opts=opts.LegendOpts()
+    )
+    
+    # Renderizar el gráfico
+    grafico_radar = radar.render_embed()
 
     context = {
         'stats': stats_player.to_dict(orient='records'),
         'player_url': player_url,
         'info': info,
         'info2': info2,
-        'grafico':grafico,
-        'tabla':tabla,
+        'grafico': grafico,
+        'tabla': tabla,
         'tabla_data': tabla_json,
         'column_defs': columnas_json,
         'percentiles_defensores': percentiles_defensores.to_dict(orient='records'),
         'grafico_percentiles': grafico_percentiles,
-
-
-        
+        'datos_radar': datos_radar,
+        'grafico_radar': grafico_radar,
+        'jugadores_disponibles': [j['player'] for j in datos_radar],
+        'jugador1_seleccionado': jugador1,
+        'jugador2_seleccionado': jugador2
     }
 
-
-    return render(request, 'index.html',context)
+    return render(request, 'index.html', context)

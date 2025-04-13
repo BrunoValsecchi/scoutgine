@@ -4,20 +4,15 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <!-- Estilos AG Grid -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-grid.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-theme-alpine.min.css">
     
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.noStyle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    
-    <title>Scoutgine</title>
     <link rel="stylesheet" href="{% static 'myapp/style.css' %}" />
   </head>
   <body>
     <div class="container">
-      <!-- Resto del contenido existente -->
       <div>
         <h2>Gráfico de estadísticas seleccionadas</h2>
         {{ grafico|safe }}
@@ -51,70 +46,95 @@
       {{ grafico_percentiles|safe }}
   </div>
 
-    <div> Grafico comparacion jugadores</div>
+
+<div>
+  <h2>Comparar Jugadores</h2>
+  <form method="get">
+      <div style="margin-bottom: 20px;">
+          <select name="jugador1" style="margin-right: 10px;">
+              <option value="">Selecciona primer jugador</option>
+              {% for jugador in jugadores_disponibles %}
+                  <option value="{{ jugador }}" {% if jugador == jugador1_seleccionado %}selected{% endif %}>
+                      {{ jugador }}
+                  </option>
+              {% endfor %}
+          </select>
+          <select name="jugador2" style="margin-right: 10px;">
+              <option value="">Selecciona segundo jugador</option>
+              {% for jugador in jugadores_disponibles %}
+                  <option value="{{ jugador }}" {% if jugador == jugador2_seleccionado %}selected{% endif %}>
+                      {{ jugador }}
+                  </option>
+              {% endfor %}
+          </select>
+          <button type="submit">Comparar</button>
+      </div>
+  </form>
+  {{ grafico_radar|safe }}
+</div>
 
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log("DOM completamente cargado");
-    
-        try {
-          let rowData;
-          let columnDefs;
-    
-          try {
-            rowData = JSON.parse('{{ tabla_data|escapejs }}');
-            const allColumnDefs = JSON.parse('{{ column_defs|escapejs }}');
-    
-            rowData = rowData
-              .filter(player => player.minutesPlayed > 200)
-              .sort((a, b) => (b.goals || 0) - (a.goals || 0))
-              .slice(0, 10);
-    
-    
-            const playerIndex = allColumnDefs.findIndex(col => col.field === 'player');
-            if (playerIndex !== -1) {
-              const playerColDef = allColumnDefs[playerIndex];
-              columnDefs = [playerColDef];
-              allColumnDefs.forEach((colDef, index) => {
-                if (index !== playerIndex && columnDefs.length < 8) {
-                  columnDefs.push(colDef);
-                }
-              });
-            } else {
-              columnDefs = allColumnDefs.slice(0, 8);
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM completamente cargado");
+
+    try {
+      let rowData;
+      let columnDefs;
+
+      try {
+        rowData = JSON.parse('{{ tabla_data|escapejs }}');
+        const allColumnDefs = JSON.parse('{{ column_defs|escapejs }}');
+
+        rowData = rowData
+          .filter(player => player.minutesPlayed > 200)
+          .sort((a, b) => (b.goals || 0) - (a.goals || 0))
+          .slice(0, 10);
+
+
+        const playerIndex = allColumnDefs.findIndex(col => col.field === 'player');
+        if (playerIndex !== -1) {
+          const playerColDef = allColumnDefs[playerIndex];
+          columnDefs = [playerColDef];
+          allColumnDefs.forEach((colDef, index) => {
+            if (index !== playerIndex && columnDefs.length < 8) {
+              columnDefs.push(colDef);
             }
-    
-            console.log("Columnas procesadas:", columnDefs);
-          } catch (parseError) {
-            console.error("Error al parsear datos de Django:", parseError);
-          }
-    
-          const gridOptions = {
-            columnDefs: columnDefs,
-            rowData: rowData,
-            defaultColDef: {
-              sortable: true,
-              filter: true,
-              resizable: true,
-              flex: 1
-            },
-            pagination: true,
-            paginationPageSize: 10
-          };
-    
-          const gridDiv = document.querySelector('#myGrid');
-          if (gridDiv) {
-            console.log("Elemento grid encontrado, inicializando AG Grid");
-            new agGrid.Grid(gridDiv, gridOptions);
-          } else {
-            console.error("Elemento #myGrid no encontrado en el DOM");
-          }
-        } catch (error) {
-          console.error("Error general al inicializar AG Grid:", error);
+          });
+        } else {
+          columnDefs = allColumnDefs.slice(0, 8);
         }
-      });
-    </script>
+
+        console.log("Columnas procesadas:", columnDefs);
+      } catch (parseError) {
+        console.error("Error al parsear datos de Django:", parseError);
+      }
+
+      const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: rowData,
+        defaultColDef: {
+          sortable: true,
+          filter: true,
+          resizable: true,
+          flex: 1
+        },
+        pagination: true,
+        paginationPageSize: 10
+      };
+
+      const gridDiv = document.querySelector('#myGrid');
+      if (gridDiv) {
+        console.log("Elemento grid encontrado, inicializando AG Grid");
+        new agGrid.Grid(gridDiv, gridOptions);
+      } else {
+        console.error("Elemento #myGrid no encontrado en el DOM");
+      }
+    } catch (error) {
+      console.error("Error general al inicializar AG Grid:", error);
+    }
+  });
+</script>
     
     
   </body>
