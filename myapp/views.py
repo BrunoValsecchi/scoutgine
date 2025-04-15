@@ -3,7 +3,7 @@ import ScraperFC as sfc
 import datetime
 import pandas as pd
 import requests
-from pyecharts.charts import Bar, Radar  # Agregar Radar aquí
+from pyecharts.charts import Bar, Radar  
 from pyecharts import options as opts
 from pyecharts.components import Table
 from pyecharts.options import ComponentTitleOpts
@@ -89,7 +89,6 @@ def home(request):
         if 'minutesPlayed' in df.columns:
             df = df[df['minutesPlayed'] > 200]
 
-        # Reordenar columnas: poner 'player' primero
         columnas = list(df.columns)
         if 'player' in columnas:
             columnas.remove('player')
@@ -213,6 +212,7 @@ def home(request):
                 if columna in df_defensores.columns:
                     valor_jugador=jugador[columna]
                     percentil=(df_defensores[columna]<=valor_jugador).mean()*100
+                    percentil=round(percentil)
                     percentile_defensor[columna]=percentil
             resultados_defensores.append(percentile_defensor)
         return pd.DataFrame(resultados_defensores)
@@ -222,7 +222,6 @@ def home(request):
         
         
     def grafico_percentiles_defensa(df_percentiles):
-    # Limitar a 10 jugadores
         df_percentiles = df_percentiles.head(10)
         
         jugadores = df_percentiles['player'].tolist()
@@ -262,46 +261,51 @@ def home(request):
     jugador1 = request.GET.get('jugador1')
     jugador2 = request.GET.get('jugador2')
 
-    # Si no se seleccionaron jugadores, usar los primeros dos por defecto
     if not jugador1 or not jugador2:
         jugador1 = datos_radar[0]['player'] if datos_radar else None
         jugador2 = datos_radar[1]['player'] if len(datos_radar) > 1 else None
 
-    # Crear el gráfico de radar
     radar = Radar()
     
-    # Configurar los indicadores (estadísticas)
     schema = []
     for stat in datos_radar[0]['percentiles'].keys():
         schema.append({"name": stat, "max": 100})
+
+    radar.add_schema(
+    schema=schema,
+    shape="circle",
+    center=["50%", "50%"],
+    radius="70%",
     
-    # Agregar los datos de los jugadores
-    radar.add_schema(schema=schema)
+    )
+
+        
     
-    # Agregar las series de datos
     if jugador1 and jugador2:
         jugador1_data = next((j for j in datos_radar if j['player'] == jugador1), None)
         jugador2_data = next((j for j in datos_radar if j['player'] == jugador2), None)
-        
-        if jugador1_data and jugador2_data:
-            radar.add(
-                jugador1,
-                [list(jugador1_data['percentiles'].values())],
-                color="#f9713c"
-            )
-            radar.add(
-                jugador2,
-                [list(jugador2_data['percentiles'].values())],
-                color="#4169e1"
-            )
     
-    # Configurar opciones globales
+    if jugador1_data and jugador2_data:
+        radar.add(
+            jugador1,
+            [list(jugador1_data['percentiles'].values())],
+            color="#f9713c",
+            symbol="circle",
+            
+        )
+        radar.add(
+            jugador2,
+            [list(jugador2_data['percentiles'].values())],
+            color="#4169e1",
+            symbol="circle",
+        )
+    
     radar.set_global_opts(
         title_opts=opts.TitleOpts(title="Comparación de Percentiles"),
-        legend_opts=opts.LegendOpts()
+        legend_opts=opts.LegendOpts(),
+        
     )
     
-    # Renderizar el gráfico
     grafico_radar = radar.render_embed()
 
     context = {
