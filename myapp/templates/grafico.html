@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScoutGine | Estadísticas de Jugadores</title>
+  
+  <!-- Carga de estilos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-grid.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-theme-alpine.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}" />
+
+  <!-- Carga de scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.noStyle.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script>
+  const jugadoresData = {{ tabla_json|safe }};
+  const columnasData = {{ columnas_json|safe }};
+
+  
+
+
+    
+  </script>
+<script src="{% static 'myapp/js/grafico.js' %}"></script>
+
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <h1>SCOUT<span class="neon-text-accent">GINE</span></h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sección de gráficos y estadísticas -->
+    <div class="seccion">
+      <h2>Gráfico de estadísticas seleccionadas</h2>
+      <div class="chart-container">
+        {{ grafico|safe }}
+      </div>
+    </div>
+
+    <div class="seccion extra">
+      <h2>Datos generales del partido</h2>
+      <div class="card">
+        <h3>{{ info.torneo }}</h3>
+        <div class="match-info">
+          <div class="teams">
+            <span class="team home">{{ info.equipo_local }}</span>
+            <span class="score">{{ info.marcador }}</span>
+            <span class="team away">{{ info.equipo_visitante }}</span>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Ronda:</span>
+            <span class="value">{{ info.ronda }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Fecha:</span>
+            <span class="value">{{ info.fecha }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Estadio:</span>
+            <span class="value">{{ info.estadio }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Ciudad:</span>
+            <span class="value">{{ info.ciudad }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Árbitro:</span>
+            <span class="value">{{ info.arbitro }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estadísticas detalladas -->
+    <div class="seccion">
+      <h2>Estadísticas detalladas</h2>
+      <div class="stats-container">
+        {{ tabla|safe }}
+      </div>
+    </div>
+
+    <!-- Tabla interactiva -->
+    <div class="seccion">
+      <h2>Tabla Interactiva</h2>
+      <div id="myGrid" class="ag-theme-alpine" style="height: 500px; width: 100%;"></div>
+    </div>
+
+    <!-- Gráfico de percentiles -->
+    <div class="seccion">
+      <h2>Percentiles de Defensores</h2>
+      <div class="chart-container">
+        {{ grafico_percentiles|safe }}
+      </div>
+    </div>
+
+    <!-- Comparar jugadores -->
+    <div class="seccion">
+      <h2>Comparar Jugadores</h2>
+      <form id="form-comparar">
+        <div class="form-group">
+          <label for="jugador1">Jugador 1</label>
+          <select id="jugador1">
+            {% for jugador in jugadores_disponibles %}
+              <option value="{{ jugador }}">{{ jugador }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="jugador2">Jugador 2</label>
+          <select id="jugador2">
+            {% for jugador in jugadores_disponibles %}
+              <option value="{{ jugador }}">{{ jugador }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit" class="neon-button">Comparar</button>
+      </form>
+
+      <div id="grafico_radar" style="width: 100%; height: 500px;"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 ScoutGine - Análisis Avanzado de Jugadores</p>
+  </footer>
+  <script>
+    const jugadoresData = {{ tabla_json|safe }};
+  const columnasData = {{ columnas_json|safe }};
+
+    console.log("Jugadores Data: ", jugadoresData);
+    console.log("Columnas Data: ", columnasData);
+  </script>
+  
+</body>
+</html>
