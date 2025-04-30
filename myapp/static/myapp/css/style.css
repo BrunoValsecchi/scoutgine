@@ -1,220 +1,273 @@
-/* Estilo Neón para ScoutGine */
-:root {
-    --neon-primary: #00ffff;
-    --neon-secondary: #ff00ff;
-    --neon-tertiary: #00ff00;
-    --neon-dark: #121212;
-    --neon-darker: #0a0a0a;
-    --neon-text: #ffffff;
-    --neon-glow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
-    --neon-secondary-glow: 0 0 10px rgba(255, 0, 255, 0.7), 0 0 20px rgba(255, 0, 255, 0.5);
-    --neon-tertiary-glow: 0 0 10px rgba(0, 255, 0, 0.7), 0 0 20px rgba(0, 255, 0, 0.5);
-  }
-  
-  body {
-    background-color: var(--neon-darker);
-    color: var(--neon-text);
-    font-family: 'Rajdhani', 'Orbitron', sans-serif;
+/* Importación de fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap');
+
+/* Reset y estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0c0f1d;
+    color: #ffffff;
+    font-family: 'Rajdhani', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background-image: 
-      linear-gradient(to right, rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  
-  .container {
-    width: 95%;
-    max-width: 1400px;
-    margin: 20px auto;
-    padding: 20px;
-  }
-  
-  h1, h2, h3 {
-    color: var(--neon-text);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: var(--neon-glow);
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--neon-primary);
-    padding-bottom: 0.5rem;
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    text-align: center;
-    text-shadow: var(--neon-glow);
-  }
-  
-  h2 {
-    font-size: 1.8rem;
-  }
-  
-  /* Tarjetas con efecto neón */
-  .card {
-    background-color: var(--neon-dark);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid var(--neon-primary);
-    box-shadow: var(--neon-glow);
-    transition: all 0.3s ease;
-  }
-  
-  .card:hover {
-    box-shadow: 0 0 15px var(--neon-primary), 0 0 30px rgba(0, 255, 255, 0.4);
-    transform: translateY(-5px);
-  }
-  
-  .card h2 {
-    margin-top: 0;
-    color: var(--neon-primary);
-  }
-  
-  .info {
-    margin: 8px 0;
-    line-height: 1.5;
-  }
-  
-  .info strong {
-    color: var(--neon-secondary);
-    font-weight: bold;
-  }
-  
-  /* Estilo para las tablas AG Grid */
-  .ag-theme-alpine {
-    --ag-background-color: var(--neon-dark);
-    --ag-header-background-color: rgba(0, 255, 255, 0.1);
-    --ag-odd-row-background-color: rgba(0, 255, 255, 0.03);
-    --ag-header-foreground-color: var(--neon-primary);
-    --ag-foreground-color: var(--neon-text);
-    --ag-border-color: var(--neon-primary);
-    --ag-row-hover-color: rgba(0, 255, 255, 0.1);
-    --ag-selected-row-background-color: rgba(0, 255, 255, 0.15);
-    --ag-range-selection-border-color: var(--neon-secondary);
-    --ag-header-column-separator-color: var(--neon-primary);
-    --ag-modal-overlay-background-color: rgba(10, 10, 10, 0.8);
-    
-    border: 1px solid var(--neon-primary);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--neon-glow);
-    margin: 20px 0;
-  }
-  
-  .ag-theme-alpine .ag-header-cell {
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .ag-theme-alpine .ag-cell {
-    border-right: 1px solid rgba(0, 255, 255, 0.1);
-  }
-  
-  /* Formularios */
-  select, button {
-    background-color: var(--neon-dark);
-    color: var(--neon-text);
-    border: 1px solid var(--neon-primary);
-    padding: 8px 16px;
-    margin: 5px;
-    border-radius: 4px;
-    font-family: inherit;
-    transition: all 0.3s ease;
-  }
-  
-  select {
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-  }
-  
-  select:focus {
-    outline: none;
-    box-shadow: 0 0 10px var(--neon-primary);
-  }
-  
-  button {
-    background-color: rgba(0, 255, 255, 0.1);
-    color: var(--neon-primary);
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: var(--neon-glow);
-  }
-  
-  button:hover {
-    background-color: var(--neon-primary);
-    color: var(--neon-dark);
-    box-shadow: 0 0 15px var(--neon-primary);
-  }
-  
-  /* Secciones */
-  .seccion {
-    margin-bottom: 40px;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    border: 1px solid var(--neon-primary);
-    box-shadow: var(--neon-glow);
-  }
-  
-  .seccion.extra {
-    border-color: var(--neon-secondary);
-    box-shadow: var(--neon-secondary-glow);
-  }
-  
-  /* Personalización para los gráficos de ECharts */
-  #grafico_radar {
-    background-color: var(--neon-dark);
-    border-radius: 8px;
-    border: 1px solid var(--neon-tertiary);
-    box-shadow: var(--neon-tertiary-glow);
-    padding: 10px;
-  }
-  
-  form#form-comparar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-    padding: 15px;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    border: 1px solid var(--neon-secondary);
-    box-shadow: var(--neon-secondary-glow);
-  }
-  
-  .boton-ir-grafico{
-    color: white;
-    text-decoration: none;  
 }
 
-  /* Animaciones de fondo */
-  @keyframes neonPulse {
-    0% { opacity: 0.8; }
-    50% { opacity: 1; }
-    100% { opacity: 0.8; }
-  }
-  
-  /* Estilos responsivos */
-  @media screen and (max-width: 768px) {
-    .container {
-      width: 100%;
-      padding: 10px;
+/* Estilos de header */
+.li-a-header {
+    text-decoration: none;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.li-a-header:hover {
+    color: #3498db;
+}
+
+.logo {
+    height: 200px;
+}
+
+.header-landing {
+    background-color: #0c0f1d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 10;
+}
+
+.div-headerlan-ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    margin-right: 10em;
+}
+
+/* Sección de presentación */
+.section-presentacion {
+  background: linear-gradient(to right, #0c0f1d, #151a2d);
+  min-height: 90vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    
+}
+
+.content-container {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    height: 100%;
+    z-index: 2;
+}
+
+/* Columna de texto */
+.text-column {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.animated-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    opacity: 0;
+    transform: translateY(20px);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-left: 4px solid #3498db;
+    padding-left: 15px;
+}
+
+.animated-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.cta-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #3498db;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    align-self: flex-start;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.cta-button:hover {
+    background-color: #3498db;
+    color: #0c0f1d;
+}
+
+/* Columna de imágenes */
+.image-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.chart-image {
+    position: relative;
+    margin: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    opacity: 0;
+    transform: translateX(20px);
+    border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.chart-image:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(52, 152, 219, 0.4);
+}
+
+.chart-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.image-1 {
+    z-index: 3;
+    max-width: 520px;
+}
+
+.image-2 {
+    z-index: 2;
+    max-width: 300px;
+    align-self: flex-end;
+    margin-top: -40px;
+}
+
+.image-3 {
+    z-index: 1;
+    max-width: 300px;
+    align-self: flex-start;
+    margin-top: -20px;
+}
+
+/* Efecto de color slider - versión más profesional */
+.color-slider {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(to right, 
+        rgba(0, 105, 148, 0.05), 
+        rgba(30, 77, 124, 0.05), 
+        rgba(44, 62, 80, 0.05), 
+        rgba(0, 105, 148, 0.05));
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.15;
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 992px) {
+    .content-container {
+        flex-direction: column;
     }
     
-    form#form-comparar {
-      flex-direction: column;
+    .text-column, .image-column {
+        width: 100%;
+        padding: 2rem 1rem;
     }
     
-    select, button {
-      width: 100%;
-      margin: 5px 0;
+    .text-column {
+        order: 1;
     }
-  }
-  
-  /* Fuentes */
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap');
+    
+    .image-column {
+        order: 2;
+        margin-top: 2rem;
+    }
+    
+    .chart-image {
+        margin: 10px auto;
+        max-width: 80% !important;
+    }
+    
+    .image-2, .image-3 {
+        align-self: center;
+        margin-top: 10px;
+    }
+    
+    .animated-title {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .header-landing {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .logo {
+        height: 100px;
+        margin-bottom: 1rem;
+    }
+    
+    .div-headerlan-ul {
+        margin-right: 0;
+    }
+    
+    .section-presentacion {
+        padding: 1rem;
+    }
+    
+    .text-column {
+        padding: 1rem 0;
+    }
+    
+    .animated-title {
+        font-size: 1.5rem;
+    }
+    
+    .animated-text {
+        font-size: 1rem;
+    }
+    
+    .cta-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}

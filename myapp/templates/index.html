@@ -6,39 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ScoutGine | Estadísticas de Jugadores</title>
   
-  <!-- Carga de estilos -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-grid.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-theme-alpine.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}" />
 
-  <!-- Carga de scripts -->
   <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.noStyle.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-  <script>
-    const jugadoresData = {{ tabla_json|safe }};
-    const columnasData = {{ columnas_json|safe }};
-    
-  </script>
-<script src="{% static 'myapp/js/grafico.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  
+  <script src="{% static 'myapp/js/grafico.js' %}"></script>
+  <script src="{% static 'myapp/js/headerlan.js' %}"></script>
+  <script src="{% static 'myapp/js/presentacion.js' %}"></script>
+
 
 </head>
 <body>
-  <header>
-    <div class="logo-container">
-      <h1>SCOUT<span class="neon-text-accent">GINE</span></h1>
-    </div>
-  </header>
+  {% include 'partials/headerlan.html' %}
+  {% include 'partials/presentacion.html' %}
 
-  <a class="boton-ir-grafico" href="/grafico">ir a grafico</a>
-
-  <footer>
-    <p>© 2025 ScoutGine - Análisis Avanzado de Jugadores</p>
-  </footer>
-
+ 
 </body>
 </html>
+
 
 <!-- 
 {% load static %}
