@@ -6,13 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ScoutGine | Estadísticas de Jugadores</title>
   
-  <!-- Carga de estilos -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-grid.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-theme-alpine.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'myapp/css/grafico.css' %}" />
 
-  <!-- Carga de scripts -->
   <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.noStyle.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -27,7 +25,6 @@
   </header>
 
   <div class="container">
-    <!-- Sección de gráficos y estadísticas -->
     <div class="seccion">
       <h2>Gráfico de estadísticas seleccionadas</h2>
       <div class="chart-container">
@@ -71,7 +68,6 @@
       </div>
     </div>
 
-    <!-- Estadísticas detalladas -->
     <div class="seccion">
       <h2>Estadísticas detalladas</h2>
       <div class="stats-container">
@@ -79,13 +75,11 @@
       </div>
     </div>
 
-    <!-- Tabla interactiva -->
     <div class="seccion">
       <h2>Tabla Interactiva</h2>
       <div id="myGrid" class="ag-theme-alpine" style="height: 500px; width: 100%;"></div>
     </div>
 
-    <!-- Gráfico de percentiles -->
     <div class="seccion">
       <h2>Percentiles de Defensores</h2>
       <div class="chart-container">
@@ -93,7 +87,6 @@
       </div>
     </div>
 
-    <!-- Comparar jugadores -->
     <div class="seccion">
       <h2>Comparar Jugadores</h2>
       <form id="form-comparar">
