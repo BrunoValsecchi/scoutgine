@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import ScraperFC as sfc
 import datetime
 import pandas as pd
 import requests
@@ -27,8 +26,7 @@ COLORES_NEON = [
 
 def grafico(request):
     
-    sofascore = sfc.Sofascore()
-    print("Accediendo a la vista 'grafico'")  # Este print debería aparecer
+    #sofascore = sfc.Sofascore()
 
     ruta_json_delanteros = os.path.join(settings.BASE_DIR, 'myapp', 'static', 'data', 'delanteros.json')
     with open(ruta_json_delanteros, 'r', encoding='utf-8') as archivo:

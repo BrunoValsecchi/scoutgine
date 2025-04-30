@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Efecto descripcion
     descriptionEffect();
 
+    scrollId();
+
 });
+
 
 // Animación de entrada mejorada para todos los elementos
 function animateEntrance() {

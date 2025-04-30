@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import ScraperFC as sfc
 import datetime
 import pandas as pd
 import requests
