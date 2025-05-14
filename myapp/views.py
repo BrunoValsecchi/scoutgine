@@ -10,6 +10,8 @@ from pyecharts.charts import Page
 from pyecharts.globals import ThemeType
 from django.http import JsonResponse
 from myapp.grafico import grafico
+from myapp.menu import menu
+
 
 import json
 import numpy as np

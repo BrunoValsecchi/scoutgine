@@ -5,5 +5,6 @@ from .views import grafico
 urlpatterns = [
     path('', views.home, name='home'), 
     path('grafico/', views.grafico, name='grafico'),
- 
+    path('menu/', views.menu, name='menu'),
+
 ]
