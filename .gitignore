@@ -1,0 +1,4 @@
+backup.sql
+db.sqlite3
+venv/
+docker-compose.yml
