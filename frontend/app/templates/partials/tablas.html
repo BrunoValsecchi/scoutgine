@@ -1,0 +1,105 @@
+{% comment %} Dos filas: arriba Apertura, abajo Clausura {% endcomment %}
+<div class="ligas-dos-filas">
+    <div class="leagues-grid">
+        {% if error %}
+            <div class="error-message">
+                <h2>Error: {{ error }}</h2>
+            </div>
+            <script>console.log("Error en template:", "{{ error }}");</script>
+        {% endif %}
+        {% for torneo_id, torneo in torneos.items %}
+            {% if "Apertura" in torneo_id %}
+                <section class="tournament-card">
+                    <h2 class="tournament-title">{{ torneo_id }}</h2>
+                    <div class="zone-section">
+                        <h3 class="zone-title">Zona: {{ torneo.zona|default:'-' }} ({{ torneo.posiciones|length }} equipos)</h3>
+                        <div class="table-container">
+                            <div class="standings-table" data-torneo="{{ torneo.nombre }}" data-zona="{{ torneo.zona }}">
+                                <table class="tabla-posiciones">
+                                    <thead>
+                                        <tr>
+                                            <th>Pos</th>
+                                            <th>Equipo</th>
+                                            <th>PJ</th>
+                                            <th>PG</th>
+                                            <th>PE</th>
+                                            <th>PP</th>
+                                            <th>GF</th>
+                                            <th>GC</th>
+                                            <th>DIF</th>
+                                            <th>PTS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for equipo in torneo.posiciones %}
+                                        <tr>
+                                            <td>{{ equipo.posicion }}</td>
+                                            <td>{{ equipo.equipo }}</td>
+                                            <td>{{ equipo.pj }}</td>
+                                            <td>{{ equipo.pg }}</td>
+                                            <td>{{ equipo.pe }}</td>
+                                            <td>{{ equipo.pp }}</td>
+                                            <td>{{ equipo.gf }}</td>
+                                            <td>{{ equipo.gc }}</td>
+                                            <td>{{ equipo.dif }}</td>
+                                            <td>{{ equipo.pts }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="leagues-grid">
+        {% for torneo_id, torneo in torneos.items %}
+            {% if "Clausura" in torneo_id %}
+                <section class="tournament-card">
+                    <h2 class="tournament-title">{{ torneo_id }}</h2>
+                    <div class="zone-section">
+                        <h3 class="zone-title">Zona: {{ torneo.zona|default:'-' }} ({{ torneo.posiciones|length }} equipos)</h3>
+                        <div class="table-container">
+                            <div class="standings-table" data-torneo="{{ torneo.nombre }}" data-zona="{{ torneo.zona }}">
+                                <table class="tabla-posiciones">
+                                    <thead>
+                                        <tr>
+                                            <th>Pos</th>
+                                            <th>Equipo</th>
+                                            <th>PJ</th>
+                                            <th>PG</th>
+                                            <th>PE</th>
+                                            <th>PP</th>
+                                            <th>GF</th>
+                                            <th>GC</th>
+                                            <th>DIF</th>
+                                            <th>PTS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for equipo in torneo.posiciones %}
+                                        <tr>
+                                            <td>{{ equipo.posicion }}</td>
+                                            <td>{{ equipo.equipo }}</td>
+                                            <td>{{ equipo.pj }}</td>
+                                            <td>{{ equipo.pg }}</td>
+                                            <td>{{ equipo.pe }}</td>
+                                            <td>{{ equipo.pp }}</td>
+                                            <td>{{ equipo.gf }}</td>
+                                            <td>{{ equipo.gc }}</td>
+                                            <td>{{ equipo.dif }}</td>
+                                            <td>{{ equipo.pts }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

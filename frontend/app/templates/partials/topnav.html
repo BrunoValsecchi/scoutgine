@@ -1,0 +1,18 @@
+  <nav class="top-nav" id="topNav">
+        <div class="page-breadcrumb">
+            <i class='bx bx-home page-icon'></i>
+            <h1 class="page-title">ScoutGine</h1>
+            <span class="page-subtitle">/ Panel Principal</span>
+        </div>
+        <div class="top-nav-actions">
+            {% block nav_actions %}
+            <select class="season-selector">
+                <option>Temporada 2024-25</option>
+                <option>Temporada 2023-24</option>
+            </select>
+            <button class="refresh-btn">
+                <i class='bx bx-refresh'></i>
+            </button>
+            {% endblock %}
+        </div>
+    </nav>

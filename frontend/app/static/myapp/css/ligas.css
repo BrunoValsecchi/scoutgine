@@ -1,0 +1,373 @@
+.ligas-dos-filas {
+    background: #0a0a0f; /* Mismo color que el body */
+    min-height: 100vh;
+    padding: 0.8rem;
+}
+
+.leagues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.tournament-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    padding: 1rem;
+    min-width: 360px;
+    animation: fadeInUp 0.4s ease-out forwards;
+    border: 1.5px solid #3498db; /* Borde azul brillante */
+    transition: all 0.2s ease;
+    height: auto;
+}
+
+
+.tournament-title {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem; /* Más pequeño */
+    color: #ffffff;
+    margin-bottom: 0.8rem; /* Menos margen */
+    text-transform: uppercase;
+    letter-spacing: 1px; /* Menos espaciado */
+    position: relative;
+    font-weight: 500; /* Menos bold */
+}
+
+.tournament-title:after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px; /* Más pequeño */
+    height: 2px; /* Más delgado */
+    background: #3498db; /* Color simple */
+    border-radius: 1px;
+}
+
+.zone-section {
+    background: none; /* Sin fondo */
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0.8rem; /* Menos margen */
+    border: none;
+}
+
+.zone-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem; /* Más pequeño */
+    color: #a0a8c0; /* Color más apagado */
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Más sutil */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ocultar secciones "Clausura" inicialmente */
+.zone-section[data-tournament*="clausura"],
+.zone-section[data-tournament*="Clausura"] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    margin-top: 100vh; /* Empujar hacia abajo */
+}
+
+/* Mostrar "Clausura" cuando sea visible */
+.zone-section[data-tournament*="clausura"].visible,
+.zone-section[data-tournament*="Clausura"].visible {
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 0;
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 6px; /* Menos redondeado */
+    background: #050508; /* Más oscuro */
+    padding: 0.3rem; /* Menos padding */
+    box-shadow: none; /* Sin sombra */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    max-height: none; /* Sin límite de altura */
+}
+
+.standings-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.8rem; /* Más pequeño */
+    background: transparent;
+    min-width: 550px; /* Más compacto */
+}
+
+.standings-table th {
+    background: #0f0f14; /* Más oscuro y plano */
+    padding: 0.5rem 0.3rem; /* Más compacto */
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600; /* Menos bold */
+    color: #e1e1e6; /* Menos brillante */
+    text-transform: uppercase;
+    font-size: 0.7rem; /* Más pequeño */
+    border: none;
+    text-align: center;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.standings-table th:first-child {
+    border-top-left-radius: 4px;
+}
+
+.standings-table th:last-child {
+    border-top-right-radius: 4px;
+}
+
+.standings-table td {
+    padding: 0.4rem 0.2rem; /* Más compacto */
+    text-align: center;
+    border: none;
+    background: rgba(255, 255, 255, 0.02); /* Más sutil */
+    color: #e1e1e6;
+    font-weight: 400; /* Menos bold */
+    transition: all 0.1s ease;
+    font-size: 0.8rem;
+    height: 35px; /* Altura fija para cada fila */
+}
+
+.standings-table tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.04); /* Más sutil */
+}
+
+.standings-table tr:hover td {
+    background: rgba(52, 152, 219, 0.1); /* Más sutil */
+    color: #ffffff;
+}
+
+/* Estilos específicos por columna - más compactos */
+.standings-table td:nth-child(1) { /* Posición */
+    font-weight: 600;
+    color: #ff7817;
+    font-size: 0.85rem;
+}
+
+.standings-table td:nth-child(2) { /* Equipo */
+    text-align: left;
+    font-weight: 500;
+    color: #ffffff;
+    padding-left: 0.5rem;
+    max-width: 100px; /* Más pequeño */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.standings-table td:nth-child(9) { /* DIF */
+    font-weight: 600;
+    min-width: 50px;
+    padding: 0.4rem 0.3rem;
+}
+
+.standings-table td:nth-child(10) { /* PTS */
+    font-weight: 600;
+    color: #3498db;
+    font-size: 0.85rem;
+}
+
+/* Colores para diferencia de goles - más sutiles */
+.positive { 
+    color: #2ecc71 !important; 
+    font-weight: 600;
+}
+
+.negative { 
+    color: #e74c3c !important; 
+    font-weight: 600;
+}
+
+/* Posiciones especiales - más sutiles */
+.standings-table tr:nth-child(-n+4) td:nth-child(1) {
+    color: #2ecc71;
+}
+
+.standings-table tr:nth-child(5) td:nth-child(1),
+.standings-table tr:nth-child(6) td:nth-child(1) {
+    color: #f39c12;
+}
+
+.standings-table tr:nth-child(n+18) td:nth-child(1) {
+    color: #e74c3c;
+}
+
+/* Responsive design - más compacto */
+@media (max-width: 1200px) {
+    .leagues-grid {
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .leagues-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+    }
+    
+    .tournament-card {
+        padding: 0.8rem;
+        min-width: 320px;
+    }
+    
+    .tournament-title {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .ligas-dos-filas {
+        padding: 0.5rem;
+    }
+    
+    .leagues-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .tournament-card {
+        padding: 0.6rem;
+        min-width: 280px;
+    }
+    
+    .standings-table {
+        min-width: 480px;
+    }
+    
+    .standings-table th, 
+    .standings-table td {
+        padding: 0.3rem 0.1rem;
+        font-size: 0.7rem;
+        height: 30px;
+    }
+    
+    .tournament-title {
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* Animaciones más rápidas */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll más pequeño */
+.table-container::-webkit-scrollbar {
+    height: 3px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 1px;
+}
+
+
+
+/* AG Grid con altura dinámica basada en contenido */
+.ag-theme-dark-custom {
+    --ag-background-color: #050508 !important;
+    --ag-header-background-color: #0f0f14 !important;
+    --ag-header-foreground-color: #e1e1e6 !important;
+    --ag-foreground-color: #e1e1e6 !important;
+    --ag-border-color: rgba(255, 255, 255, 0.05) !important;
+    --ag-row-hover-color: rgba(52, 152, 219, 0.1) !important;
+    --ag-row-border-color: rgba(255, 255, 255, 0.03) !important;
+    --ag-odd-row-background-color: #0a0a0f !important;
+    --ag-even-row-background-color: #0f0f14 !important;
+    
+    background: #050508 !important;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    height: auto !important; /* Altura automática */
+    min-height: 400px !important; /* Altura mínima */
+    max-height: 800px !important; /* Altura máxima */
+}
+
+/* Si tienes más de 15 equipos, permitir scroll */
+.ag-theme-dark-custom.large-table {
+    height: 800px !important;
+}
+
+.ag-theme-dark-custom .ag-header {
+    background: #0f0f14 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ag-theme-dark-custom .ag-header-cell {
+    background: transparent !important;
+    color: #e1e1e6 !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.7rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+    padding: 0.5rem 0.3rem;
+}
+
+.ag-theme-dark-custom .ag-cell {
+    background: transparent !important;
+    color: #e1e1e6 !important;
+    font-weight: 400;
+    border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+    padding: 0.4rem 0.2rem;
+    font-size: 0.8rem;
+}
+
+.ag-theme-dark-custom .ag-row {
+    background: #0a0a0f !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+    height: 45px !important;
+}
+
+.ag-theme-dark-custom .ag-row-even {
+    background: #0f0f14 !important;
+}
+
+.ag-theme-dark-custom .ag-row:hover {
+    background: rgba(52, 152, 219, 0.1) !important;
+}
+
+/* Eliminar espacio extra del viewport */
+.ag-theme-dark-custom .ag-body-viewport {
+    overflow-y: auto !important;
+}
+
+.ag-theme-dark-custom .ag-center-cols-viewport {
+    scroll-behavior: smooth;
+}
+
+/* Para tablas pequeñas, usar autoHeight */
+.ag-theme-dark-custom .ag-root-wrapper {
+    border-radius: 6px;
+}
+

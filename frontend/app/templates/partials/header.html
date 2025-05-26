@@ -1,32 +1,35 @@
-<div class="layout">
   <aside class="sidebar">
-    <a href="{% url 'menu' %} " class="logo-menu"
-      ><img class="logo-menu"
-        src="https://res.cloudinary.com/dgc07kho5/image/upload/v1746370646/image__2_-removebg-preview_u7jt6u.png"
-        alt="logo"
-    /></a>
+    <a href="{% url 'menu' %}" class="logo-menu">
+      <img src="https://res.cloudinary.com/dgc07kho5/image/upload/v1746370646/image__2_-removebg-preview_u7jt6u.png" alt="ScoutGine Logo" class="logo-icon" />
+      <span class="logo-text">ScoutGine</span>
+    </a>
     <nav class="menu">
-      <a href="#">Tabla de posiciones</a>
-      <a href="#">Equipos</a>
-      <a href="#">aaaa</a>
-      <a href="#">aaaaa</a>
-      <a href="#">Comparacion Jugadores</a>
-      <a href="#">Busqueda</a>
-      <a href="#">Club Info</a>
+      <a href="{% url 'ligas' %}" class="{% if request.resolver_match.url_name == 'ligas' %}active{% endif %}">
+        <i class='bx bx-trophy'></i>
+        <span>Tabla de posiciones</span>
+      </a>
+      <a href="#" class="{% if request.resolver_match.url_name == 'equipos' %}active{% endif %}">
+        <i class='bx bx-football'></i>
+        <span>Equipos</span>
+      </a>
+      <a href="#" class="{% if request.resolver_match.url_name == 'estadisticas' %}active{% endif %}">
+        <i class='bx bx-line-chart'></i>
+        <span>Estadísticas</span>
+      </a>
+      <a href="#" class="{% if request.resolver_match.url_name == 'comparacion' %}active{% endif %}">
+        <i class='bx bx-scatter-chart'></i>
+        <span>Comparación Jugadores</span>
+      </a>
+      <a href="#" class="{% if request.resolver_match.url_name == 'recomendacion' %}active{% endif %}">
+        <i class='bx bx-user-pin'></i>
+        <span>Recomendación</span>
+      </a>
+      <a href="#" class="{% if request.resolver_match.url_name == 'club' %}active{% endif %}">
+        <i class='bx bx-badge-check'></i>
+        <span>Club favorito</span>
+      </a>
     </nav>
+     
   </aside>
-
-  <!-- Contenedor principal -->
-  <div class="main-content">
-    <!-- Menú superior -->
-    <header class="topbar">
-      <span>aaaa</span>
-    </header> 
-
-      <!-- Contenido táctico -->
-      <section class="tactics">
-        <h2>aaaa</h2>
-        <!-- Acá va tu contenido como la cancha, los jugadores, etc. -->
-      </section>
-  </div>
-</div>
+  
+  

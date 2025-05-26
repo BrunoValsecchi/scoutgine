@@ -2,3 +2,13 @@ backup.sql
 db.sqlite3
 venv/
 docker-compose.yml
+clean_stats.py
+clean_stats.txt
+db.sqlite3
+generate_jugadores_sql.py
+generate_sql.py
+insert_jugadores.sql
+insert_stats.sql
+insert_positions.sql
+insert_torneos.sql
+jugadores.txt
