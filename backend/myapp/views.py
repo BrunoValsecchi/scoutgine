@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from myapp.grafico import grafico
 from myapp.menu import menu
 from myapp.ligas import ligas
+from myapp.statsequipo import stats_equipos
 from .models import Posicion
 
 import json
@@ -44,3 +45,4 @@ def posiciones_api(request):
     
     data = {key: list(torneo.values()) for key, torneo in torneos.items()}
     return JsonResponse(data)
+

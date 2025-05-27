@@ -7,5 +7,5 @@ urlpatterns = [
     path('grafico/', views.grafico, name='grafico'),
     path('menu/', views.menu, name='menu'),
     path('ligas/', views.ligas, name='ligas'),
-    path('api/ligas/', ligas.ligas_api, name='ligas_api'),
+    path('stats_equipos/', views.stats_equipos, name='stats_equipos'),
 ]
