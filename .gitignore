@@ -1,7 +1,6 @@
 backup.sql
 db.sqlite3
 venv/
-docker-compose.yml
 clean_stats.py
 clean_stats.txt
 db.sqlite3

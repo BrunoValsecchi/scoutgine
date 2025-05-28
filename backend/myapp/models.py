@@ -111,7 +111,7 @@ class EstadisticasJugador(models.Model):
 class EstadisticasEquipo(models.Model):
     equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
     fotmob_rating = models.FloatField(max_length=10, null=True, blank=True)
-    goals_per_match = models.PositiveIntegerField(null=True, blank=True)
+    goals_per_match = models.FloatField(null=True, blank=True)
     goals_conceded_per_match = models.FloatField(null=True, blank=True)
     average_possession = models.CharField(max_length=10, null=True, blank=True)
     clean_sheets = models.PositiveIntegerField(null=True, blank=True)

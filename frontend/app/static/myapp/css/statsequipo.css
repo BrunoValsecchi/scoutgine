@@ -1,0 +1,470 @@
+.stats-equipos-container {
+    background: #1a1a2e;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    max-width: 1200px;
+    border: 1px solid #3498db;
+    position: relative;
+}
+
+.stats-equipos-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3498db, #6c5ce7, #ff7817);
+    opacity: 0.8;
+}
+
+/* Headers */
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.stats-header h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+    position: relative;
+}
+
+.stats-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #ff7817);
+    border-radius: 2px;
+}
+
+/* Controles de vista */
+.view-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.view-btn {
+    background: rgba(52, 152, 219, 0.1);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    color: #3498db;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.view-btn:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: translateY(-2px);
+}
+
+.view-btn.active {
+    background: #3498db;
+    color: #ffffff;
+}
+
+/* Vista Resumen */
+.stats-equipos-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.stat-block {
+    background: #16213e;
+    border-radius: 6px;
+    padding: 1rem;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.stat-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    opacity: 0.7;
+}
+
+.stat-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+}
+
+.stat-block:nth-child(3n+1)::before {
+    background: linear-gradient(90deg, #3498db, #00bcd4);
+}
+
+.stat-block:nth-child(3n+2)::before {
+    background: linear-gradient(90deg, #6c5ce7, #ff7817);
+}
+
+.stat-block:nth-child(3n+3)::before {
+    background: linear-gradient(90deg, #ff7817, #e74c3c);
+}
+
+.stat-block h3 {
+    color: #3498db;
+    text-align: center;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.stat-block ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stat-block li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #e1e1e6;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+}
+
+.stat-block li:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.equipo-nombre {
+    flex: 1;
+    font-weight: 500;
+}
+
+.stat-valor {
+    color: #3498db;
+    font-weight: 600;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+/* Números de ranking */
+.stat-block li:nth-child(1) .equipo-nombre:before {
+    content: "🥇 ";
+}
+
+.stat-block li:nth-child(2) .equipo-nombre:before {
+    content: "🥈 ";
+}
+
+.stat-block li:nth-child(3) .equipo-nombre:before {
+    content: "🥉 ";
+}
+
+/* Vista Completa */
+.estadistica-selector {
+    background: #16213e;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.selector-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.selector-container label {
+    color: #a0a8c0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.estadistica-dropdown {
+    background: #1a1a2e;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    min-width: 250px;
+    cursor: pointer;
+}
+
+.estadistica-dropdown:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.stats-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.current-stat-label {
+    color: #3498db;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.total-equipos {
+    color: #a0a8c0;
+    font-size: 0.85rem;
+}
+
+.equipos-ranking {
+    background: #16213e;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.ranking-header {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    color: #ffffff;
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: 60px 1fr 150px;
+    gap: 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ranking-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.ranking-item {
+    display: grid;
+    grid-template-columns: 60px 1fr 150px;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.ranking-item:hover {
+    background: rgba(52, 152, 219, 0.1);
+    transform: translateX(5px);
+}
+
+.ranking-item:last-child {
+    border-bottom: none;
+}
+
+.position {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.equipo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.equipo-info .equipo-nombre {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.equipo-liga {
+    color: #a0a8c0;
+    font-size: 0.8rem;
+}
+
+.valor {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+}
+
+.navegacion-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    background: rgba(52, 152, 219, 0.05);
+    border-radius: 8px;
+}
+
+.nav-btn {
+    background: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.stat-counter {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.loading {
+    text-align: center;
+    color: #3498db;
+    padding: 2rem;
+    font-size: 1.1rem;
+}
+
+.error {
+    text-align: center;
+    color: #e74c3c;
+    padding: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Efectos de animación */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.stat-block {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.stat-block:nth-child(1) { animation-delay: 0.1s; }
+.stat-block:nth-child(2) { animation-delay: 0.2s; }
+.stat-block:nth-child(3) { animation-delay: 0.3s; }
+.stat-block:nth-child(4) { animation-delay: 0.4s; }
+.stat-block:nth-child(5) { animation-delay: 0.5s; }
+.stat-block:nth-child(6) { animation-delay: 0.6s; }
+
+/* Responsividad */
+@media (max-width: 1200px) {
+    .stats-equipos-list {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-equipos-container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .stats-equipos-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .estadistica-selector {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .ranking-header,
+    .ranking-item {
+        grid-template-columns: 50px 1fr 100px;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    .navegacion-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-btn {
+        width: 100%;
+    }
+    
+    .stats-header h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-equipos-container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .ranking-header,
+    .ranking-item {
+        grid-template-columns: 40px 1fr 80px;
+        font-size: 0.85rem;
+    }
+    
+    .equipo-info .equipo-nombre {
+        font-size: 0.9rem;
+    }
+    
+    .valor {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+    }
+}

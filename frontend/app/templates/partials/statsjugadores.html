@@ -1,0 +1,43 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'myapp/css/statsjugadores.css' %}">
+
+<div class="stats-jugadores-container">
+    <h2>Estadísticas de Jugadores</h2>
+    
+    {% if error %}
+        <div style="color: red; text-align: center; padding: 2rem;">
+            <h3>❌ {{ error }}</h3>
+        </div>
+    {% endif %}
+    
+    {% if top3_por_estadistica %}
+        <div class="stats-jugadores-list">
+            {% for estadistica, jugadores in top3_por_estadistica.items %}
+                <div class="stat-block">
+                    <h3>{{ estadistica }}</h3>
+                    {% if jugadores %}
+                        <ol>
+                            {% for jugador in jugadores %}
+                                <li>
+                                    <div class="jugador-info">
+                                        <span class="jugador-nombre">{{ jugador.nombre }}</span>
+                                        <span class="jugador-equipo">{{ jugador.equipo }}</span>
+                                        <span class="jugador-posicion">{{ jugador.posicion }}</span>
+                                    </div>
+                                    <span class="stat-valor">{{ jugador.valor }}</span>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <p style="color: #999; text-align: center; padding: 1rem;">Sin datos</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="color: #999; text-align: center; padding: 2rem;">
+            <h3>📊 No hay estadísticas disponibles</h3>
+        </div>
+    {% endif %}
+</div>

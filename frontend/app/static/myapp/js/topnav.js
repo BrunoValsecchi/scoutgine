@@ -107,7 +107,129 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Agregar efectos de hover mejorados
     addHeaderEffects();
+    
+    // NUEVA LÓGICA PARA LOS 3 BOTONES
+    setupNavButtons();
 });
+
+// Función para configurar los botones de navegación
+function setupNavButtons() {
+    console.log("=== CONFIGURANDO BOTONES DE NAVEGACIÓN ===");
+    
+    const btnTablas = document.getElementById('btn-tablas');
+    const btnStatsEquipo = document.getElementById('btn-stats-equipo');
+    const btnStatsJugadores = document.getElementById('btn-stats-jugadores');
+    const tablasContainer = document.getElementById('tablas-container');
+    const statsEquipoContainer = document.getElementById('stats-equipos-container');
+    const statsJugadoresContainer = document.getElementById('stats-jugadores-container');
+
+    console.log("Elementos encontrados:", {
+        btnTablas: !!btnTablas,
+        btnStatsEquipo: !!btnStatsEquipo,
+        btnStatsJugadores: !!btnStatsJugadores,
+        tablasContainer: !!tablasContainer,
+        statsEquipoContainer: !!statsEquipoContainer,
+        statsJugadoresContainer: !!statsJugadoresContainer
+    });
+
+    // Función para quitar todas las clases active
+    function removeAllActive() {
+        btnTablas?.classList.remove('active');
+        btnStatsEquipo?.classList.remove('active');
+        btnStatsJugadores?.classList.remove('active');
+    }
+
+    // Función para ocultar todos los contenedores
+    function hideAllContainers() {
+        if (tablasContainer) tablasContainer.style.display = 'none';
+        if (statsEquipoContainer) statsEquipoContainer.style.display = 'none';
+        if (statsJugadoresContainer) statsJugadoresContainer.style.display = 'none';
+    }
+
+    // Botón Tablas
+    if (btnTablas) {
+        btnTablas.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN TABLAS CLICKEADO ===");
+            removeAllActive();
+            hideAllContainers();
+            btnTablas.classList.add('active');
+            if (tablasContainer) tablasContainer.style.display = '';
+        });
+    }
+
+    // Botón Stats Equipos
+    if (btnStatsEquipo) {
+        btnStatsEquipo.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN STATS EQUIPO CLICKEADO ===");
+            removeAllActive();
+            hideAllContainers();
+            btnStatsEquipo.classList.add('active');
+            if (statsEquipoContainer) statsEquipoContainer.style.display = '';
+
+            // Cargar contenido si no existe
+            if (!statsEquipoContainer.innerHTML.trim()) {
+                console.log("Cargando stats equipos...");
+                fetch('/stats_equipos/')
+                    .then(res => res.text())
+                    .then(html => {
+                        statsEquipoContainer.innerHTML = html;
+                        console.log("Stats equipos cargado");
+                        
+                        // Cargar el script de stats equipos dinámicamente
+                        const script = document.createElement('script');
+                        script.src = "{% static 'myapp/js/statsequipo.js' %}";
+                        script.onload = function() {
+                            console.log("✅ Script statsequipo.js cargado dinámicamente");
+                        };
+                        document.head.appendChild(script);
+                    })
+                    .catch(err => {
+                        console.error("Error cargando stats equipos:", err);
+                    });
+            }
+        });
+    }
+
+    // Botón Stats Jugadores
+    if (btnStatsJugadores) {
+        btnStatsJugadores.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN STATS JUGADORES CLICKEADO ===");
+            console.log("btnStatsJugadores existe:", !!btnStatsJugadores);
+            console.log("statsJugadoresContainer existe:", !!statsJugadoresContainer);
+            
+            removeAllActive();
+            hideAllContainers();
+            btnStatsJugadores.classList.add('active');
+            if (statsJugadoresContainer) statsJugadoresContainer.style.display = '';
+            
+            // Debug del fetch
+            console.log("🔄 Iniciando fetch a /stats_jugadores/");
+            fetch('/stats_jugadores/')
+                .then(res => {
+                    console.log("✅ Response recibida:", res.status, res.statusText);
+                    console.log("Response OK?", res.ok);
+                    return res.text();
+                })
+                .then(html => {
+                    console.log("✅ HTML recibido (primeros 200 chars):", html.substring(0, 200));
+                    console.log("Longitud del HTML:", html.length);
+                    statsJugadoresContainer.innerHTML = html;
+                    console.log("✅ HTML insertado en container");
+                })
+                .catch(err => {
+                    console.error("❌ Error en fetch:", err);
+                    if (statsJugadoresContainer) {
+                        statsJugadoresContainer.innerHTML = '<p style="color: red;">Error: ' + err.message + '</p>';
+                    }
+                });
+        });
+    } else {
+        console.error("❌ btnStatsJugadores NO ENCONTRADO");
+    }
+}
 
 // Función para marcar el elemento activo en el sidebar
 function markActiveMenuItem(currentPath) {
@@ -235,6 +357,51 @@ window.HeaderManager = {
     animatePageTransition,
     markActiveMenuItem
 };
+
+// Nuevos scripts para acciones en el navbar
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.nav-action-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            if (this.textContent.includes('Stats Equipo')) {
+                e.preventDefault();
+                fetch('/stats_equipos/')
+                  .then(res => res.text())
+                  .then(html => {
+                      document.getElementById('stats-equipos-container').innerHTML = html;
+                  });
+            }
+        });
+    });
+    
+    const btnTablas = document.getElementById('btn-tablas');
+    const btnStats = document.getElementById('btn-stats-equipo');
+    const tablasContainer = document.getElementById('tablas-container');
+    const statsContainer = document.getElementById('stats-equipos-container');
+
+    btnTablas.addEventListener('click', function(e) {
+        e.preventDefault();
+        btnTablas.classList.add('active');
+        btnStats.classList.remove('active');
+        tablasContainer.style.display = '';
+        statsContainer.style.display = 'none';
+    });
+
+    btnStats.addEventListener('click', function(e) {
+        e.preventDefault();
+        btnStats.classList.add('active');
+        btnTablas.classList.remove('active');
+        tablasContainer.style.display = 'none';
+        statsContainer.style.display = '';
+        // Solo carga una vez, si quieres recargar cada vez, quita el if
+        if (!statsContainer.innerHTML.trim()) {
+            fetch('/stats-equipos/')
+                .then(res => res.text())
+                .then(html => {
+                    statsContainer.innerHTML = html;
+                });
+        }
+    });
+});
 
 console.log("=== TOPNAV.JS INICIALIZADO ===");
 

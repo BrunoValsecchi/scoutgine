@@ -1,0 +1,101 @@
+.topnav-bar {
+    width: 100%;
+    background: #13182b; /* Más oscuro que el resto */
+    border-bottom: 2px solid #232b3e;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    padding: 0 0 0.2rem 0;
+    position: relative;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.topnav-searchbar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0.7rem 0 0.2rem 0;
+    background: transparent;
+}
+
+.topnav-search-input {
+    background: #181f36;
+    border: 1.5px solid #232b3e;
+    color: #e1e1e6;
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    outline: none;
+    transition: border 0.15s;
+    width: 220px;
+    text-align: center;
+}
+
+.topnav-search-input:focus {
+    border: 1.5px solid #3498db;
+}
+
+.top-nav-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.1rem 0 0.3rem 0;
+    background: transparent;
+}
+
+.nav-action-btn {
+    background: transparent;
+    color: #b8c6e0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.04rem;
+    padding: 0.35rem 1.3rem 0.32rem 1.3rem;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.nav-action-btn.active {
+    color: #3498db;
+}
+
+.nav-action-btn.active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: -8px;
+    height: 3px;
+    border-radius: 2px;
+    background: #3498db;
+}
+
+.nav-action-btn:hover:not(.active) {
+    color: #fff;
+    background: rgba(52,152,219,0.08);
+}
+
+@media (max-width: 900px) {
+    .topnav-bar {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .topnav-search-input {
+        width: 140px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-action-btn {
+        font-size: 0.95rem;
+        padding: 0.25rem 0.7rem;
+    }
+}

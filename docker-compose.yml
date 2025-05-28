@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: scoutgine_db
+    environment:
+      POSTGRES_DB: scoutgine
+      POSTGRES_USER: bruno-valsecchi
+      POSTGRES_PASSWORD: brunovalse
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db_init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bruno-valsecchi"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: scoutgine_backend
+    command: >
+      sh -c "echo 'DEBUG: Variables de entorno en el contenedor:' &&
+             env | grep -E '(DB_|POSTGRES_|PG)' &&
+             echo 'DEBUG: Ejecutando wait_for_db.sh...' &&
+             /wait_for_db.sh db python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+      - ./frontend:/app/frontend
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Variables que Django está esperando
+      DB_NAME: scoutgine
+      DB_USER: bruno-valsecchi
+      DB_PASSWORD: brunovalse
+      DB_HOST: db
+      # Variables para el script wait_for_db.sh
+      POSTGRES_DB: scoutgine
+      POSTGRES_USER: bruno-valsecchi
+      POSTGRES_PASSWORD: brunovalse
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

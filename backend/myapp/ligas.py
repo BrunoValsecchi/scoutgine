@@ -6,7 +6,6 @@ from .models import Posicion, Torneo, Equipo
 logger = logging.getLogger(__name__)
 
 def ligas(request):
-    print("=== INICIO VISTA LIGAS ===")
     logger.debug('Vista ligas llamada')
     try:
         # Agrupar por nombre y zona (todas las temporadas juntas)
@@ -49,7 +48,6 @@ def ligas(request):
         }
         return render(request, "ligas.html", context)
     except Exception as e:
-        print(f'ERROR GENERAL: {e}')
         import traceback
         traceback.print_exc()
         context = {
@@ -59,9 +57,7 @@ def ligas(request):
         return render(request, "ligas.html", context)
 
 def ligas_api(request):
-    print("=== INICIO API LIGAS ===")
     try:
-        print("Ejecutando consulta API para apertura_a...")
         apertura_a = list(Posicion.objects.filter(
             torneo_id=34
         ).select_related('equipo').order_by('posicion').values(
@@ -70,7 +66,6 @@ def ligas_api(request):
             'goles_a_favor', 'goles_en_contra'
         ))
         
-        print(f"API - Datos obtenidos: {len(apertura_a)} registros")
         
         # Procesar datos para API
         for item in apertura_a:
@@ -82,14 +77,11 @@ def ligas_api(request):
             'status': 'success'
         }
         
-        print(f"API - Respuesta final: {data}")
         return JsonResponse(data)
         for zona_key, zona in zonas_dict.items():
-            print(f"Zona: {zona_key} - Equipos encontrados: {len(zona['posiciones'])}")
             for pos in zona['posiciones']:
                 print(f"  - {pos['equipo']}")
     except Exception as e:
-        print(f'ERROR en API ligas: {e}')
         logger.error(f'Error in ligas_api: {e}')
         return JsonResponse({'error': str(e)}, status=500)
 

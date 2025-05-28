@@ -9,10 +9,6 @@ from pyecharts.options import ComponentTitleOpts
 from pyecharts.charts import Page
 from pyecharts.globals import ThemeType
 from django.http import JsonResponse
-from myapp.grafico import grafico
-from myapp.menu import menu
-from myapp.ligas import ligas
-from myapp.statsequipo import stats_equipos
 from .models import Posicion
 
 import json
@@ -20,20 +16,32 @@ import numpy as np
 import os
 from django.conf import settings
 
-COLORES_NEON = [
-    '#00ffff',  
-    '#ff00ff',  
-    '#00ff00',  
-    '#ffff00',  
-    '#ff0000',  
-    '#0000ff'   
-]
 
 def home(request):
-    
-    
-
     return render(request, "index.html")
+
+def grafico(request):
+    # Tu función de gráfico aquí
+    return render(request, "grafico.html")
+
+def menu(request):
+    # Tu función de menú aquí
+    return render(request, "menu.html")
+
+def ligas(request):
+    # Importar aquí para evitar imports circulares
+    from .ligas import ligas as ligas_func
+    return ligas_func(request)
+
+def stats_equipos(request):
+    # Importar aquí para evitar imports circulares
+    from .statsequipo import stats_equipos as stats_equipos_func
+    return stats_equipos_func(request)
+
+def stats_jugadores(request):
+    # Importar aquí para evitar imports circulares
+    from .statsjugadores import stats_jugadores as stats_jugadores_func
+    return stats_jugadores_func(request)
 
 def posiciones_api(request):
     torneos = {

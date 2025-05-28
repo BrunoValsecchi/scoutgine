@@ -4,40 +4,30 @@
 // Y el CSS: <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css" />
 //           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css" />
 
-console.log("=== LIGAS.JS CARGADO ===");
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("=== DOM LOADED ===");
     
     // Verificar si AG Grid está disponible
-    console.log("AG Grid disponible:", typeof agGrid !== 'undefined');
     
     // Busca todas las tablas de posiciones
     const tables = document.querySelectorAll('.standings-table');
-    console.log("Tablas encontradas:", tables.length);
-    
     tables.forEach((tableContainer, idx) => {
-        console.log("Procesando tabla:", idx);
         
         const table = tableContainer.querySelector('table');
         if (!table) {
-            console.log("No se encontró tabla HTML en:", idx);
             return;
         }
         
         // Extrae los datos de la tabla HTML
         const rows = Array.from(table.querySelectorAll('tbody tr'));
-        console.log("Filas encontradas:", rows.length);
         
         if (rows.length === 0) {
-            console.log("No hay filas de datos en tabla:", idx);
             return;
         }
         
         const rowData = rows.map(row => {
             const cells = row.querySelectorAll('td');
             if (cells.length < 10) {
-                console.log("Fila con menos de 10 celdas:", cells.length);
                 return null;
             }
             return {
@@ -54,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }).filter(row => row !== null);
         
-        console.log("Datos extraídos y filtrados:", rowData.length);
-        console.log("Muestra de datos:", rowData.slice(0, 3));
 
         // Define las columnas para AG Grid
         const columnDefs = [
@@ -217,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
             domLayout: rowData.length <= 15 ? 'autoHeight' : 'normal', // autoHeight para pocas filas
             pagination: false,
             onGridReady: function(params) {
-                console.log("Grid listo con", rowData.length, "filas!");
                 params.api.sizeColumnsToFit();
                 
                 // Ajustar altura del contenedor
@@ -232,18 +219,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             if (typeof agGrid.createGrid === 'function') {
-                console.log("Usando agGrid.createGrid");
                 const gridApi = agGrid.createGrid(gridDiv, gridOptions);
             } else if (typeof agGrid.Grid === 'function') {
-                console.log("Usando new agGrid.Grid");
                 new agGrid.Grid(gridDiv, gridOptions);
             } else {
-                console.log("AG Grid no disponible, manteniendo tabla HTML");
                 // Si AG Grid no está disponible, restaurar la tabla original
                 gridDiv.parentNode.replaceChild(table, gridDiv);
                 return;
             }
-            console.log("AG Grid inicializado para tabla:", idx, "con", rowData.length, "equipos");
         } catch (error) {
             console.error("Error al inicializar AG Grid:", error);
             // En caso de error, restaurar la tabla HTML original

@@ -1,4 +1,3 @@
-/* Football Manager 2024 inspired theme */
 :root {
   --primary-color: #0a0a0f;
   --secondary-color: #181824;
@@ -7,7 +6,7 @@
   --sidebar-width: 250px;
   --top-nav-height: 60px;
 }
-  
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -21,13 +20,13 @@ body {
   background: var(--primary-color);
 }
 
-/* SIDEBAR ESTILO ORIGINAL */
+/* SIDEBAR */
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
-  width: 60px; /* Ancho mínimo (solo iconos) */
+  width: 60px;
   background-color: #0a0a0f;
   transition: width 0.3s ease;
   overflow: hidden;
@@ -36,7 +35,7 @@ body {
 }
 
 .sidebar:hover {
-  width: 250px; /* Ancho expandido */
+  width: 250px;
 }
 
 .logo-menu {
@@ -52,7 +51,6 @@ body {
   transition: justify-content 0.3s ease;
 }
 
-/* Logo icon - visible cuando sidebar está cerrado */
 .logo-icon {
   width: 30px;
   height: 30px;
@@ -65,7 +63,6 @@ body {
   transition: opacity 0.1s ease 0s, visibility 0.1s ease 0s;
 }
 
-/* Texto del logo - oculto cuando sidebar está cerrado */
 .logo-text {
   font-family: 'Orbitron', sans-serif;
   font-weight: 600;
@@ -78,7 +75,6 @@ body {
   transition: opacity 0.1s ease 0.2s, visibility 0.1s ease 0.2s;
 }
 
-/* Cuando el sidebar se expande - primero oculta el icono, después muestra el texto */
 .sidebar:hover .logo-icon {
   opacity: 0;
   visibility: hidden;
@@ -139,7 +135,7 @@ body {
   visibility: visible;
 }
 
-/* TOP NAVIGATION BAR - DINÁMICO */
+/* TOP NAVIGATION BAR */
 .top-nav {
   position: fixed;
   top: 0;
@@ -162,97 +158,17 @@ body {
   left: 250px;
 }
 
-/* Breadcrumb dinámico */
-.page-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.page-icon {
-  font-size: 1.5rem;
-  color: #3498db;
-}
-
-.page-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.4rem;
-  color: #ffffff;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.page-subtitle {
-  color: #a0a8c0;
-  font-size: 0.9rem;
-  margin-left: 0.5rem;
-}
-
-/* Acciones del header */
-.top-nav-actions {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.season-selector {
-  background: rgba(52, 152, 219, 0.1);
-  border: 1px solid rgba(52, 152, 219, 0.3);
-  border-radius: 6px;
-  padding: 8px 12px;
-  color: #e1e1e6;
-  font-size: 0.9rem;
-}
-
-.refresh-btn {
-  background: linear-gradient(135deg, #3498db, #2980b9);
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.refresh-btn:hover {
-  background: linear-gradient(135deg, #2980b9, #1f5f99);
-  transform: scale(1.05);
-}
-
-/* CONTENIDO PRINCIPAL */
+/* MAIN CONTENT */
 .main-content {
   margin-left: 60px;
-  margin-top: var(--top-nav-height);
+  margin-top: 27px;
   transition: margin-left 0.3s ease;
   min-height: calc(100vh - var(--top-nav-height));
-  padding: 20px;
   background: var(--primary-color);
 }
 
 .sidebar:hover ~ .main-content {
   margin-left: 250px;
-}
-
-/* Dashboard específico */
-.dashboard-container {
-  padding: 2rem;
-  background: linear-gradient(145deg, #1f2346 0%, #252b5c 100%);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(52, 152, 219, 0.2);
-}
-
-.dashboard-container h2 {
-  font-family: 'Orbitron', sans-serif;
-  color: #ffffff;
-  margin-bottom: 1rem;
-  font-size: 2rem;
-}
-
-.dashboard-container p {
-  color: #a0a8c0;
-  font-size: 1.1rem;
-  line-height: 1.6;
 }
 
 /* AG GRID - COLORES MÁS OSCUROS */
@@ -266,21 +182,12 @@ body {
     --ag-row-border-color: rgba(255, 255, 255, 0.05) !important;
     --ag-odd-row-background-color: #0a0a0f !important;
     --ag-even-row-background-color: #0f0f14 !important;
-    
     background: #050508 !important;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(52, 152, 219, 0.2);
     font-family: 'Rajdhani', sans-serif;
-}
-
-.ag-theme-dark-custom .ag-root-wrapper,
-.ag-theme-dark-custom .ag-root,
-.ag-theme-dark-custom .ag-body-viewport,
-.ag-theme-dark-custom .ag-center-cols-viewport,
-.ag-theme-dark-custom .ag-center-cols-container {
-    background: #050508 !important;
 }
 
 .ag-theme-dark-custom .ag-header {
@@ -322,7 +229,6 @@ body {
     background: transparent !important;
     color: #e1e1e6 !important;
     display: flex;
-    align-items: center;
     justify-content: center;
     font-weight: 500;
     border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -335,32 +241,20 @@ body {
     left: 0;
     padding: 0 1rem;
   }
-  
   .main-content {
     margin-left: 0;
   }
-  
   .sidebar {
     width: 0;
     transform: translateX(-100%);
   }
-  
   .sidebar:hover {
     width: 250px;
     transform: translateX(0);
   }
-  
   .sidebar:hover ~ .top-nav,
   .sidebar:hover ~ .main-content {
     margin-left: 0;
     left: 0;
-  }
-  
-  .page-title {
-    font-size: 1.1rem;
-  }
-  
-  .page-subtitle {
-    display: none;
   }
 }
