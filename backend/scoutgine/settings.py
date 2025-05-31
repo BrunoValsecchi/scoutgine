@@ -76,17 +76,21 @@ WSGI_APPLICATION = 'scoutgine.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'scoutgine'),
-        'USER': os.environ.get('DB_USER', 'bruno-valsecchi'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'brunovalse'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
-        'PORT': '5432',
-    }
+        'NAME': os.getenv('SUPABASE_DB_NAME', 'postgres'),
+        'USER': os.getenv('SUPABASE_DB_USER', 'postgres.gvgmhdxarjgvfykoyqyw'),
+        'PASSWORD': os.getenv('SUPABASE_DB_PASSWORD', 'brunovalsecchi'),
+        'HOST': os.getenv('SUPABASE_DB_HOST', 'aws-0-sa-east-1.pooler.supabase.com'),
+        'PORT': os.getenv('SUPABASE_DB_PORT', '6543'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+    },
+   
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

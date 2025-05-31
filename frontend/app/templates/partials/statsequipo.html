@@ -52,10 +52,12 @@
             </div>
         </div>
 
+        <!-- ✨ DROPDOWN DE ESTADÍSTICAS - ESTO ES LO QUE FALTABA ✨ -->
         <div class="estadistica-selector">
             <div class="selector-container">
-                <label for="estadistica-select">Seleccionar Estadística:</label>
-                <select id="estadistica-select" class="estadistica-dropdown">
+                <label for="estadistica-select" style="color: white; margin-right: 10px;">Seleccionar Estadística:</label>
+                <select id="estadistica-select" class="estadistica-dropdown" style="padding: 8px; border-radius: 4px; background: #2c3e50; color: white; border: 1px solid #34495e;">
+                    <option value="">-- Selecciona una estadística --</option>
                     <option value="fotmob_rating">Rating</option>
                     <option value="goals_per_match">Goles por partido</option>
                     <option value="goals_conceded_per_match">Menos goles recibidos</option>
@@ -82,282 +84,27 @@
                     <option value="red_cards">Rojas</option>
                 </select>
             </div>
-            <div class="stats-info">
-                <span class="current-stat-label" id="current-stat-label">Rating</span>
-                <span class="total-equipos">30 equipos</span>
+            <div class="stats-info" style="margin-top: 10px;">
+                <span class="current-stat-label" id="current-stat-label" style="color: #3498db;">Selecciona una estadística</span>
+                <span class="total-equipos" id="total-equipos" style="color: #95a5a6; margin-left: 20px;">0 equipos</span>
             </div>
         </div>
 
+        <!-- RANKING -->
         <div class="equipos-ranking">
-            <div class="ranking-header">
-                <span class="pos-header">#</span>
-                <span class="equipo-header">Equipo</span>
-                <span class="valor-header" id="valor-header">Rating</span>
+            <div class="ranking-header" style="display: flex; justify-content: space-between; padding: 10px; background: rgba(52,73,94,0.3); margin: 20px 0 10px 0; border-radius: 5px;">
+                <span class="pos-header" style="color: white; font-weight: bold;">#</span>
+                <span class="equipo-header" style="color: white; font-weight: bold;">Equipo</span>
+                <span class="valor-header" id="valor-header" style="color: white; font-weight: bold;">Valor</span>
             </div>
             
             <div class="ranking-list" id="ranking-list">
-                <div class="loading">🔄 Selecciona una estadística para comenzar</div>
+                <div class="loading" style="color: #95a5a6; padding: 40px; text-align: center;">
+                    🔄 Selecciona una estadística para comenzar
+                </div>
             </div>
         </div>
 
-        <div class="navegacion-stats">
-            <button id="btn-prev-stat" class="nav-btn">⬅️ Anterior</button>
-            <span class="stat-counter" id="stat-counter">1 / 24</span>
-            <button id="btn-next-stat" class="nav-btn">➡️ Siguiente</button>
-        </div>
+        
     </div>
 </div>
-
-<script>
-console.log("🔥 STATSEQUIPO COMPLETO - INICIANDO");
-
-// Variables globales
-let currentIndex = 0;
-const estadisticas = [
-    { field: 'fotmob_rating', label: 'Rating' },
-    { field: 'goals_per_match', label: 'Goles por partido' },
-    { field: 'goals_conceded_per_match', label: 'Menos goles recibidos' },
-    { field: 'average_possession', label: 'Posesión (%)' },
-    { field: 'clean_sheets', label: 'Vallas invictas' },
-    { field: 'expected_goals_xg', label: 'xG' },
-    { field: 'shots_on_target_per_match', label: 'Tiros al arco/partido' },
-    { field: 'big_chances', label: 'Grandes chances' },
-    { field: 'big_chances_missed', label: 'Grandes chances falladas' },
-    { field: 'accurate_passes_per_match', label: 'Pases precisos/partido' },
-    { field: 'accurate_long_balls_per_match', label: 'Pases largos precisos/partido' },
-    { field: 'accurate_crosses_per_match', label: 'Centros precisos/partido' },
-    { field: 'penalties_awarded', label: 'Penales a favor' },
-    { field: 'touches_in_opposition_box', label: 'Toques en área rival' },
-    { field: 'corners', label: 'Corners' },
-    { field: 'xg_conceded', label: 'xG concedido' },
-    { field: 'interceptions_per_match', label: 'Intercepciones/partido' },
-    { field: 'successful_tackles_per_match', label: 'Entradas exitosas/partido' },
-    { field: 'clearances_per_match', label: 'Despejes/partido' },
-    { field: 'possession_won_final_3rd_per_match', label: 'Recuperaciones en 1/3 final/partido' },
-    { field: 'saves_per_match', label: 'Atajadas/partido' },
-    { field: 'fouls_per_match', label: 'Faltas/partido' },
-    { field: 'yellow_cards', label: 'Amarillas' },
-    { field: 'red_cards', label: 'Rojas' }
-];
-
-// Función para cambiar vista
-function cambiarVista(vista) {
-    console.log("🔄 Cambiando a vista:", vista);
-    
-    const vistaResumen = document.getElementById('vista-resumen');
-    const vistaCompleta = document.getElementById('vista-completa');
-    const btnVistaResumen = document.getElementById('btn-vista-resumen');
-    const btnVistaCompleta = document.getElementById('btn-vista-completa');
-    const btnVistaResumen2 = document.getElementById('btn-vista-resumen-2');
-    const btnVistaCompleta2 = document.getElementById('btn-vista-completa-2');
-    
-    if (vista === 'completa') {
-        console.log("➡️ Mostrando vista completa");
-        if (vistaResumen) vistaResumen.style.display = 'none';
-        if (vistaCompleta) vistaCompleta.style.display = 'block';
-        
-        // Actualizar botones
-        if (btnVistaResumen) btnVistaResumen.classList.remove('active');
-        if (btnVistaCompleta) btnVistaCompleta.classList.add('active');
-        if (btnVistaResumen2) btnVistaResumen2.classList.remove('active');
-        if (btnVistaCompleta2) btnVistaCompleta2.classList.add('active');
-        
-        // Cargar primera estadística automáticamente
-        console.log("🔄 Cargando primera estadística automáticamente");
-        cargarEstadistica(estadisticas[0].field);
-        
-    } else {
-        console.log("⬅️ Mostrando vista resumen");
-        if (vistaResumen) vistaResumen.style.display = 'block';
-        if (vistaCompleta) vistaCompleta.style.display = 'none';
-        
-        // Actualizar botones
-        if (btnVistaResumen) btnVistaResumen.classList.add('active');
-        if (btnVistaCompleta) btnVistaCompleta.classList.remove('active');
-        if (btnVistaResumen2) btnVistaResumen2.classList.add('active');
-        if (btnVistaCompleta2) btnVistaCompleta2.classList.remove('active');
-    }
-}
-
-// Función para cargar estadística
-function cargarEstadistica(field) {
-    console.log('=== CARGANDO ESTADÍSTICA ===');
-    console.log('Campo:', field);
-    
-    const rankingList = document.getElementById('ranking-list');
-    const currentStatLabel = document.getElementById('current-stat-label');
-    const valorHeader = document.getElementById('valor-header');
-    
-    // Mostrar loading
-    if (rankingList) {
-        rankingList.innerHTML = '<div class="loading">🔄 Cargando ' + field + '...</div>';
-    }
-    
-    // Hacer petición AJAX
-    const url = `/stats_equipos/?format=json&estadistica=${field}`;
-    console.log("🌐 Fetch a:", url);
-    
-    fetch(url)
-        .then(response => {
-            console.log('📡 Response:', response.status);
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('📊 Datos recibidos:', data);
-            if (data.equipos && data.equipos.length > 0) {
-                actualizarRanking(data.equipos, data.label);
-                actualizarContadores();
-            } else {
-                if (rankingList) rankingList.innerHTML = '<div class="error">❌ No hay datos para esta estadística</div>';
-            }
-        })
-        .catch(err => {
-            console.error('❌ Error:', err);
-            if (rankingList) {
-                rankingList.innerHTML = '<div class="error">❌ Error: ' + err.message + '</div>';
-            }
-        });
-}
-
-// Función para actualizar ranking
-function actualizarRanking(equipos, label) {
-    console.log('📊 Actualizando ranking:', equipos.length, 'equipos');
-    
-    const rankingList = document.getElementById('ranking-list');
-    const currentStatLabel = document.getElementById('current-stat-label');
-    const valorHeader = document.getElementById('valor-header');
-    
-    if (currentStatLabel) currentStatLabel.textContent = label;
-    if (valorHeader) valorHeader.textContent = label;
-    
-    let html = '';
-    equipos.forEach((equipo, index) => {
-        const position = index + 1;
-        let positionIcon = position;
-        
-        if (position <= 3) {
-            positionIcon = position === 1 ? '🥇' : position === 2 ? '🥈' : '🥉';
-        }
-        
-        html += `
-            <div class="ranking-item">
-                <span class="position">${positionIcon}</span>
-                <span class="equipo-info">
-                    <span class="equipo-nombre">${equipo.nombre}</span>
-                    <span class="equipo-liga">Primera División</span>
-                </span>
-                <span class="valor">${equipo.valor}</span>
-            </div>
-        `;
-    });
-    
-    if (rankingList) {
-        rankingList.innerHTML = html;
-        console.log("✅ Ranking actualizado");
-    }
-}
-
-// Función para actualizar contadores
-function actualizarContadores() {
-    const statCounter = document.getElementById('stat-counter');
-    const btnPrevStat = document.getElementById('btn-prev-stat');
-    const btnNextStat = document.getElementById('btn-next-stat');
-    
-    if (statCounter) {
-        statCounter.textContent = `${currentIndex + 1} / ${estadisticas.length}`;
-    }
-    
-    if (btnPrevStat) btnPrevStat.disabled = currentIndex === 0;
-    if (btnNextStat) btnNextStat.disabled = currentIndex === estadisticas.length - 1;
-}
-
-// Event listeners
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("🔧 Agregando event listeners...");
-    
-    // Botones de vista
-    const btnVistaCompleta = document.getElementById('btn-vista-completa');
-    const btnVistaResumen = document.getElementById('btn-vista-resumen');
-    const btnVistaCompleta2 = document.getElementById('btn-vista-completa-2');
-    const btnVistaResumen2 = document.getElementById('btn-vista-resumen-2');
-    
-    if (btnVistaCompleta) {
-        btnVistaCompleta.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log("🖱️ Click Vista Completa");
-            cambiarVista('completa');
-        });
-    }
-    
-    if (btnVistaResumen) {
-        btnVistaResumen.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log("🖱️ Click Vista Resumen");
-            cambiarVista('resumen');
-        });
-    }
-    
-    if (btnVistaCompleta2) {
-        btnVistaCompleta2.addEventListener('click', function(e) {
-            e.preventDefault();
-            cambiarVista('completa');
-        });
-    }
-    
-    if (btnVistaResumen2) {
-        btnVistaResumen2.addEventListener('click', function(e) {
-            e.preventDefault();
-            cambiarVista('resumen');
-        });
-    }
-    
-    // Dropdown de estadísticas
-    const estadisticaSelect = document.getElementById('estadistica-select');
-    if (estadisticaSelect) {
-        estadisticaSelect.addEventListener('change', function() {
-            const selectedField = this.value;
-            console.log("📊 Dropdown cambiado:", selectedField);
-            currentIndex = estadisticas.findIndex(stat => stat.field === selectedField);
-            cargarEstadistica(selectedField);
-        });
-    }
-    
-    // Botones de navegación
-    const btnPrevStat = document.getElementById('btn-prev-stat');
-    const btnNextStat = document.getElementById('btn-next-stat');
-    
-    if (btnPrevStat) {
-        btnPrevStat.addEventListener('click', function() {
-            console.log("⬅️ Anterior");
-            if (currentIndex > 0) {
-                currentIndex--;
-                const field = estadisticas[currentIndex].field;
-                if (estadisticaSelect) estadisticaSelect.value = field;
-                cargarEstadistica(field);
-            }
-        });
-    }
-    
-    if (btnNextStat) {
-        btnNextStat.addEventListener('click', function() {
-            console.log("➡️ Siguiente");
-            if (currentIndex < estadisticas.length - 1) {
-                currentIndex++;
-                const field = estadisticas[currentIndex].field;
-                if (estadisticaSelect) estadisticaSelect.value = field;
-                cargarEstadistica(field);
-            }
-        });
-    }
-    
-    // Inicializar contadores
-    actualizarContadores();
-    
-    console.log("✅ Event listeners agregados");
-});
-
-console.log("✅ Script cargado completamente");
-</script>
