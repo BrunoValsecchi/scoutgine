@@ -28,6 +28,27 @@ def menu(request):
     # Tu función de menú aquí
     return render(request, "menu.html")
 
+def equipo(request):
+    """FUNCIÓN CORREGIDA - Ahora SÍ llama a equipo.py"""
+    print("🔥 VIEWS.PY - FUNCIÓN EQUIPO LLAMADA")
+    print("📍 Importando desde equipo.py...")
+    
+    try:
+        # Importar aquí para evitar imports circulares
+        from .equipo import equipo as equipo_func
+        print("✅ Import exitoso")
+        
+        result = equipo_func(request)
+        print("✅ Función equipo_func ejecutada")
+        return result
+        
+    except ImportError as e:
+        print(f"❌ Error de importación: {e}")
+        return render(request, "equipo.html", {'error': f'Import error: {e}'})
+    except Exception as e:
+        print(f"❌ Error general: {e}")
+        return render(request, "equipo.html", {'error': f'General error: {e}'})
+
 def ligas(request):
     # Importar aquí para evitar imports circulares
     from .ligas import ligas as ligas_func

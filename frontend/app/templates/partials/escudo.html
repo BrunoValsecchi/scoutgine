@@ -1,0 +1,22 @@
+<div class="equipos-container">
+   {% for equipo in equipos %}
+    <a href="/equipo/{{ equipo.id }}/" class="equipo-card">
+        {% if equipo.logo %}
+            <img src="{{ equipo.logo }}" 
+                 alt="Logo {{ equipo.nombre }}" 
+                 class="equipo-logo"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="equipo-logo-placeholder" style="display:none;">
+                {{ equipo.nombre|first|upper }}
+            </div>
+        {% else %}
+            <div class="equipo-logo-placeholder">
+                {{ equipo.nombre|first|upper }}
+            </div>
+        {% endif %}
+        
+        <div class="equipo-nombre">{{ equipo.nombre_corto }}</div>
+        <div class="equipo-liga">{{ equipo.liga }}</div>
+    </a>
+{% endfor %}
+</div>

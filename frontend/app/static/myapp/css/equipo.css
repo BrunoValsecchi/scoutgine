@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.equipos-container {
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    padding: 30px 20px;
+    color: #ffffff;
+}
+
+/* Grid principal de equipos */
+.equipos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Card individual de equipo */
+.equipo-card {
+    background: linear-gradient(145deg, #1e1e3a, #2a2a4a);
+    border-radius: 15px;
+    padding: 25px 15px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+/* Efecto de brillo al hacer hover */
+.equipo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.equipo-card:hover::before {
+    left: 100%;
+}
+
+/* Hover effect del card */
+.equipo-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 
+        0 20px 40px rgba(102, 126, 234, 0.4),
+        0 0 30px rgba(102, 126, 234, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(102, 126, 234, 0.8);
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* Logo del equipo */
+.equipo-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: block;
+}
+
+.equipo-card:hover .equipo-logo {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+        0 12px 30px rgba(102, 126, 234, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Placeholder para equipos sin logo */
+.equipo-logo-placeholder {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.8rem;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.equipo-card:hover .equipo-logo-placeholder {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+        0 12px 30px rgba(102, 126, 234, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Nombre del equipo */
+.equipo-nombre {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+}
+
+/* Liga del equipo */
+.equipo-liga {
+    font-size: 0.85rem;
+    color: rgba(102, 126, 234, 0.9);
+    font-weight: 500;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .equipos-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 20px;
+        padding: 20px 10px;
+    }
+    
+    .equipo-logo,
+    .equipo-logo-placeholder {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .equipo-nombre {
+        font-size: 0.95rem;
+    }
+    
+    .equipo-card {
+        padding: 20px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .equipos-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .equipo-logo,
+    .equipo-logo-placeholder {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .equipo-nombre {
+        font-size: 0.9rem;
+    }
+    
+    .equipo-liga {
+        font-size: 0.75rem;
+    }
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.equipo-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.equipo-card:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.equipo-card:nth-child(3n) {
+    animation-delay: 0.2s;
+}

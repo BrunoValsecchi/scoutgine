@@ -8,7 +8,7 @@
         <i class='bx bx-trophy'></i>
         <span>Tabla de posiciones</span>
       </a>
-      <a href="#" class="{% if request.resolver_match.url_name == 'equipos' %}active{% endif %}">
+      <a href="{% url 'equipo' %}" class="{% if request.resolver_match.url_name == 'equipos' %}active{% endif %}">
         <i class='bx bx-football'></i>
         <span>Equipos</span>
       </a>
