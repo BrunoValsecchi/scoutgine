@@ -1,0 +1,28 @@
+<div class="equipo-detalle-container">
+    <div class="equipo-header">
+        {% if equipo.logo %}
+            <img src="{{ equipo.logo }}" alt="{{ equipo.nombre }}" class="equipo-logo-grande">
+        {% else %}
+            <div class="equipo-logo-placeholder-grande">
+                {{ equipo.nombre|first|upper }}
+            </div>
+        {% endif %}
+        
+        <div class="equipo-info">
+            <h1>{{ equipo.nombre }}</h1>
+            <p class="equipo-liga">{{ equipo.liga }}</p>
+        </div>
+    </div>
+    
+    <div class="equipo-contenido">
+        <div class="equipo-stats">
+            <h2>Estadísticas</h2>
+            <!-- Aquí puedes agregar más contenido -->
+        </div>
+        
+        <div class="equipo-jugadores">
+            <h2>Plantilla</h2>
+            <!-- Aquí puedes agregar jugadores -->
+        </div>
+    </div>
+</div>

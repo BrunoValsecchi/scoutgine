@@ -9,5 +9,7 @@ urlpatterns = [
     path('stats_equipos/', views.stats_equipos, name='stats_equipos'),
     path('stats_jugadores/', views.stats_jugadores, name='stats_jugadores'),
     path('equipo/', views.equipo, name='equipo'),
+    path('equipo/<int:equipo_id>/', views.equipo_detalle, name='equipo_detalle'),  # Nueva URL
+
 
 ]

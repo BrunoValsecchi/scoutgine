@@ -49,6 +49,17 @@ def equipo(request):
         print(f"❌ Error general: {e}")
         return render(request, "equipo.html", {'error': f'General error: {e}'})
 
+def equipo_detalle(request, equipo_id):
+    """Vista para mostrar un equipo individual"""
+    print(f"🔥 VIEWS.PY - EQUIPO DETALLE ID: {equipo_id}")
+    
+    try:
+        from .equipo import equipo_detalle as equipo_detalle_func
+        return equipo_detalle_func(request, equipo_id)
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return render(request, "equipo_detalle.html", {'error': str(e)})
+
 def ligas(request):
     # Importar aquí para evitar imports circulares
     from .ligas import ligas as ligas_func
@@ -74,4 +85,3 @@ def posiciones_api(request):
     
     data = {key: list(torneo.values()) for key, torneo in torneos.items()}
     return JsonResponse(data)
-

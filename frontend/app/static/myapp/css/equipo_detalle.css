@@ -1,0 +1,62 @@
+.equipo-detalle-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.equipo-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #1a1f36;
+    border-radius: 12px;
+}
+
+.equipo-logo-grande {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.equipo-logo-placeholder-grande {
+    width: 120px;
+    height: 120px;
+    background: #232b3e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #3498db;
+}
+
+.equipo-info h1 {
+    color: #e1e1e6;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.equipo-liga {
+    color: #8892b0;
+    font-size: 1.2rem;
+}
+
+.equipo-contenido {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.equipo-stats, .equipo-jugadores {
+    background: #1a1f36;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.equipo-stats h2, .equipo-jugadores h2 {
+    color: #e1e1e6;
+    margin-bottom: 1rem;
+}

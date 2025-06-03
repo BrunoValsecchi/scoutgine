@@ -1,8 +1,27 @@
+{% if request.resolver_match.url_name == 'ligas' %}
 <div class="topnav-searchbar">
     <input type="text" placeholder="Buscar..." class="topnav-search-input">
 </div>
-    <div class="top-nav-actions">
-        <a href="#" id="btn-tablas" class="nav-action-btn active">Tabla</a>
-        <a href="#" id="btn-stats-equipo" class="nav-action-btn">Stats Equipo</a>
-        <a href="#" id="btn-stats-jugadores" class="nav-action-btn">Stats Jugadores</a>
-    </div>
+<div class="top-nav-actions">
+    <a href="#" id="btn-tablas" class="nav-action-btn active">Tabla</a>
+    <a href="#" id="btn-stats-equipo" class="nav-action-btn">Stats Equipo</a>
+    <a href="#" id="btn-stats-jugadores" class="nav-action-btn">Stats Jugadores</a>
+</div>
+{% endif %}
+
+{% if request.resolver_match.url_name == 'menu' %}
+<div class="topnav-searchbar">
+    <input type="text" placeholder="Buscar..." class="topnav-search-input">
+</div>
+{% endif %}
+
+{% if request.resolver_match.url_name == 'equipo_detalle' %}
+<div class="topnav-searchbar">
+    <input type="text" placeholder="Buscar..." class="topnav-search-input">
+</div>
+<div class="top-nav-actions">
+    <a href="#" id="btn-plantilla" class="nav-action-btn active">Equipo</a>
+    <a href="#" id="btn-equipo" class="nav-action-btn">Plantilla</a>
+    <a href="#" id="btn-estadisticas" class="nav-action-btn">Estadísticas</a>
+</div>
+{% endif %}
