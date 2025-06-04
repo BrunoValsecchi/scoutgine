@@ -1,0 +1,72 @@
+<div class="plantilla-container">
+    <div class="plantilla-header">
+        <div class="header-content">
+            <img src="{{ equipo.logo }}" alt="logo" width="50px" height="50px">
+            <h2 class="plantilla-titulo">
+                {{ equipo.nombre }}
+            </h2>
+            
+        </div>
+    </div>
+
+    {% if total_jugadores > 0 %}
+        <div class="jugadores-lista-container">
+            <div class="jugadores-tabla">
+                <div class="jugadores-tabla-header">
+                    <div class="jugador-th nombre">Nombre</div>
+                    <div class="jugador-th posicion">Posición</div>
+                    <div class="jugador-th nacionalidad">Nacionalidad</div>
+                    <div class="jugador-th edad">Edad</div>
+                    <div class="jugador-th dorsal">#</div>
+                    <div class="jugador-th altura">Altura</div>
+                    <div class="jugador-th valor">Valor</div>
+                </div>
+                {% for jugador in jugadores %}
+                <div class="jugador-row">
+                    <div class="jugador-td nombre">{{ jugador.nombre }}</div>
+                    <div class="jugador-td posicion">
+                        {% if jugador.posicion == 'Arquero' %}
+                            <span class="pos-tag arquero"><i class='bx bx-shield'></i> ARQ</span>
+                        {% elif jugador.posicion == 'Defensor' %}
+                            <span class="pos-tag defensor"><i class='bx bx-shield-quarter'></i> DEF</span>
+                        {% elif jugador.posicion == 'Mediocampista' %}
+                            <span class="pos-tag mediocampista"><i class='bx bx-target-lock'></i> MED</span>
+                        {% elif jugador.posicion == 'Delantero' %}
+                            <span class="pos-tag delantero"><i class='bx bx-football'></i> DEL</span>
+                        {% else %}
+                            <span class="pos-tag"><i class='bx bx-user'></i> {{ jugador.posicion }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="jugador-td nacionalidad">
+                        {% if jugador.nacionalidad_bandera %}
+                            <img src="{{ jugador.nacionalidad_bandera }}" class="bandera" alt="{{ jugador.pais }}">
+                        {% else %}
+                            <i class='bx bx-flag'></i>
+                        {% endif %}
+                        {{ jugador.pais }}
+                    </div>
+                    <div class="jugador-td edad">{% if jugador.edad %}{{ jugador.edad }}{% endif %}</div>
+                    <div class="jugador-td dorsal">{% if jugador.dorsal %}{{ jugador.dorsal }}{% endif %}</div>
+                    <div class="jugador-td altura">{% if jugador.altura %}{{ jugador.altura }} cm{% endif %}</div>
+                    <div class="jugador-td valor">{% if jugador.valor %}{{ jugador.valor }}{% endif %}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="no-jugadores">
+            <div class="no-jugadores-icon">
+                <i class='bx bx-user-x'></i>
+            </div>
+            <h3>Sin jugadores</h3>
+            <p>Este equipo no tiene jugadores registrados.</p>
+            <div class="add-players-suggestion">
+                <i class='bx bx-plus-circle'></i>
+                <span>Próximamente</span>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+
+

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Tabla de Posiciones',
             subtitle: '/ Ligas Principales'
         },
-        '/equipos/': {
+        '/equipo/': {
             icon: 'bx-football',
             title: 'Equipos',
             subtitle: '/ Gestión de Clubes'
@@ -56,6 +56,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
+    // Detectar si es página de equipo específico
+    if (currentPath.match(/^\/equipo\/\d+\/$/)) {
+        const equipoNombre = document.querySelector('.equipo-nombre-principal')?.textContent || 'Equipo';
+        pageConfig[currentPath] = {
+            icon: 'bx-football',
+            title: equipoNombre,
+            subtitle: '/ Detalle del Equipo'
+        };
+    }
+    
     console.log("Configuraciones disponibles:", Object.keys(pageConfig));
     
     // Actualizar header si existe configuración
@@ -91,15 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
     } else {
         console.warn("No hay configuración para la ruta:", currentPath);
-        
-        // Configuración por defecto si no se encuentra la ruta
-        const pageIcon = document.querySelector('.page-icon');
-        const pageTitle = document.querySelector('.page-title');
-        const pageSubtitle = document.querySelector('.page-subtitle');
-        
-        if (pageIcon) pageIcon.className = 'bx bx-home page-icon';
-        if (pageTitle) pageTitle.textContent = 'ScoutGine';
-        if (pageSubtitle) pageSubtitle.textContent = '/ Panel Principal';
     }
     
     // Marcar la opción activa en el sidebar
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Agregar efectos de hover mejorados
     addHeaderEffects();
     
-    // NUEVA LÓGICA PARA LOS 3 BOTONES
+    // CONFIGURAR BOTONES DE NAVEGACIÓN
     setupNavButtons();
 });
 
@@ -119,7 +120,10 @@ function setupNavButtons() {
     const btnTablas = document.getElementById('btn-tablas');
     const btnStatsEquipo = document.getElementById('btn-stats-equipo');
     const btnStatsJugadores = document.getElementById('btn-stats-jugadores');
+    
+    // Detectar qué contenedores están disponibles
     const tablasContainer = document.getElementById('tablas-container');
+    const infoContainer = document.getElementById('info-container');
     const statsEquipoContainer = document.getElementById('stats-equipos-container');
     const statsJugadoresContainer = document.getElementById('stats-jugadores-container');
 
@@ -128,6 +132,7 @@ function setupNavButtons() {
         btnStatsEquipo: !!btnStatsEquipo,
         btnStatsJugadores: !!btnStatsJugadores,
         tablasContainer: !!tablasContainer,
+        infoContainer: !!infoContainer,
         statsEquipoContainer: !!statsEquipoContainer,
         statsJugadoresContainer: !!statsJugadoresContainer
     });
@@ -142,23 +147,32 @@ function setupNavButtons() {
     // Función para ocultar todos los contenedores
     function hideAllContainers() {
         if (tablasContainer) tablasContainer.style.display = 'none';
+        if (infoContainer) infoContainer.style.display = 'none';
         if (statsEquipoContainer) statsEquipoContainer.style.display = 'none';
         if (statsJugadoresContainer) statsJugadoresContainer.style.display = 'none';
     }
 
-    // Botón Tablas
+    // Botón principal (Tablas o Info General)
     if (btnTablas) {
         btnTablas.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("=== BOTÓN TABLAS CLICKEADO ===");
+            console.log("=== BOTÓN PRINCIPAL CLICKEADO ===");
             removeAllActive();
             hideAllContainers();
             btnTablas.classList.add('active');
-            if (tablasContainer) tablasContainer.style.display = '';
+            
+            // Mostrar el contenedor apropiado
+            if (tablasContainer) {
+                tablasContainer.style.display = '';
+                console.log("Mostrando tablas-container");
+            } else if (infoContainer) {
+                infoContainer.style.display = '';
+                console.log("Mostrando info-container");
+            }
         });
     }
 
-    // Botón Stats Equipos
+    // Botón Stats Equipos / Plantilla
     if (btnStatsEquipo) {
         btnStatsEquipo.addEventListener('click', function(e) {
             e.preventDefault();
@@ -168,22 +182,15 @@ function setupNavButtons() {
             btnStatsEquipo.classList.add('active');
             if (statsEquipoContainer) statsEquipoContainer.style.display = '';
 
-            // Cargar contenido si no existe
-            if (!statsEquipoContainer.innerHTML.trim()) {
+            // Cargar contenido dinámicamente si es necesario
+            const currentPath = window.location.pathname;
+            if (currentPath.includes('/ligas/') && !statsEquipoContainer.innerHTML.trim()) {
                 console.log("Cargando stats equipos...");
                 fetch('/stats_equipos/')
                     .then(res => res.text())
                     .then(html => {
                         statsEquipoContainer.innerHTML = html;
                         console.log("Stats equipos cargado");
-                        
-                        // Cargar el script de stats equipos dinámicamente
-                        const script = document.createElement('script');
-                        script.src = "{% static 'myapp/js/statsequipo.js' %}";
-                        script.onload = function() {
-                            console.log("✅ Script statsequipo.js cargado dinámicamente");
-                        };
-                        document.head.appendChild(script);
                     })
                     .catch(err => {
                         console.error("Error cargando stats equipos:", err);
@@ -192,42 +199,38 @@ function setupNavButtons() {
         });
     }
 
-    // Botón Stats Jugadores
+    // Botón Stats Jugadores / Estadísticas
     if (btnStatsJugadores) {
         btnStatsJugadores.addEventListener('click', function(e) {
             e.preventDefault();
             console.log("=== BOTÓN STATS JUGADORES CLICKEADO ===");
-            console.log("btnStatsJugadores existe:", !!btnStatsJugadores);
-            console.log("statsJugadoresContainer existe:", !!statsJugadoresContainer);
-            
             removeAllActive();
             hideAllContainers();
             btnStatsJugadores.classList.add('active');
             if (statsJugadoresContainer) statsJugadoresContainer.style.display = '';
             
-            // Debug del fetch
-            console.log("🔄 Iniciando fetch a /stats_jugadores/");
-            fetch('/stats_jugadores/')
-                .then(res => {
-                    console.log("✅ Response recibida:", res.status, res.statusText);
-                    console.log("Response OK?", res.ok);
-                    return res.text();
-                })
-                .then(html => {
-                    console.log("✅ HTML recibido (primeros 200 chars):", html.substring(0, 200));
-                    console.log("Longitud del HTML:", html.length);
-                    statsJugadoresContainer.innerHTML = html;
-                    console.log("✅ HTML insertado en container");
-                })
-                .catch(err => {
-                    console.error("❌ Error en fetch:", err);
-                    if (statsJugadoresContainer) {
-                        statsJugadoresContainer.innerHTML = '<p style="color: red;">Error: ' + err.message + '</p>';
-                    }
-                });
+            // Cargar contenido dinámicamente si es necesario
+            const currentPath = window.location.pathname;
+            if (currentPath.includes('/ligas/')) {
+                console.log("🔄 Iniciando fetch a /stats_jugadores/");
+                fetch('/stats_jugadores/')
+                    .then(res => {
+                        console.log("✅ Response recibida:", res.status, res.statusText);
+                        return res.text();
+                    })
+                    .then(html => {
+                        console.log("✅ HTML recibido (primeros 200 chars):", html.substring(0, 200));
+                        statsJugadoresContainer.innerHTML = html;
+                        console.log("✅ HTML insertado en container");
+                    })
+                    .catch(err => {
+                        console.error("❌ Error en fetch:", err);
+                        if (statsJugadoresContainer) {
+                            statsJugadoresContainer.innerHTML = '<p style="color: red;">Error: ' + err.message + '</p>';
+                        }
+                    });
+            }
         });
-    } else {
-        console.error("❌ btnStatsJugadores NO ENCONTRADO");
     }
 }
 
@@ -244,7 +247,7 @@ function markActiveMenuItem(currentPath) {
     // Mapeo de rutas a selectores
     const routeMapping = {
         '/ligas/': 'a[href*="ligas"]',
-        '/equipos/': 'a[href*="equipos"]',
+        '/equipo/': 'a[href*="equipo"]',
         '/estadisticas/': 'a[href*="estadisticas"]',
         '/comparacion/': 'a[href*="comparacion"]',
         '/recomendacion/': 'a[href*="recomendacion"]',
@@ -253,6 +256,16 @@ function markActiveMenuItem(currentPath) {
         '/jugadores/': 'a[href*="jugadores"]',
         '/': 'a[href="/"]'
     };
+    
+    // Para páginas de equipo específico, marcar el enlace de equipos
+    if (currentPath.match(/^\/equipo\/\d+\/$/)) {
+        const activeLink = document.querySelector('a[href*="equipo"]');
+        if (activeLink) {
+            activeLink.classList.add('active');
+            console.log("Elemento activo marcado para equipo:", activeLink.textContent.trim());
+        }
+        return;
+    }
     
     // Agregar clase active al enlace correspondiente
     if (routeMapping[currentPath]) {
@@ -280,7 +293,6 @@ function addHeaderEffects() {
                 this.style.transition = 'transform 0.3s ease';
             }, 600);
             
-            // Simular actualización
             console.log("Refrescando datos...");
         });
     }
@@ -291,26 +303,12 @@ function addHeaderEffects() {
         seasonSelector.addEventListener('change', function() {
             console.log("Temporada cambiada a:", this.value);
             
-            // Efecto visual de cambio
             this.style.transform = 'scale(1.05)';
             this.style.transition = 'transform 0.2s ease';
             
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
             }, 200);
-        });
-    }
-    
-    // Efecto de typing en el título
-    const pageTitle = document.querySelector('.page-title');
-    if (pageTitle) {
-        pageTitle.addEventListener('mouseenter', function() {
-            this.style.textShadow = '0 4px 8px rgba(52, 152, 219, 0.4)';
-            this.style.transition = 'text-shadow 0.3s ease';
-        });
-        
-        pageTitle.addEventListener('mouseleave', function() {
-            this.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.5)';
         });
     }
 }
@@ -336,72 +334,11 @@ function updatePageHeader(icon, title, subtitle) {
     }
 }
 
-// Función para animar la transición entre páginas
-function animatePageTransition() {
-    const topNav = document.querySelector('.top-nav');
-    if (topNav) {
-        topNav.style.opacity = '0.7';
-        topNav.style.transform = 'translateY(-10px)';
-        topNav.style.transition = 'all 0.3s ease';
-        
-        setTimeout(() => {
-            topNav.style.opacity = '1';
-            topNav.style.transform = 'translateY(0)';
-        }, 300);
-    }
-}
-
 // Exportar funciones para uso global
 window.HeaderManager = {
     updatePageHeader,
-    animatePageTransition,
     markActiveMenuItem
 };
-
-// Nuevos scripts para acciones en el navbar
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.nav-action-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            if (this.textContent.includes('Stats Equipo')) {
-                e.preventDefault();
-                fetch('/stats_equipos/')
-                  .then(res => res.text())
-                  .then(html => {
-                      document.getElementById('stats-equipos-container').innerHTML = html;
-                  });
-            }
-        });
-    });
-    
-    const btnTablas = document.getElementById('btn-tablas');
-    const btnStats = document.getElementById('btn-stats-equipo');
-    const tablasContainer = document.getElementById('tablas-container');
-    const statsContainer = document.getElementById('stats-equipos-container');
-
-    btnTablas.addEventListener('click', function(e) {
-        e.preventDefault();
-        btnTablas.classList.add('active');
-        btnStats.classList.remove('active');
-        tablasContainer.style.display = '';
-        statsContainer.style.display = 'none';
-    });
-
-    btnStats.addEventListener('click', function(e) {
-        e.preventDefault();
-        btnStats.classList.add('active');
-        btnTablas.classList.remove('active');
-        tablasContainer.style.display = 'none';
-        statsContainer.style.display = '';
-        // Solo carga una vez, si quieres recargar cada vez, quita el if
-        if (!statsContainer.innerHTML.trim()) {
-            fetch('/stats-equipos/')
-                .then(res => res.text())
-                .then(html => {
-                    statsContainer.innerHTML = html;
-                });
-        }
-    });
-});
 
 console.log("=== TOPNAV.JS INICIALIZADO ===");
 

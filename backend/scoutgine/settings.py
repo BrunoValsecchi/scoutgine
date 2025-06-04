@@ -57,6 +57,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+            '/app/frontend/app/templates',  
             os.path.join(BASE_DIR.parent, 'frontend', 'app', 'templates'),  
         ],
         'APP_DIRS': True,
@@ -131,6 +132,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR.parent, 'frontend', 'app', 'static'),  # También subir un nivel
+    '/app/frontend/app/static',  # 👈 CAMBIADO: usar ruta absoluta como en TEMPLATES
+
 ]
 
 # Default primary key field type

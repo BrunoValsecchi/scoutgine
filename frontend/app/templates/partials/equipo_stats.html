@@ -1,0 +1,79 @@
+<div class="equipo-stats-full">
+  <div class="equipo-stats-title">
+    <i class="bx bx-bar-chart"></i>
+    <span>Estadísticas de {{ equipo.nombre }}</span>
+  </div>
+  {% if estadisticas %}
+  <div class="equipo-stats-categorias">
+    <!-- Generales -->
+    <div class="equipo-stats-col">
+      <div class="equipo-stats-col-title generales">🟦 Generales</div>
+      <table class="equipo-stats-table">
+        <tbody>
+          {% for key, value in estadisticas.items %}
+            {% if key in 'Rating,Posesión promedio,Faltas por partido,Tarjetas amarillas,Tarjetas rojas' %}
+            <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
+              <td class="stat-label-simple">{{ key }}</td>
+              <td class="stat-value-simple">{{ value }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- Ofensivos -->
+    <div class="equipo-stats-col">
+      <div class="equipo-stats-col-title ofensivos">🔴 Ofensivos</div>
+      <table class="equipo-stats-table">
+        <tbody>
+          {% for key, value in estadisticas.items %}
+            {% if key in 'Goles por partido,Goles esperados (xG),Tiros al arco por partido,Ocasiones claras,Ocasiones claras falladas,Penales a favor' %}
+            <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
+              <td class="stat-label-simple">{{ key }}</td>
+              <td class="stat-value-simple">{{ value }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- Defensivos -->
+    <div class="equipo-stats-col">
+      <div class="equipo-stats-col-title defensivos">🟢 Defensivos</div>
+      <table class="equipo-stats-table">
+        <tbody>
+          {% for key, value in estadisticas.items %}
+            {% if key in 'Goles concedidos por partido,Vallas invictas,xG concedido,Intercepciones por partido,Entradas exitosas por partido,Despejes por partido,Recuperaciones en el último tercio,Atajadas por partido' %}
+            <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
+              <td class="stat-label-simple">{{ key }}</td>
+              <td class="stat-value-simple">{{ value }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- Creación de juego -->
+    <div class="equipo-stats-col">
+      <div class="equipo-stats-col-title creacion">🟨 Creación</div>
+      <table class="equipo-stats-table">
+        <tbody>
+          {% for key, value in estadisticas.items %}
+            {% if key in 'Pases precisos por partido,Pases largos precisos por partido,Centros precisos por partido,Toques en el área rival,Tiros de esquina' %}
+            <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
+              <td class="stat-label-simple">{{ key }}</td>
+              <td class="stat-value-simple">{{ value }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="equipo-stats-empty-simple">
+    <i class="bx bx-info-circle"></i>
+    <span>No hay estadísticas disponibles.</span>
+  </div>
+  {% endif %}
+</div>

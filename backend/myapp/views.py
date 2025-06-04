@@ -85,3 +85,18 @@ def posiciones_api(request):
     
     data = {key: list(torneo.values()) for key, torneo in torneos.items()}
     return JsonResponse(data)
+
+def grafico_equipo(request, equipo_id, estadistica):
+    """Vista para mostrar gráfico de una estadística específica"""
+    print(f"🔥 VIEWS.PY - GRÁFICO EQUIPO ID: {equipo_id}, STAT: {estadistica}")
+    
+    try:
+        # Importa desde grafico_equipo.py
+        from .grafico_equipo import grafico_equipo as grafico_equipo_func
+        return grafico_equipo_func(request, equipo_id, estadistica)
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        from django.shortcuts import render
+        # Cambia grafico_equipo.html por estadistica_detalle.html
+        return render(request, "estadistica_detalle.html", {'error': str(e), 'title': 'Error'})
+

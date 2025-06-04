@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/estadistica_detalle.css' %}">
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    {% include 'partials/topnav.html' %}
+
+    <main class="main-content">
+        <div class="estadistica-header">
+            <a href="{% url 'equipo_detalle' equipo.id %}" class="back-button">
+                <i class="bx bx-arrow-back"></i>
+                Volver al equipo
+            </a>
+            <h1 class="estadistica-title">{{ stat_name }}</h1>
+            <div class="equipo-info">
+                {% if equipo.logo %}
+                    <img src="{{ equipo.logo }}" alt="{{ equipo.nombre }}" class="equipo-logo-small">
+                {% endif %}
+                <span>{{ equipo.nombre }}</span>
+            </div>
+        </div>
+
+        {% if not error %}
+        
+            <div class="stat-card">
+                <div class="stat-value">{{ promedio }}</div>
+                <div class="stat-label">Promedio general</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ posicion }}</div>
+                <div class="stat-label">Posición</div>
+            </div>
+            
+        </div>
+
+       
+        {% else %}
+        <div class="error-message">
+            <i class="bx bx-error"></i>
+            <span>{{ error }}</span>
+        </div>
+        {% endif %}
+    </main>
+
+    <script src="{% static 'myapp/js/topnav.js' %}"></script>
+</body>
+</html>

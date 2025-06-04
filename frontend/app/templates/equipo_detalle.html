@@ -1,24 +1,46 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ equipo.nombre }} | ScoutGine</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}">
 
-    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}">
-    <link rel="stylesheet" href="{% static 'myapp/css/equipo_detalle.css' %}">
-</head>
-<body>
-    {% include 'partials/header.html' %}
-    {% include 'partials/topnav.html' %}
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
 
-    {% include 'partials/descequipo.html' %}
-<script src="{% static 'myapp/js/equipo.js' %}"></script>
-<script src="{% static 'myapp/js/topnav.js' %}"></script>
-</body>
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/equipo_detalle.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/plantilla.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/equipo_stats.css' %}" />
+  </head>
+  <body>
+    {% include 'partials/header.html' %} {% include 'partials/topnav.html' %}
+
+    <main class="main-content">
+        <!-- Contenedor de información del equipo (siempre visible) -->
+        <div id="info-container">
+            {% include 'partials/descequipo.html' %}
+        </div>
+        
+        <!-- Contenedor de plantilla (por defecto oculto) -->
+        <div id="stats-equipos-container" style="display:none;">
+            {% include 'partials/plantilla.html' %}
+        </div>
+        
+        <div id="stats-jugadores-container" style="display:none;">
+            {% include 'partials/equipo_stats.html' %}
+        </div>
+    </main>
+
+    <script src="{% static 'myapp/js/topnav.js' %}"></script>
+    <script src="{% static 'myapp/js/equipo.js' %}"></script>
+  </body>
 </html>

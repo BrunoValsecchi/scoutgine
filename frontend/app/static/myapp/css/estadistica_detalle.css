@@ -1,0 +1,115 @@
+.estadistica-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 4vw;
+    background: linear-gradient(135deg, #15161d 0%, #1a1b24 100%);
+    border-bottom: 1px solid #23242a;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #67aaff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s;
+    width: fit-content;
+}
+
+.back-button:hover {
+    color: #4f8fff;
+}
+
+.estadistica-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #e3e6ee;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.equipo-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #a6b6d9;
+}
+
+.equipo-logo-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+}
+
+.estadistica-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    padding: 32px 4vw;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #181a1f 0%, #23243a 100%);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #23242a;
+}
+
+.stat-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #67aaff;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    color: #a6b6d9;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.graficos-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 0 4vw 40px 4vw;
+}
+
+.grafico-card {
+    background: #181a1f;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px #0004;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ff6b6b;
+    padding: 32px 4vw;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 800px) {
+    .graficos-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 2vw 24px 2vw;
+    }
+    
+    .estadistica-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 20px 2vw;
+    }
+    
+    .estadistica-title {
+        font-size: 1.5rem;
+    }
+}

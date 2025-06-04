@@ -1,6 +1,6 @@
 <div class="equipos-container">
    {% for equipo in equipos %}
-    <a href="/equipo/{{ equipo.id }}/" class="equipo-card">
+    <a href="{% url 'equipo_detalle' equipo.id %}" class="equipo-card">
         {% if equipo.logo %}
             <img src="{{ equipo.logo }}" 
                  alt="Logo {{ equipo.nombre }}" 
