@@ -11,18 +11,43 @@
         <div class="equipo-info">
             <h1>{{ equipo.nombre }}</h1>
             <p class="equipo-liga">{{ equipo.liga }}</p>
+            
+            {% if wikipedia_info.fundacion %}
+                <p class="equipo-fundacion">
+                    <i class="bx bx-calendar"></i>
+                    Fundado en {{ wikipedia_info.fundacion }}
+                </p>
+            {% endif %}
+            
+            {% if wikipedia_info.estadio %}
+                <p class="equipo-estadio">
+                    <i class="bx bx-map"></i>
+                    {{ wikipedia_info.estadio }}
+                </p>
+            {% endif %}
         </div>
     </div>
     
-    <div class="equipo-contenido">
-        <div class="equipo-stats">
-            <h2>Estadísticas</h2>
-            <!-- Aquí puedes agregar más contenido -->
-        </div>
-        
-        <div class="equipo-jugadores">
-            <h2>Plantilla</h2>
-            <!-- Aquí puedes agregar jugadores -->
-        </div>
+    {% if wikipedia_info.resumen %}
+    <div class="equipo-descripcion">
+        <h3>
+            <i class="bx bx-info-circle"></i>
+            Acerca del club
+        </h3>
+        <p class="equipo-resumen">{{ wikipedia_info.resumen }}</p>
     </div>
+    {% else %}
+    <div class="equipo-descripcion">
+        <h3>
+            <i class="bx bx-info-circle"></i>
+            Acerca del club
+        </h3>
+        <p class="equipo-resumen">
+            {{ equipo.nombre }} es un equipo de fútbol que compite en {{ equipo.liga }}.
+            {% if total_jugadores %}
+                Cuenta con una plantilla de {{ total_jugadores }} jugadores.
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
 </div>

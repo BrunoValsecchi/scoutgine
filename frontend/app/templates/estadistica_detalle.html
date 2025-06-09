@@ -1,56 +1,200 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ title }}</title>
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}">
-    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}">
-    <link rel="stylesheet" href="{% static 'myapp/css/estadistica_detalle.css' %}">
-</head>
-<body>
-    {% include 'partials/header.html' %}
-    {% include 'partials/topnav.html' %}
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'myapp/css/estadistica_detalle.css' %}"
+    />
+  </head>
+  <body>
+    {% include 'partials/header.html' %} {% include 'partials/topnav.html' %}
 
     <main class="main-content">
-        <div class="estadistica-header">
-            <a href="{% url 'equipo_detalle' equipo.id %}" class="back-button">
-                <i class="bx bx-arrow-back"></i>
-                Volver al equipo
-            </a>
-            <h1 class="estadistica-title">{{ stat_name }}</h1>
-            <div class="equipo-info">
-                {% if equipo.logo %}
-                    <img src="{{ equipo.logo }}" alt="{{ equipo.nombre }}" class="equipo-logo-small">
-                {% endif %}
-                <span>{{ equipo.nombre }}</span>
-            </div>
+      <div class="estadistica-header">
+        <a href="{% url 'equipo_detalle' equipo.id %}" class="back-button">
+          <i class="bx bx-arrow-back"></i>
+          Volver al equipo
+        </a>
+        <h1 class="estadistica-title">{{ stat_name }}</h1>
+        <div class="equipo-info">
+          {% if equipo.logo %}
+          <img
+            src="{{ equipo.logo }}"
+            alt="{{ equipo.nombre }}"
+            class="equipo-logo-small"
+          />
+          {% else %}
+          <div class="equipo-logo-placeholder-small">
+            {{ equipo.nombre|first|upper }}
+          </div>
+          {% endif %}
+          <span>{{ equipo.nombre }}</span>
+        </div>
+      </div>
+
+      {% if not error %}
+
+      <!-- CARDS DE ESTADÍSTICAS MINI -->
+      <div class="estadistica-stats-container">
+        <div class="estadistica-stats-inner">
+          <div class="stat-card">
+            <div class="stat-value">{{ stat_value|default:"N/A" }}</div>
+            <div class="stat-label">Actual</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ promedio }}</div>
+            <div class="stat-label">Promedio</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ posicion }}</div>
+            <div class="stat-label">Posición</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRÁFICOS -->
+      {% if ranking_chart %}
+      <div class="graficos-especificos">
+        <div class="equipo-stats-col">
+          <div class="equipo-stats-col-title generales">🔵 Radar comparativo</div>
+          <div style="margin-bottom:12px;">
+            <select id="radar-group-selector" class="grafico-dispersion-select">
+              <option value="ofensivos">Ofensivos</option>
+              <option value="defensivos">Defensivos</option>
+              <option value="creacion">Creación</option>
+              <option value="generales">Generales</option>
+            </select>
+          </div>
+          <div id="radar-chart-container" style="width:100%;height:340px;background:#181b23;border-radius:12px;"></div>
         </div>
 
-        {% if not error %}
-        
-            <div class="stat-card">
-                <div class="stat-value">{{ promedio }}</div>
-                <div class="stat-label">Promedio general</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">{{ posicion }}</div>
-                <div class="stat-label">Posición</div>
-            </div>
-            
+        {% if evolucion_chart %}
+        <div class="grafico-card">
+          <div class="grafico-content">{{ evolucion_chart|safe }}</div>
         </div>
-
-       
-        {% else %}
-        <div class="error-message">
-            <i class="bx bx-error"></i>
-            <span>{{ error }}</span>
+        {% endif %} {% if percentil_chart %}
+        <div class="grafico-card">
+          <div class="grafico-content">{{ percentil_chart|safe }}</div>
         </div>
         {% endif %}
+      </div>
+      {% else %}
+      <div class="no-charts-message">
+        <i class="bx bx-info-circle"></i>
+        <span
+          >Gráficos no disponibles - Instalar PyECharts para visualizaciones
+          avanzadas</span
+        >
+      </div>
+      {% endif %}
+
+      <!-- GRÁFICO INTERACTIVO DE DISPERSIÓN -->
+      <div class="grafico-dispersion-wrapper">
+        <div class="grafico-dispersion-titulo">Análisis de Dispersión</div>
+        <div class="grafico-dispersion-controls">
+          <label for="stat-comparacion-selector">Comparar con:</label>
+          <select
+            id="stat-comparacion-selector"
+            class="grafico-dispersion-select"
+          >
+            <option value="Rating">Rating</option>
+            <option value="Goles por partido">Goles por partido</option>
+            <option value="Goles concedidos por partido">
+              Goles concedidos por partido
+            </option>
+            <option value="Posesión promedio">Posesión promedio</option>
+            <option value="Vallas invictas">Vallas invictas</option>
+            <option value="Goles esperados (xG)">Goles esperados (xG)</option>
+            <option value="Tiros al arco por partido">
+              Tiros al arco por partido
+            </option>
+            <option value="Ocasiones claras">Ocasiones claras</option>
+            <option value="Ocasiones claras falladas">
+              Ocasiones claras falladas
+            </option>
+            <option value="Pases precisos por partido">
+              Pases precisos por partido
+            </option>
+            <option value="Pases largos precisos por partido">
+              Pases largos precisos por partido
+            </option>
+            <option value="Centros precisos por partido">
+              Centros precisos por partido
+            </option>
+            <option value="Penales a favor">Penales a favor</option>
+            <option value="Toques en el área rival">
+              Toques en el área rival
+            </option>
+            <option value="Tiros de esquina">Tiros de esquina</option>
+            <option value="xG concedido">xG concedido</option>
+            <option value="Intercepciones por partido">
+              Intercepciones por partido
+            </option>
+            <option value="Entradas exitosas por partido">
+              Entradas exitosas por partido
+            </option>
+            <option value="Despejes por partido">Despejes por partido</option>
+            <option value="Recuperaciones en el último tercio">
+              Recuperaciones en el último tercio
+            </option>
+            <option value="Atajadas por partido">Atajadas por partido</option>
+            <option value="Faltas por partido">Faltas por partido</option>
+            <option value="Tarjetas amarillas">Tarjetas amarillas</option>
+            <option value="Tarjetas rojas">Tarjetas rojas</option>
+          </select>
+        </div>
+        <div class="grafico-dispersion-content">
+          <div id="chart-dispersion"></div>
+        </div>
+      </div>
+      <!-- NUEVOS 3 GRÁFICOS ADICIONALES -->
+      {% if heatmap_chart %}
+      <div class="graficos-adicionales">
+        <!-- Gráfico 4: Mapa de Calor -->
+        <div id="boxplot-chart-container"></div>    
+
+        <!-- Gráfico 5: Embudo -->
+        <div class="grafico-card">
+          <div class="grafico-content">{{ funnel_chart|safe }}</div>
+        </div>
+
+        <!-- Gráfico 6: TreeMap -->
+        <div class="grafico-card">
+          <div class="grafico-content">{{ treemap_chart|safe }}</div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Token CSRF para AJAX -->
+      {% csrf_token %}
+      <script>
+        window.equipoId = {{ equipo.id }};
+        
+      </script>
+      <!-- Scripts -->
+      <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+      <script src="{% static 'myapp/js/estadistica_futbol.js' %}"></script>
+
+      {% else %}
+      <div class="error-message">
+        <i class="bx bx-error"></i>
+        <span>{{ error }}</span>
+      </div>
+      {% endif %}
     </main>
 
     <script src="{% static 'myapp/js/topnav.js' %}"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+    <script src="{% static 'myapp/js/estadistica_futbol.js' %}"></script>
+  </body>
 </html>

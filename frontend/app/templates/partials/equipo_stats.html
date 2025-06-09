@@ -1,33 +1,14 @@
 <div class="equipo-stats-full">
-  <div class="equipo-stats-title">
-    <i class="bx bx-bar-chart"></i>
-    <span>Estadísticas de {{ equipo.nombre }}</span>
-  </div>
   {% if estadisticas %}
   <div class="equipo-stats-categorias">
-    <!-- Generales -->
-    <div class="equipo-stats-col">
-      <div class="equipo-stats-col-title generales">🟦 Generales</div>
-      <table class="equipo-stats-table">
-        <tbody>
-          {% for key, value in estadisticas.items %}
-            {% if key in 'Rating,Posesión promedio,Faltas por partido,Tarjetas amarillas,Tarjetas rojas' %}
-            <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
-              <td class="stat-label-simple">{{ key }}</td>
-              <td class="stat-value-simple">{{ value }}</td>
-            </tr>
-            {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    
     <!-- Ofensivos -->
     <div class="equipo-stats-col">
       <div class="equipo-stats-col-title ofensivos">🔴 Ofensivos</div>
       <table class="equipo-stats-table">
         <tbody>
           {% for key, value in estadisticas.items %}
-            {% if key in 'Goles por partido,Goles esperados (xG),Tiros al arco por partido,Ocasiones claras,Ocasiones claras falladas,Penales a favor' %}
+            {% if key in 'Goles por partido,Tiros al arco por partido,Ocasiones claras,Ocasiones claras falladas,Goles esperados (xG),Penales a favor' %}
             <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
               <td class="stat-label-simple">{{ key }}</td>
               <td class="stat-value-simple">{{ value }}</td>
@@ -37,6 +18,7 @@
         </tbody>
       </table>
     </div>
+    
     <!-- Defensivos -->
     <div class="equipo-stats-col">
       <div class="equipo-stats-col-title defensivos">🟢 Defensivos</div>
@@ -53,6 +35,7 @@
         </tbody>
       </table>
     </div>
+    
     <!-- Creación de juego -->
     <div class="equipo-stats-col">
       <div class="equipo-stats-col-title creacion">🟨 Creación</div>
@@ -69,6 +52,24 @@
         </tbody>
       </table>
     </div>
+    
+    <!-- Generales -->
+    <div class="equipo-stats-col">
+      <div class="equipo-stats-col-title generales">🔵 Generales</div>
+      <table class="equipo-stats-table">
+        <tbody>
+          {% for key, value in estadisticas.items %}
+            {% if key in 'Rating,Posesión promedio,Faltas por partido,Tarjetas amarillas,Tarjetas rojas' %}
+            <tr class="equipo-stat-row" onclick="window.location.href='{% url 'grafico_equipo' equipo.id key %}'">
+              <td class="stat-label-simple">{{ key }}</td>
+              <td class="stat-value-simple">{{ value }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
   </div>
   {% else %}
   <div class="equipo-stats-empty-simple">

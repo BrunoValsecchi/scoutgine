@@ -48,6 +48,21 @@ def equipo_detalle(request, equipo_id):
     print(f"🔍 Mostrando detalle del equipo ID: {equipo_id}")
     try:
         equipo = get_object_or_404(Equipo, id=equipo_id)
+        
+        # 🔥 IMPORT PROTEGIDO DE WIKIPEDIA
+        wikipedia_info = {'resumen': '', 'url': '', 'fundacion': '', 'estadio': '', 'error': None}
+        try:
+            from .wikipedia_info import obtener_info_wikipedia
+            print(f"🔎 Buscando Wikipedia para: {equipo.nombre}")
+            wikipedia_info = obtener_info_wikipedia(equipo)
+            print(f"📝 Wikipedia resultado: {wikipedia_info}")
+            print(f"📝 Resumen existe: {bool(wikipedia_info.get('resumen'))}")
+        except Exception as wiki_error:
+            print(f"⚠️ Error con Wikipedia: {wiki_error}")
+            import traceback
+            traceback.print_exc()
+            wikipedia_info['error'] = str(wiki_error)
+        
         orden_posiciones = [
             "ENTRENADOR", "COACH", "GK", "CB", "RB", "LB", "DEFENDER", "DM", "CM", "LM", "RM", "AM", "MIDFIELDER", "LW", "RW", "ST", "STRIKER"
         ]
@@ -104,9 +119,11 @@ def equipo_detalle(request, equipo_id):
             'total_jugadores': total_jugadores,
             'title': f'{equipo.nombre} - Plantilla',
             'estadisticas': estadisticas,
+            'wikipedia_info': wikipedia_info,  # ← AGREGAR ESTA LÍNEA
         }
         print(f"✅ Equipo: {equipo.nombre}")
         print(f"👥 Total jugadores: {total_jugadores}")
+        print(f"📝 Wikipedia: {'✓' if wikipedia_info.get('resumen') else '✗'}")
         return render(request, 'equipo_detalle.html', context)
     except Exception as e:
         print(f"❌ Error obteniendo equipo {equipo_id}: {e}")
