@@ -404,112 +404,112 @@ def generar_graficos_completos(equipo, estadistica, valor_equipo, equipos_nombre
 # AJAX ENDPOINTS
 # ============================================================================
 
-@csrf_exempt
-@require_POST
+@csrf_exempt  # Solo para pruebas, luego usa CSRF correctamente
 def ajax_grafico_dispersion(request):
-    """Vista AJAX para gráfico de dispersión dinámico"""
-    try:
-        data = json.loads(request.body)
-        equipo_id = data.get('equipo_id')
-        stat_principal = data.get('stat_principal')
-        stat_comparacion = data.get('stat_comparacion', 'Rating')
-        
-        print(f"🔍 AJAX Dispersión - Principal: {stat_principal}, Comparación: {stat_comparacion}")
-        
-        # MAPEO COMPLETO DE ESTADÍSTICAS
-        STAT_MAPPING = {
-            'Rating': 'fotmob_rating',
-            'Goles por partido': 'goals_per_match',
-            'Goles concedidos por partido': 'goals_conceded_per_match',
-            'Posesión promedio': 'average_possession',
-            'Vallas invictas': 'clean_sheets',
-            'Goles esperados (xG)': 'expected_goals_xg',
-            'Tiros al arco por partido': 'shots_on_target_per_match',
-            'Ocasiones claras': 'big_chances',
-            'Ocasiones claras falladas': 'big_chances_missed',
-            'xG concedido': 'xg_concedido',
-            'Intercepciones por partido': 'interceptions_per_match',
-            'Entradas exitosas por partido': 'successful_tackles_per_match',
-            'Despejes por partido': 'clearances_per_match',
-            'Atajadas por partido': 'saves_per_match',
-            'Faltas por partido': 'fouls_per_match',
-            'Tarjetas amarillas': 'yellow_cards',
-            'Tarjetas rojas': 'red_cards',
-            'Pases precisos por partido': 'accurate_passes_per_match',
-            'Pases largos precisos por partido': 'accurate_long_balls_per_match',
-            'Centros precisos por partido': 'accurate_crosses_per_match',
-            'Toques en el área rival': 'touches_in_opposition_box',
-            'Tiros de esquina': 'corners',
-            'Recuperaciones en el último tercio': 'possession_won_final_3rd_per_match',
-            'Penales a favor': 'penalties_awarded',
-        }
-        
-        field_principal = STAT_MAPPING.get(stat_principal)
-        field_comparacion = STAT_MAPPING.get(stat_comparacion)
-        
-        print(f"🔍 Fields - Principal: {field_principal}, Comparación: {field_comparacion}")
-        
-        if not field_principal:
-            return JsonResponse({
-                'success': False, 
-                'error': f'Estadística principal no válida: {stat_principal}'
-            })
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            equipo_id = data.get('equipo_id')
+            stat_principal = data.get('stat_principal')
+            stat_comparacion = data.get('stat_comparacion', 'Rating')
             
-        if not field_comparacion:
-            return JsonResponse({
-                'success': False, 
-                'error': f'Estadística de comparación no válida: {stat_comparacion}'
-            })
-        
-        # Obtener datos de todos los equipos
-        equipos_data = []
-        todos_equipos = EstadisticasEquipo.objects.select_related('equipo').all()
-        
-        print(f"🔍 Total equipos en BD: {todos_equipos.count()}")
-        
-        for eq_stat in todos_equipos:
-            val_principal = getattr(eq_stat, field_principal, None)
-            val_comparacion = getattr(eq_stat, field_comparacion, None)
+            print(f"🔍 AJAX Dispersión - Principal: {stat_principal}, Comparación: {stat_comparacion}")
             
-            if val_principal is not None and val_comparacion is not None:
-                try:
-                    equipos_data.append({
-                        'nombre': eq_stat.equipo.nombre_corto or eq_stat.equipo.nombre[:15],
-                        'stat_principal': float(val_principal),
-                        'stat_comparacion': float(val_comparacion),
-                        'es_actual': eq_stat.equipo.id == int(equipo_id)
-                    })
-                except (ValueError, TypeError):
-                    continue
-        
-        print(f"🔍 Equipos con datos válidos: {len(equipos_data)}")
-        
-        if not equipos_data:
-            return JsonResponse({
-                'success': False, 
-                'error': f'No se encontraron datos para {stat_principal} vs {stat_comparacion}'
-            })
-        
-        # Calcular promedios
-        promedio_principal = sum(eq['stat_principal'] for eq in equipos_data) / len(equipos_data)
-        promedio_comparacion = sum(eq['stat_comparacion'] for eq in equipos_data) / len(equipos_data)
-        
-        print(f"✅ Dispersión exitosa: {len(equipos_data)} equipos")
-        
-        return JsonResponse({
-            'success': True,
-            'chart_data': {
-                'equipos': equipos_data,
-                'promedio_principal': round(promedio_principal, 2),
-                'promedio_comparacion': round(promedio_comparacion, 2)
+            # MAPEO COMPLETO DE ESTADÍSTICAS
+            STAT_MAPPING = {
+                'Rating': 'fotmob_rating',
+                'Goles por partido': 'goals_per_match',
+                'Goles concedidos por partido': 'goals_conceded_per_match',
+                'Posesión promedio': 'average_possession',
+                'Vallas invictas': 'clean_sheets',
+                'Goles esperados (xG)': 'expected_goals_xg',
+                'Tiros al arco por partido': 'shots_on_target_per_match',
+                'Ocasiones claras': 'big_chances',
+                'Ocasiones claras falladas': 'big_chances_missed',
+                'xG concedido': 'xg_concedido',
+                'Intercepciones por partido': 'interceptions_per_match',
+                'Entradas exitosas por partido': 'successful_tackles_per_match',
+                'Despejes por partido': 'clearances_per_match',
+                'Atajadas por partido': 'saves_per_match',
+                'Faltas por partido': 'fouls_per_match',
+                'Tarjetas amarillas': 'yellow_cards',
+                'Tarjetas rojas': 'red_cards',
+                'Pases precisos por partido': 'accurate_passes_per_match',
+                'Pases largos precisos por partido': 'accurate_long_balls_per_match',
+                'Centros precisos por partido': 'accurate_crosses_per_match',
+                'Toques en el área rival': 'touches_in_opposition_box',
+                'Tiros de esquina': 'corners',
+                'Recuperaciones en el último tercio': 'possession_won_final_3rd_per_match',
+                'Penales a favor': 'penalties_awarded',
             }
-        })
-        
-    except Exception as e:
-        print(f"❌ Error AJAX dispersión: {e}")
-        import traceback
-        traceback.print_exc()
-        return JsonResponse({'success': False, 'error': str(e)})
+            
+            field_principal = STAT_MAPPING.get(stat_principal)
+            field_comparacion = STAT_MAPPING.get(stat_comparacion)
+            
+            print(f"🔍 Fields - Principal: {field_principal}, Comparación: {field_comparacion}")
+            
+            if not field_principal:
+                return JsonResponse({
+                    'success': False, 
+                    'error': f'Estadística principal no válida: {stat_principal}'
+                })
+                
+            if not field_comparacion:
+                return JsonResponse({
+                    'success': False, 
+                    'error': f'Estadística de comparación no válida: {stat_comparacion}'
+                })
+            
+            # Obtener datos de todos los equipos
+            equipos_data = []
+            todos_equipos = EstadisticasEquipo.objects.select_related('equipo').all()
+            
+            print(f"🔍 Total equipos en BD: {todos_equipos.count()}")
+            
+            for eq_stat in todos_equipos:
+                val_principal = getattr(eq_stat, field_principal, None)
+                val_comparacion = getattr(eq_stat, field_comparacion, None)
+                
+                if val_principal is not None and val_comparacion is not None:
+                    try:
+                        equipos_data.append({
+                            'nombre': eq_stat.equipo.nombre_corto or eq_stat.equipo.nombre[:15],
+                            'stat_principal': float(val_principal),
+                            'stat_comparacion': float(val_comparacion),
+                            'es_actual': eq_stat.equipo.id == int(equipo_id)
+                        })
+                    except (ValueError, TypeError):
+                        continue
+            
+            print(f"🔍 Equipos con datos válidos: {len(equipos_data)}")
+            
+            if not equipos_data:
+                return JsonResponse({
+                    'success': False, 
+                    'error': f'No se encontraron datos para {stat_principal} vs {stat_comparacion}'
+                })
+            
+            # Calcular promedios
+            promedio_principal = sum(eq['stat_principal'] for eq in equipos_data) / len(equipos_data)
+            promedio_comparacion = sum(eq['stat_comparacion'] for eq in equipos_data) / len(equipos_data)
+            
+            print(f"✅ Dispersión exitosa: {len(equipos_data)} equipos")
+            
+            return JsonResponse({
+                'success': True,
+                'chart_data': {
+                    'equipos': equipos_data,
+                    'promedio_principal': round(promedio_principal, 2),
+                    'promedio_comparacion': round(promedio_comparacion, 2)
+                }
+            })
+            
+        except Exception as e:
+            print(f"❌ Error AJAX dispersión: {e}")
+            import traceback
+            traceback.print_exc()
+            return JsonResponse({'success': False, 'error': str(e)})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
 
 @csrf_exempt
 @require_POST  

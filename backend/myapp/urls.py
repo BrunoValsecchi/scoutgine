@@ -3,6 +3,7 @@ from . import views
 from .grafico_equipo import ajax_radar_equipo
 
 
+
 urlpatterns = [
     path('', views.home, name='home'), 
     path('grafico/', views.grafico, name='grafico'),
