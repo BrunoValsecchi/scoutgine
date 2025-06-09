@@ -74,11 +74,14 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
                     body: JSON.stringify(requestData)
                 });
 
+                console.log('Respuesta fetch:', response);
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
+                console.log('JSON recibido:', data);
                 
                 if (data.success) {
                     this.crearGraficoDispersion(data.chart_data, statComparacion);
@@ -97,22 +100,21 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
 
         crearGraficoDispersion(data, statComparacion) {
             const chartContainer = document.getElementById('chart-dispersion');
+
+            chartContainer.style.width = '800px';
+            chartContainer.style.height = '700px';
             if (!chartContainer || !window.echarts) {
                 this.mostrarError('Error de configuración');
                 return;
             }
 
-                        // 👇 FORZAR ALTO Y ANCHO SIEMPRE ANTES DE INICIALIZAR
-            chartContainer.style.width = '1000px';
-            chartContainer.style.height = '800px'; // Cambia el alto a lo que quieras (ej: 400px, 500px)
-            
             if (this.dispersionChart) {
                 this.dispersionChart.dispose();
             }
             chartContainer.innerHTML = '';
 
-            this.dispersionChart = echarts.init(chartContainer, null, {
-                devicePixelRatio: window.devicePixelRatio || 1
+            this.dispersionChart = echarts.init(chartContainer, 'dark', {
+                devicePixelRatio: 2
             });
 
             const scatterData = data.equipos.map(equipo => [
@@ -122,35 +124,29 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
             ]);
             const equipoActual = data.equipos.find(eq => eq.es_actual);
 
-            // Calcular la media de X y Y
-            const xVals = scatterData.map(d => d[0]);
-            const yVals = scatterData.map(d => d[1]);
-            const meanX = xVals.reduce((a, b) => a + b, 0) / xVals.length;
-            const meanY = yVals.reduce((a, b) => a + b, 0) / yVals.length;
-
             const option = {
-                backgroundColor: 'transparent',
+                backgroundColor: '#181b23',
                 title: {
                     text: `${this.statName} vs ${statComparacion}`,
                     left: 'center',
-                    top: 10,
+                    top: 20,
                     textStyle: {
-                        color: '#00d4ff',
-                        fontSize: 20,
-                        fontWeight: 700,
+                        color: '#fff',
+                        fontSize: 26,
+                        fontWeight: 600,
                         fontFamily: 'Inter, Arial, sans-serif'
                     }
                 },
                 tooltip: {
                     trigger: 'item',
                     backgroundColor: '#23243a',
-                    borderColor: '#00d4ff',
-                    borderWidth: 1,
-                    textStyle: { color: '#fff', fontSize: 15 },
+                    borderColor: '#67aaff',
+                    borderWidth: 2,
+                    textStyle: { color: '#fff', fontSize: 16 },
                     formatter: params => {
                         const isCurrent = equipoActual && params.data[2] === equipoActual.nombre;
                         return `
-                            <div style="font-size:16px;font-weight:bold;color:${isCurrent ? '#FFD700' : '#00d4ff'};margin-bottom:6px;">
+                            <div style="font-size:17px;font-weight:bold;color:${isCurrent ? '#FFD700' : '#67aaff'};margin-bottom:6px;">
                                 ${isCurrent ? '⭐ ' : ''}${params.data[2]}
                             </div>
                             <div>${this.statName}: <b>${params.data[0]}</b></div>
@@ -159,30 +155,30 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
                     }
                 },
                 grid: {
-                    left: 60,
-                    right: 30,
-                    top: 60,
-                    bottom: 50,
+                    left: 80,
+                    right: 40,
+                    top: 80,
+                    bottom: 60,
                     containLabel: true
                 },
                 xAxis: {
                     type: 'value',
                     name: this.statName,
                     nameLocation: 'middle',
-                    nameGap: 30,
-                    nameTextStyle: { color: '#fff', fontSize: 15, fontWeight: 600 },
-                    axisLabel: { color: '#b0b8c9', fontSize: 13 },
-                    axisLine: { lineStyle: { color: '#00d4ff', width: 1 } },
+                    nameGap: 40,
+                    nameTextStyle: { color: '#fff', fontSize: 18, fontWeight: 600 },
+                    axisLabel: { color: '#b0b8c9', fontSize: 15 },
+                    axisLine: { lineStyle: { color: '#67aaff', width: 2 } },
                     splitLine: { lineStyle: { color: '#23243a', type: 'dashed' } }
                 },
                 yAxis: {
                     type: 'value',
                     name: statComparacion,
                     nameLocation: 'middle',
-                    nameGap: 40,
-                    nameTextStyle: { color: '#fff', fontSize: 15, fontWeight: 600 },
-                    axisLabel: { color: '#b0b8c9', fontSize: 13 },
-                    axisLine: { lineStyle: { color: '#00d4ff', width: 1 } },
+                    nameGap: 60,
+                    nameTextStyle: { color: '#fff', fontSize: 18, fontWeight: 600 },
+                    axisLabel: { color: '#b0b8c9', fontSize: 15 },
+                    axisLine: { lineStyle: { color: '#67aaff', width: 2 } },
                     splitLine: { lineStyle: { color: '#23243a', type: 'dashed' } }
                 },
                 series: [
@@ -191,7 +187,7 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
                         data: scatterData,
                         symbolSize: function(data) {
                             const equipo = data[2];
-                            return equipoActual && equipo === equipoActual.nombre ? 22 : 14;
+                            return equipoActual && equipo === equipoActual.nombre ? 28 : 18;
                         },
                         itemStyle: {
                             color: function(params) {
@@ -199,37 +195,21 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
                                 if (equipoActual && equipo === equipoActual.nombre) {
                                     return '#FFD700';
                                 }
-                                return '#00d4ff';
+                                return '#67aaff';
                             },
                             borderColor: '#fff',
-                            borderWidth: 1,
-                            opacity: 0.9,
-                            shadowBlur: 6,
-                            shadowColor: 'rgba(0,212,255,0.15)'
+                            borderWidth: 2,
+                            opacity: 0.85,
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(103,170,255,0.3)'
                         },
                         emphasis: {
                             itemStyle: {
                                 borderColor: '#FFD700',
-                                borderWidth: 2,
+                                borderWidth: 3,
                                 opacity: 1,
-                                shadowBlur: 12,
+                                shadowBlur: 20,
                                 shadowColor: '#FFD700'
-                            }
-                        },
-                        // --- LÍNEAS DE MEDIA ---
-                        markLine: {
-                            symbol: 'none',
-                            lineStyle: {
-                                color: '#FFD700',
-                                width: 2,
-                                type: 'dashed'
-                            },
-                            data: [
-                                { xAxis: meanX }, // Línea vertical en la media de X
-                                { yAxis: meanY }  // Línea horizontal en la media de Y
-                            ],
-                            label: {
-                                show: false
                             }
                         }
                     }
@@ -238,12 +218,16 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
 
             this.dispersionChart.setOption(option);
 
-            // Resize responsivo
-            window.addEventListener('resize', () => {
+                    // --- FIX: Usa una referencia única para el handler ---
+            if (this._resizeHandler) {
+                window.removeEventListener('resize', this._resizeHandler);
+            }
+            this._resizeHandler = () => {
                 if (this.dispersionChart && !this.dispersionChart.isDisposed()) {
                     this.dispersionChart.resize();
                 }
-            });
+            };
+            window.addEventListener('resize', this._resizeHandler);
         }
 
         mostrarError(mensaje) {
@@ -291,80 +275,73 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
         window.estadisticaFutbolInstance = new EstadisticaFutbol();
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const radarSelector = document.getElementById('radar-group-selector');
+    function cargarRadar(grupo = 'ofensivos') {
         const radarContainer = document.getElementById('radar-chart-container');
-        let radarChart = null;
+        if (!radarContainer || !window.equipoId) return;
+        radarContainer.style.width = '100%';
+        radarContainer.style.maxWidth = '600px';
+        radarContainer.style.height = '620px';
+        radarContainer.style.margin = '0 auto';
 
-        function cargarRadar(grupo) {
-            if (!radarContainer || !window.equipoId) {
-                console.log('No radarContainer o equipoId');
-                return;
-            }
-            if (radarChart) radarChart.dispose();
-            // Aumenta el alto aquí:
-            radarContainer.style.height = '650px'; // O el valor que prefieras, por ejemplo 600px
-            radarContainer.style.maxHeight = '700px'; // Opcional, para limitar el máximo
-            console.log('Cargando radar para grupo:', grupo, 'equipo:', window.equipoId);
-            fetch(`/ajax/radar-equipo/?equipo_id=${window.equipoId}&grupo=${grupo}`)
-                .then(resp => resp.json())
-                .then(data => {
-                    console.log('Datos radar:', data);
-                    radarChart = echarts.init(radarContainer, null, {devicePixelRatio: 2});
-                    radarChart.setOption({
-                        backgroundColor: 'transparent',
-                        tooltip: {trigger: 'item'},
-                        legend: {
-                            data: ['Equipo', 'Promedio Liga'],
-                            top: 10,
-                            textStyle: {color: '#fff'}
-                        },
-                        radar: {
-                            indicator: data.labels.map(l => ({name: l, max: data.max})),
-                            splitLine: {lineStyle: {color: '#23243a'}},
-                            splitArea: {areaStyle: {color: ['#23243a','#181b23']}},
-                            axisName: {
-                                color: '#00d4ff',
-                                fontSize: 13,
-                                // 👇 Salto de línea solo al finalizar palabra, cada ~14 caracteres
-                                formatter: function(value) {
-                                    // Divide en palabras y arma líneas de hasta 14 caracteres
-                                    const palabras = value.split(' ');
-                                    let linea = '';
-                                    let resultado = '';
-                                    for (let palabra of palabras) {
-                                        if ((linea + ' ' + palabra).trim().length > 14) {
-                                            resultado += linea.trim() + '\n';
-                                            linea = palabra + ' ';
-                                        } else {
-                                            linea += palabra + ' ';
-                                        }
+        fetch(`/ajax/radar-equipo/?equipo_id=${window.equipoId}&grupo=${grupo}`)
+            .then(resp => resp.json())
+            .then(data => {
+                const radarChart = echarts.init(radarContainer, null, {devicePixelRatio: 2});
+                radarChart.setOption({
+                    backgroundColor: 'transparent',
+                    tooltip: {trigger: 'item'},
+                    legend: {
+                        data: ['Equipo', 'Promedio Liga'],
+                        top: 10,
+                        textStyle: {color: '#fff'}
+                    },
+                    radar: {
+                        indicator: data.labels.map(l => ({name: l, max: data.max})),
+                        splitLine: {lineStyle: {color: '#23243a'}},
+                        splitArea: {areaStyle: {color: ['#23243a','#181b23']}},
+                        axisName: {
+                            color: '#00d4ff',
+                            fontSize: 13,
+                            formatter: function(value) {
+                                // Salto de línea solo al finalizar palabra, cada ~14 caracteres
+                                const palabras = value.split(' ');
+                                let linea = '';
+                                let resultado = '';
+                                for (let palabra of palabras) {
+                                    if ((linea + ' ' + palabra).trim().length > 14) {
+                                        resultado += linea.trim() + '\n';
+                                        linea = palabra + ' ';
+                                    } else {
+                                        linea += palabra + ' ';
                                     }
-                                    resultado += linea.trim();
-                                    return resultado;
                                 }
+                                resultado += linea.trim();
+                                return resultado;
                             }
-                        },
-                        series: [{
-                            type: 'radar',
-                            data: [
-                                {value: data.equipo, name: 'Equipo', areaStyle: {color: 'rgba(0,212,255,0.3)'}},
-                                {value: data.promedio, name: 'Promedio Liga', areaStyle: {color: 'rgba(255,215,0,0.15)'}}
-                            ],
-                            symbolSize: 6,
-                            lineStyle: {width: 2}
-                        }]
-                    });
-                })
-                .catch(err => {
-                    console.error('Error cargando radar:', err);
+                        }
+                    },
+                    series: [{
+                        type: 'radar',
+                        data: [
+                            {value: data.equipo, name: 'Equipo', areaStyle: {color: 'rgba(0,212,255,0.3)'}},
+                            {value: data.promedio, name: 'Promedio Liga', areaStyle: {color: 'rgba(255,215,0,0.15)'}}
+                        ],
+                        symbolSize: 6,
+                        lineStyle: {width: 2}
+                    }]
                 });
-        }
+            });
+    }
 
-        if (radarSelector) {
-            radarSelector.addEventListener('change', e => cargarRadar(e.target.value));
-            // Cargar el radar inicial
-            cargarRadar(radarSelector.value);
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.equipoId) {
+            cargarRadar('ofensivos');
+            const radarSelector = document.getElementById('radar-group-selector');
+            if (radarSelector) {
+                radarSelector.addEventListener('change', function() {
+                    cargarRadar(this.value);
+                });
+            }
         }
     });
 }
