@@ -1,0 +1,108 @@
+<div class="player-hero">
+    {% if equipo %}
+    <a href="{% url 'equipo_detalle' equipo.id %}" class="back-btn">
+        <i class="bx bx-arrow-back"></i>
+        <span>Volver</span>
+    </a>
+    {% endif %}
+    
+    <div class="player-card">
+        <div class="player-avatar">
+            {% if jugador.foto %}
+                <img src="{{ jugador.foto }}" alt="{{ nombre_limpio }}" class="player-image">
+            {% elif equipo.logo %}
+                <div class="team-badge">
+                    <img src="{{ equipo.logo }}" alt="{{ equipo.nombre }}">
+                </div>
+            {% else %}
+                <div class="player-initial">{{ nombre_limpio|first|upper }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="player-info">
+            <h1 class="player-name">{{ nombre_limpio|default:jugador.nombre }}</h1>
+            
+            <div class="player-meta">
+                <div class="position-badge">
+                    {% if jugador.posicion == 'Arquero' %}
+                        <span class="badge goalkeeper"><i class='bx bxs-shield'></i> Arquero</span>
+                    {% elif jugador.posicion == 'Defensor' %}
+                        <span class="badge defender"><i class='bx bxs-shield-quarter'></i> Defensor</span>
+                    {% elif jugador.posicion == 'Mediocampista' %}
+                        <span class="badge midfielder"><i class='bx bxs-target-lock'></i> Mediocampo</span>
+                    {% elif jugador.posicion == 'Delantero' %}
+                        <span class="badge forward"><i class='bx bxs-football'></i> Delantero</span>
+                    {% else %}
+                        <span class="badge default"><i class='bx bxs-user'></i> {{ jugador.posicion }}</span>
+                    {% endif %}
+                </div>
+                
+                {% if equipo %}
+                <div class="team-info">
+                    {% if equipo.logo %}
+                        <img src="{{ equipo.logo }}" alt="{{ equipo.nombre }}" class="team-mini-logo">
+                    {% endif %}
+                    <span>{{ equipo.nombre }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ESTADÍSTICAS PRINCIPALES -->
+<div class="player-stats">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-number">{{ jugador.edad|default:"--" }}</div>
+            <div class="stat-label">Años</div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-number">{{ jugador.dorsal|default:"--" }}</div>
+            <div class="stat-label">Dorsal</div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-number">
+                {% if jugador.altura %}{{ jugador.altura|floatformat:0 }}{% else %}--{% endif %}
+            </div>
+            <div class="stat-label">cm</div>
+        </div>
+        
+        <div class="stat-item">
+            <div class="stat-number valor-market">
+                {% if jugador.valor %}
+                    {% if jugador.valor >= 1000000 %}
+                        {{ jugador.valor|floatformat:1|cut:".0" }}M
+                    {% else %}
+                        {{ jugador.valor|floatformat:0 }}K
+                    {% endif %}
+                {% else %}
+                    --
+                {% endif %}
+            </div>
+            <div class="stat-label">Valor (€)</div>
+        </div>
+    </div>
+    
+    <div class="nationality-section">
+        <div class="nationality-card">
+            {% if jugador.nacionalidad_bandera %}
+                <img src="{{ jugador.nacionalidad_bandera }}" class="flag" alt="{{ jugador.pais }}">
+            {% endif %}
+            <span class="country">{{ jugador.pais|default:"Desconocido" }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- INFORMACIÓN DE WIKIPEDIA -->
+<div class="wikipedia-section">
+    <div class="section-header">
+        <i class="bx bx-book-open"></i>
+        <h3>Biografía</h3>
+    </div>
+    <div class="wiki-content">
+        {{ contenido|linebreaks }}
+    </div>
+</div>

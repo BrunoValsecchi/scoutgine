@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Posicion, Equipo, EstadisticasEquipo
+from .models import Posicion, Equipo, EstadisticasEquipo, Jugador
 import json
 import random
+import numpy as np
 
 # ============================================================================
 # VISTAS PRINCIPALES
@@ -53,7 +54,7 @@ def jugadores(request):
     return jugadores_func(request)
 
 def jugador_detalle(request, jugador_id):
-    from .jugadores import jugador_detalle as jugador_detalle_func
+    from .detalle_jugador import jugador_detalle as jugador_detalle_func
     return jugador_detalle_func(request, jugador_id)
 
 def posiciones(request):
@@ -67,7 +68,9 @@ def buscar(request):
 def index(request):
     from .index import index as index_func
     return index_func(request)
-
+def jugador_detalle(request, jugador_id):
+    from .detalle_jugador import jugador_detalle as jugador_detalle_func
+    return jugador_detalle_func(request, jugador_id)
 # ============================================================================
 # API ENDPOINTS
 # ============================================================================
@@ -529,4 +532,65 @@ def ajax_analisis_correlacion(request):
         
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
+
+
+def get_stats_data(stat_name, equipo_id=None):
+    STAT_MAPPING = {
+        'Rating': 'fotmob_rating',
+        'Goles por partido': 'goals_per_match',
+        'Goles concedidos por partido': 'goals_conceded_per_match',
+        'Posesión promedio': 'average_possession',
+        'Vallas invictas': 'clean_sheets',
+        'Goles esperados (xG)': 'expected_goals_xg',
+        'Tiros al arco por partido': 'shots_on_target_per_match',
+        'Ocasiones claras': 'big_chances',
+        'Ocasiones claras falladas': 'big_chances_missed',
+        'xG concedido': 'xg_concedido',
+        'Intercepciones por partido': 'interceptions_per_match',
+        'Entradas exitosas por partido': 'successful_tackles_per_match',
+        'Despejes por partido': 'clearances_per_match',
+        'Atajadas por partido': 'saves_per_match',
+        'Faltas por partido': 'fouls_per_match',
+        'Tarjetas amarillas': 'yellow_cards',
+        'Tarjetas rojas': 'red_cards',
+        'Pases precisos por partido': 'accurate_passes_per_match',
+        'Pases largos precisos por partido': 'accurate_long_balls_per_match',
+        'Centros precisos por partido': 'accurate_crosses_per_match',
+        'Toques en el área rival': 'touches_in_opposition_box',
+        'Tiros de esquina': 'corners',
+        'Recuperaciones en el último tercio': 'possession_won_final_3rd_per_match',
+        'Penales a favor': 'penalties_awarded',
+    }
+    field_name = STAT_MAPPING.get(stat_name)
+    if not field_name:
+        return [], None
+
+    equipos_stats = EstadisticasEquipo.objects.select_related('equipo').exclude(**{f"{field_name}__isnull": True})
+    equipos_valores = []
+    valor_equipo = None
+    for eq_stat in equipos_stats:
+        valor = getattr(eq_stat, field_name, None)
+        if valor is not None:
+            equipos_valores.append(float(valor))
+            if equipo_id and str(eq_stat.equipo.id) == str(equipo_id):
+                valor_equipo = float(valor)
+    return equipos_valores, valor_equipo
+def ajax_boxplot_estadistica(request):
+    stat_id = request.GET.get('stat_id')
+    equipo_id = request.GET.get('equipo_id')
+    equipos_valores, valor_equipo = get_stats_data(stat_id, equipo_id)
+    if not equipos_valores:
+        return JsonResponse({'success': False, 'error': 'Sin datos'})
+    # Boxplot: min, Q1, median, Q3, max
+    q1 = np.percentile(equipos_valores, 25)
+    q2 = np.percentile(equipos_valores, 50)
+    q3 = np.percentile(equipos_valores, 75)
+    box = [min(equipos_valores), q1, q2, q3, max(equipos_valores)]
+    return JsonResponse({
+        'success': True,
+        'stat': stat_id,
+        'box': box,
+        'valores': equipos_valores,
+        'valor_equipo': valor_equipo,
+    })
 

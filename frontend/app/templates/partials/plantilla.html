@@ -23,7 +23,11 @@
                 </div>
                 {% for jugador in jugadores %}
                 <div class="jugador-row">
-                    <div class="jugador-td nombre">{{ jugador.nombre }}</div>
+                    <div class="jugador-td nombre">
+                        <a href="{% url 'jugador_detalle' jugador.id %}" class="jugador-link">
+                            {{ jugador.nombre }}
+                        </a>
+                    </div>
                     <div class="jugador-td posicion">
                         {% if jugador.posicion == 'Arquero' %}
                             <span class="pos-tag arquero"><i class='bx bx-shield'></i> ARQ</span>

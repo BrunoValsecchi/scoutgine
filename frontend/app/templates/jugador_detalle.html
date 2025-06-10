@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ jugador.nombre }} | Detalle de Jugador</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/jugadores_detalle.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}">
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    {% include 'partials/topnav.html' %}
+
+    <main class="main-content">
+
+       
+
+        {% include 'partials/descjugadores.html' %}
+    </main>
+</body>
+</html>

@@ -43,6 +43,11 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
                 
                 // Cargar gráfico inicial
                 this.cargarGraficoDispersion();
+
+                // --- AGREGADO: cargar boxplot ---
+                if (this.statName && this.equipoId) {
+                    cargarBoxplot(this.statName, this.equipoId);
+                }
             } else {
                 console.log('❌ Selector no encontrado');
             }
@@ -285,7 +290,7 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
 
         fetch(`/ajax/radar-equipo/?equipo_id=${window.equipoId}&grupo=${grupo}`)
             .then(resp => resp.json())
-            .then(data => {
+            .then (data => {
                 const radarChart = echarts.init(radarContainer, null, {devicePixelRatio: 2});
                 radarChart.setOption({
                     backgroundColor: 'transparent',
@@ -344,4 +349,98 @@ if (typeof window.EstadisticaFutbolLoaded === 'undefined') {
             }
         }
     });
+
+    function cargarBoxplot(statId, equipoId) {
+        const boxplotContainer = document.getElementById('boxplot-chart-container');
+        console.log('[Boxplot] Contenedor:', boxplotContainer);
+        if (!boxplotContainer) {
+            console.warn('[Boxplot] No se encontró el contenedor');
+            return;
+        }
+        boxplotContainer.style.width = '100%';
+        boxplotContainer.style.maxWidth = '700px';
+        boxplotContainer.style.height = '340px';
+        boxplotContainer.style.margin = '0 auto 32px auto';
+
+        console.log(`[Boxplot] Fetch: /ajax/boxplot-estadistica/?stat_id=${encodeURIComponent(statId)}&equipo_id=${equipoId}`);
+        fetch(`/ajax/boxplot-estadistica/?stat_id=${encodeURIComponent(statId)}&equipo_id=${equipoId}`)
+            .then(resp => {
+                console.log('[Boxplot] Respuesta fetch:', resp);
+                return resp.json();
+            })
+            .then(data => {
+                console.log('[Boxplot] Datos recibidos:', data);
+                if (!data.success) {
+                    boxplotContainer.innerHTML = '<div style="color:#fff;text-align:center;">' + data.error + '</div>';
+                    return;
+                }
+                const echartsBox = echarts.init(boxplotContainer, null, {devicePixelRatio: 2});
+                console.log('[Boxplot] Inicializando ECharts...');
+                echartsBox.setOption({
+                    backgroundColor: 'transparent',
+                    title: {
+                        text: `Distribución de ${data.stat}`,
+                        left: 'center',
+                        textStyle: {color: '#00d4ff', fontSize: 18, fontWeight: 600}
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function (param) {
+                            if (param.seriesType === 'boxplot') {
+                                // param.data = [min, Q1, median, Q3, max]
+                                return `
+                                    <b>Estadística:</b> ${data.stat}<br>
+                                    <b>Mínimo:</b> ${param.data[1]}<br>
+                                    <b>Q1:</b> ${param.data[2]}<br>
+                                    <b>Mediana:</b> ${param.data[3]}<br>
+                                    <b>Q3:</b> ${param.data[4]}<br>
+                                    <b>Máximo:</b> ${param.data[5]}
+                                `;
+                            } else if (param.seriesType === 'scatter') {
+                                return `<b>Equipo actual:</b> ${param.data[0]}`;
+                            }
+                        }
+                    },
+                    grid: {top: 60, bottom: 50, left: 80, right: 40, containLabel: true},
+                    xAxis: {
+                        type: 'value',
+                        name: data.stat,
+                        nameLocation: 'middle',
+                        nameGap: 40,
+                        nameTextStyle: { color: '#fff', fontSize: 16, fontWeight: 600 },
+                        axisLabel: { color: '#b0b8c9', fontSize: 15 },
+                        axisLine: { lineStyle: { color: '#67aaff', width: 2 } },
+                        splitLine: { lineStyle: { color: '#23243a', type: 'dashed' } }
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: [''],
+                        axisLabel: { color: '#fff', fontSize: 16 },
+                        axisLine: { lineStyle: { color: '#67aaff', width: 2 } }
+                    },
+                    series: [
+                        {
+                            name: 'Distribución',
+                            type: 'boxplot',
+                            data: [data.box],
+                            itemStyle: {color: '#00d4ff', borderColor: '#fff'}
+                        },
+                        (data.valor_equipo !== null && !isNaN(data.valor_equipo)) ? {
+                            name: 'Equipo actual',
+                            type: 'scatter',
+                            data: [[data.valor_equipo, 0]], // <--- X = valor, Y = 0 (única categoría)
+                            symbolSize: 18,
+                            itemStyle: {color: '#FFD700', borderColor: '#fff', borderWidth: 2},
+                            tooltip: {formatter: 'Equipo actual: {c}'}
+                        } : {}
+                    ]
+                });
+                console.log('[Boxplot] Boxplot dibujado');
+            })
+            .catch(err => {
+                console.error('[Boxplot] Error en fetch o ECharts:', err);
+                boxplotContainer.innerHTML = '<div style="color:#ff6b6b;text-align:center;">Error al cargar el boxplot</div>';
+            });
+    }
+
 }
