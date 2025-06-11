@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Jugador, Equipo
+from .models import Jugador, Equipo, EstadisticasJugador
 import wikipedia
 import re
 
@@ -96,9 +96,13 @@ def jugador_detalle(request, jugador_id):
         print(f"❌ Error Wikipedia para '{nombre_limpio}': {e}")
         contenido = "No se encontró información en Wikipedia para este jugador."
 
+    # Obtener estadísticas del jugador
+    estadisticas = EstadisticasJugador.objects.filter(jugador=jugador).first()
+
     return render(request, "jugador_detalle.html", {
         "jugador": jugador,
         "equipo": equipo,
         "nombre_limpio": nombre_limpio,
         "contenido": contenido,
+        "estadisticas": estadisticas,
     })

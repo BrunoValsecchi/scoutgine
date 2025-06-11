@@ -1,22 +1,44 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>{{ jugador.nombre }} | Detalle de Jugador</title>
-    <link rel="stylesheet" href="{% static 'myapp/css/jugadores_detalle.css' %}">
-    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}">
-    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}">
-</head>
-<body>
-    {% include 'partials/header.html' %}
+    <link rel="stylesheet" href="{% static 'myapp/css/jugadores_detalle.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  </head>
+  <body>
+    {% include 'partials/header.html' %} 
     {% include 'partials/topnav.html' %}
 
     <main class="main-content">
-
-       
-
+      <!-- 📋 CONTENIDO DE INFORMACIÓN (visible por defecto) -->
+      <div id="info-container">
         {% include 'partials/descjugadores.html' %}
+      </div>
+
+      <!-- 📊 CONTENIDO DE ESTADÍSTICAS (oculto por defecto) -->
+      <div id="stats-container" style="display: none;">
+        {% include 'partials/jugadores_stats.html' %}
+      </div>
     </main>
-</body>
+
+    <!-- ✅ SCRIPTS NECESARIOS -->
+    <script src="{% static 'myapp/js/topnav.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log("🎯 Página de jugador cargada");
+        
+        const currentPath = window.location.pathname;
+        console.log("📍 Ruta actual:", currentPath);
+        
+        if (currentPath.match(/^\/jugador\/\d+\/$/)) {
+          console.log("⚽ Configurando botones de jugador");
+          setupJugadorButtons();
+        }
+      });
+    </script>
+  </body>
 </html>

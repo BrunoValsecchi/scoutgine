@@ -66,6 +66,17 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
+    // Detectar si es página de jugador específico
+    if (currentPath.match(/^\/jugador\/\d+\/$/)) {
+        const jugadorNombre = document.querySelector('.player-name')?.textContent || 
+                             document.querySelector('.jugador-nombre')?.textContent || 'Jugador';
+        pageConfig[currentPath] = {
+            icon: 'bx-user',
+            title: jugadorNombre,
+            subtitle: '/ Perfil del Jugador'
+        };
+    }
+    
     console.log("Configuraciones disponibles:", Object.keys(pageConfig));
     
     // Actualizar header si existe configuración
@@ -117,6 +128,26 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupNavButtons() {
     console.log("=== CONFIGURANDO BOTONES DE NAVEGACIÓN ===");
     
+    const currentPath = window.location.pathname;
+    
+    // CONFIGURACIÓN PARA PÁGINAS DE LIGAS Y EQUIPOS
+    if (currentPath.includes('/ligas/') || currentPath.match(/^\/equipo\/\d+\/$/)) {
+        setupLigasEquiposButtons();
+    }
+    
+    // CONFIGURACIÓN PARA PÁGINAS DE JUGADORES
+    if (currentPath.match(/^\/jugador\/\d+\/$/)) {
+        setupJugadorButtons();
+    }
+    
+    // CONFIGURACIÓN PARA PÁGINAS DE ESTADÍSTICAS
+    if (currentPath.includes('/estadisticas/')) {
+        setupEstadisticasButtons();
+    }
+}
+
+// Configuración para ligas y equipos (existente)
+function setupLigasEquiposButtons() {
     const btnTablas = document.getElementById('btn-tablas');
     const btnStatsEquipo = document.getElementById('btn-stats-equipo');
     const btnStatsJugadores = document.getElementById('btn-stats-jugadores');
@@ -234,6 +265,171 @@ function setupNavButtons() {
     }
 }
 
+// NUEVA: Configuración para páginas de jugadores (CORREGIDA)
+function setupJugadorButtons() {
+    console.log("=== CONFIGURANDO BOTONES DE JUGADOR ===");
+    
+    const btnInfo = document.getElementById('btn-info');
+    const btnStats = document.getElementById('btn-stats');
+    
+    // Contenedores principales
+    const infoContainer = document.getElementById('info-container');
+    const statsContainer = document.getElementById('stats-container');
+
+    console.log("Elementos encontrados:", {
+        btnInfo: !!btnInfo,
+        btnStats: !!btnStats,
+        infoContainer: !!infoContainer,
+        statsContainer: !!statsContainer
+    });
+
+    function removeAllActive() {
+        btnInfo?.classList.remove('active');
+        btnStats?.classList.remove('active');
+    }
+
+    function showInfo() {
+        console.log("📋 Mostrando información");
+        removeAllActive();
+        btnInfo?.classList.add('active');
+        
+        // Mostrar información, ocultar estadísticas
+        if (infoContainer) {
+            infoContainer.style.display = '';
+            console.log("✅ Info container mostrado");
+        }
+        if (statsContainer) {
+            statsContainer.style.display = 'none';
+            console.log("✅ Stats container ocultado");
+        }
+    }
+
+    function showStats() {
+        console.log("📊 Mostrando estadísticas");
+        removeAllActive();
+        btnStats?.classList.add('active');
+        
+        // Ocultar información, mostrar estadísticas
+        if (infoContainer) {
+            infoContainer.style.display = 'none';
+            console.log("✅ Info container ocultado");
+        }
+        if (statsContainer) {
+            statsContainer.style.display = '';
+            console.log("✅ Stats container mostrado");
+        }
+    }
+
+    // Event listeners
+    if (btnInfo) {
+        btnInfo.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("🖱️ Click en botón INFO");
+            showInfo();
+        });
+    }
+
+    if (btnStats) {
+        btnStats.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("🖱️ Click en botón STATS");
+            showStats();
+        });
+    }
+
+    // Mostrar información por defecto
+    showInfo();
+}
+
+// NUEVA: Configuración para páginas de estadísticas
+function setupEstadisticasButtons() {
+    console.log("=== CONFIGURANDO BOTONES DE ESTADÍSTICAS ===");
+    
+    const btnGeneral = document.getElementById('btn-general');
+    const btnOfensivo = document.getElementById('btn-ofensivo');
+    const btnDefensivo = document.getElementById('btn-defensivo');
+    const btnPortero = document.getElementById('btn-portero');
+    
+    // Contenedores
+    const generalContainer = document.getElementById('general-container');
+    const ofensivoContainer = document.getElementById('ofensivo-container');
+    const defensivoContainer = document.getElementById('defensivo-container');
+    const porteroContainer = document.getElementById('portero-container');
+
+    console.log("Elementos de estadísticas encontrados:", {
+        btnGeneral: !!btnGeneral,
+        btnOfensivo: !!btnOfensivo,
+        btnDefensivo: !!btnDefensivo,
+        btnPortero: !!btnPortero,
+        generalContainer: !!generalContainer,
+        ofensivoContainer: !!ofensivoContainer,
+        defensivoContainer: !!defensivoContainer,
+        porteroContainer: !!porteroContainer
+    });
+
+    function removeAllActiveStats() {
+        btnGeneral?.classList.remove('active');
+        btnOfensivo?.classList.remove('active');
+        btnDefensivo?.classList.remove('active');
+        btnPortero?.classList.remove('active');
+    }
+
+    function hideAllContainersStats() {
+        if (generalContainer) generalContainer.style.display = 'none';
+        if (ofensivoContainer) ofensivoContainer.style.display = 'none';
+        if (defensivoContainer) defensivoContainer.style.display = 'none';
+        if (porteroContainer) porteroContainer.style.display = 'none';
+    }
+
+    // Botón General
+    if (btnGeneral) {
+        btnGeneral.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN GENERAL CLICKEADO ===");
+            removeAllActiveStats();
+            hideAllContainersStats();
+            btnGeneral.classList.add('active');
+            if (generalContainer) generalContainer.style.display = '';
+        });
+    }
+
+    // Botón Ofensivo
+    if (btnOfensivo) {
+        btnOfensivo.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN OFENSIVO CLICKEADO ===");
+            removeAllActiveStats();
+            hideAllContainersStats();
+            btnOfensivo.classList.add('active');
+            if (ofensivoContainer) ofensivoContainer.style.display = '';
+        });
+    }
+
+    // Botón Defensivo
+    if (btnDefensivo) {
+        btnDefensivo.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN DEFENSIVO CLICKEADO ===");
+            removeAllActiveStats();
+            hideAllContainersStats();
+            btnDefensivo.classList.add('active');
+            if (defensivoContainer) defensivoContainer.style.display = '';
+        });
+    }
+
+    // Botón Portero
+    if (btnPortero) {
+        btnPortero.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN PORTERO CLICKEADO ===");
+            removeAllActiveStats();
+            hideAllContainersStats();
+            btnPortero.classList.add('active');
+            if (porteroContainer) porteroContainer.style.display = '';
+        });
+    }
+}
+
 // Función para marcar el elemento activo en el sidebar
 function markActiveMenuItem(currentPath) {
     console.log("Marcando elemento activo para:", currentPath);
@@ -263,6 +459,16 @@ function markActiveMenuItem(currentPath) {
         if (activeLink) {
             activeLink.classList.add('active');
             console.log("Elemento activo marcado para equipo:", activeLink.textContent.trim());
+        }
+        return;
+    }
+    
+    // Para páginas de jugador específico, marcar el enlace de jugadores
+    if (currentPath.match(/^\/jugador\/\d+\/$/)) {
+        const activeLink = document.querySelector('a[href*="jugadores"]');
+        if (activeLink) {
+            activeLink.classList.add('active');
+            console.log("Elemento activo marcado para jugador:", activeLink.textContent.trim());
         }
         return;
     }

@@ -1,0 +1,254 @@
+<!-- ESTADÍSTICAS DEL JUGADOR -->
+{% if estadisticas %}
+<div class="jugador-stats-detalladas">
+    <div class="stats-title">
+        <i class="bx bx-bar-chart-alt-2"></i>
+        Estadísticas de la Temporada
+    </div>
+    
+    <div class="stats-categories">
+        <!-- 🔴 ESTADÍSTICAS OFENSIVAS -->
+        <div class="stats-category">
+            <h4>
+                <span class="circle-red">●</span>
+                Ofensivos
+            </h4>
+            <div class="stats-grid-detailed">
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Goles' %}">
+                        <span class="stat-label">Goles</span>
+                        <span class="stat-value">{{ estadisticas.goals|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Goles esperados (xG)' %}">
+                        <span class="stat-label">Goles esperados (xG)</span>
+                        <span class="stat-value">{{ estadisticas.expected_goals_xg|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Tiros al arco' %}">
+                        <span class="stat-label">Tiros al arco</span>
+                        <span class="stat-value">{{ estadisticas.shots_on_target|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Tiros totales' %}">
+                        <span class="stat-label">Tiros totales</span>
+                        <span class="stat-value">{{ estadisticas.shots|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Asistencias' %}">
+                        <span class="stat-label">Asistencias</span>
+                        <span class="stat-value">{{ estadisticas.assists|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Penales a favor' %}">
+                        <span class="stat-label">Penales a favor</span>
+                        <span class="stat-value">{{ estadisticas.penalties_awarded|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Ocasiones claras falladas' %}">
+                        <span class="stat-label">Ocasiones claras falladas</span>
+                        <span class="stat-value">{{ estadisticas.big_chances_missed|default:0 }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🟢 ESTADÍSTICAS DEFENSIVAS -->
+        <div class="stats-category">
+            <h4>
+                <span class="circle-green">●</span>
+                Defensivos
+            </h4>
+            <div class="stats-grid-detailed">
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Goles concedidos' %}">
+                        <span class="stat-label">Goles concedidos</span>
+                        <span class="stat-value">{{ estadisticas.goals_conceded|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Vallas invictas' %}">
+                        <span class="stat-label">Vallas invictas</span>
+                        <span class="stat-value">{{ estadisticas.clean_sheets|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'xG concedido' %}">
+                        <span class="stat-label">xG concedido</span>
+                        <span class="stat-value">{{ estadisticas.expected_goals_conceded_xgc|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Entradas exitosas' %}">
+                        <span class="stat-label">Entradas exitosas</span>
+                        <span class="stat-value">{{ estadisticas.tackles_won|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Intercepciones' %}">
+                        <span class="stat-label">Intercepciones</span>
+                        <span class="stat-value">{{ estadisticas.interceptions|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Despejes' %}">
+                        <span class="stat-label">Despejes</span>
+                        <span class="stat-value">{{ estadisticas.blocked|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Recuperaciones último tercio' %}">
+                        <span class="stat-label">Recuperaciones último tercio</span>
+                        <span class="stat-value">{{ estadisticas.recoveries|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Atajadas' %}">
+                        <span class="stat-label">Atajadas</span>
+                        <span class="stat-value">{{ estadisticas.saves|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🟨 ESTADÍSTICAS DE CREACIÓN -->
+        <div class="stats-category">
+            <h4>
+                <span class="circle-yellow">●</span>
+                Creación
+            </h4>
+            <div class="stats-grid-detailed">
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Pases precisos por partido' %}">
+                        <span class="stat-label">Pases precisos por partido</span>
+                        <span class="stat-value">{{ estadisticas.successful_passes|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Precisión de pases' %}">
+                        <span class="stat-label">Precisión de pases</span>
+                        <span class="stat-value">{{ estadisticas.pass_accuracy_outfield|default:0|floatformat:1 }}%</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Pases largos precisos' %}">
+                        <span class="stat-label">Pases largos precisos</span>
+                        <span class="stat-value">{{ estadisticas.accurate_long_balls_outfield|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Centros precisos' %}">
+                        <span class="stat-label">Centros precisos</span>
+                        <span class="stat-value">{{ estadisticas.successful_crosses|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Ocasiones creadas' %}">
+                        <span class="stat-label">Ocasiones creadas</span>
+                        <span class="stat-value">{{ estadisticas.chances_created|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Toques en área rival' %}">
+                        <span class="stat-label">Toques en área rival</span>
+                        <span class="stat-value">{{ estadisticas.touches_in_opposition_box|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Tiros de esquina' %}">
+                        <span class="stat-label">Tiros de esquina</span>
+                        <span class="stat-value">{{ estadisticas.corners_taken|default:0 }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔵 ESTADÍSTICAS GENERALES -->
+        <div class="stats-category">
+            <h4>
+                <span class="circle-blue">●</span>
+                Generales
+            </h4>
+            <div class="stats-grid-detailed">
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Rating' %}">
+                        <span class="stat-label">Rating</span>
+                        <span class="stat-value rating-highlight">{{ estadisticas.average_rating|default:0|floatformat:2 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Partidos jugados' %}">
+                        <span class="stat-label">Partidos jugados</span>
+                        <span class="stat-value">{{ estadisticas.appearances|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Minutos jugados' %}">
+                        <span class="stat-label">Minutos jugados</span>
+                        <span class="stat-value">{{ estadisticas.minutes_played|default:0 }}'</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Posesión promedio' %}">
+                        <span class="stat-label">Posesión promedio</span>
+                        <span class="stat-value">{{ estadisticas.possession_percentage|default:0|floatformat:1 }}%</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Toques totales' %}">
+                        <span class="stat-label">Toques totales</span>
+                        <span class="stat-value">{{ estadisticas.touches|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Duelos ganados' %}">
+                        <span class="stat-label">Duelos ganados</span>
+                        <span class="stat-value">{{ estadisticas.duels_won_percentage|default:0|floatformat:1 }}%</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Duelos aéreos ganados' %}">
+                        <span class="stat-label">Duelos aéreos ganados</span>
+                        <span class="stat-value">{{ estadisticas.aerial_duels_won_percentage|default:0|floatformat:1 }}%</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Faltas por partido' %}">
+                        <span class="stat-label">Faltas por partido</span>
+                        <span class="stat-value">{{ estadisticas.fouls_committed|default:0|floatformat:1 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Tarjetas amarillas' %}">
+                        <span class="stat-label">Tarjetas amarillas</span>
+                        <span class="stat-value" style="color: #fbbf24; font-weight: 800;">{{ estadisticas.yellow_cards|default:0 }}</span>
+                    </a>
+                </div>
+                <div class="stat-item-detailed">
+                    <a href="{% url 'grafico_jugador' jugador.id 'Tarjetas rojas' %}">
+                        <span class="stat-label">Tarjetas rojas</span>
+                        <span class="stat-value" style="color: #ef4444; font-weight: 800;">{{ estadisticas.red_cards|default:0 }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="jugador-stats-detalladas">
+    <div class="stats-title">
+        <i class="bx bx-bar-chart-alt-2"></i>
+        Estadísticas de la Temporada
+    </div>
+    <div style="text-align: center; padding: 40px; color: #94a3b8;">
+        <i class="bx bx-info-circle" style="font-size: 3rem; margin-bottom: 16px; display: block; color: #64b5f6;"></i>
+        <p>No hay estadísticas disponibles para este jugador.</p>
+    </div>
+</div>
+{% endif %}

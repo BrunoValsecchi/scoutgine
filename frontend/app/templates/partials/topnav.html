@@ -25,3 +25,25 @@
     <a href="#" id="btn-stats-jugadores" class="nav-action-btn">Estadísticas</a>
 </div>
 {% endif %}
+
+{% if request.resolver_match.url_name == 'jugador_detalle' %}
+<div class="topnav-searchbar">
+    <input type="text" placeholder="Buscar jugador..." class="topnav-search-input">
+</div>
+<div class="top-nav-actions">
+    <a href="#" id="btn-info" class="nav-action-btn active">Información</a>
+    <a href="#" id="btn-stats" class="nav-action-btn">Estadísticas</a>
+</div>
+{% endif %}
+
+{% if request.resolver_match.url_name == 'estadisticas' %}
+<div class="topnav-searchbar">
+    <input type="text" placeholder="Buscar estadísticas..." class="topnav-search-input">
+</div>
+<div class="top-nav-actions">
+    <a href="#" id="btn-general" class="nav-action-btn active">General</a>
+    <a href="#" id="btn-ofensivo" class="nav-action-btn">Ofensivo</a>
+    <a href="#" id="btn-defensivo" class="nav-action-btn">Defensivo</a>
+    <a href="#" id="btn-portero" class="nav-action-btn">Portero</a>
+</div>
+{% endif %}

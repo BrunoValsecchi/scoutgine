@@ -16,7 +16,7 @@ urlpatterns = [
     path('equipo/<int:equipo_id>/estadistica/<str:estadistica>/', views.grafico_equipo, name='grafico_equipo'),
     path('equipo/<int:equipo_id>/<str:stat_name>/', views.grafico_equipo, name='grafico_equipo'),
     path('jugador/<int:jugador_id>/', views.jugador_detalle, name='jugador_detalle'),
-
+   path('jugador/<int:jugador_id>/grafico/<str:estadistica>/', views.grafico_jugador_view,  name='grafico_jugador'),
 
 
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ estadistica }} - {{ jugador.nombre }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/css/jugadores_detalle.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <a href="{% url 'jugador_detalle' jugador.id %}" class="btn-back">
+                <i class="bx bx-arrow-back"></i>
+                Volver al jugador
+            </a>
+            <h1>{{ estadistica }} - {{ jugador.nombre }}</h1>
+        </div>
+        
+        <div class="grafico-container">
+            <div class="grafico-card">
+                <div class="grafico-header">
+                    <h3>{{ estadistica }}</h3>
+                </div>
+                
+                <div class="grafico-content">
+                    <canvas id="estadisticaChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Datos para JavaScript -->
+    <script>
+        window.jugadorData = {
+            jugadorId: {{ jugador.id }},
+            jugadorNombre: "{{ jugador.nombre }}",
+            estadistica: "{{ estadistica }}",
+            datosGrafico: {{ datos_json|safe }}
+        };
+    </script>
+    
+    <script src="{% static 'myapp/js/estadistica_jugador.js' %}"></script>
+</body>
+</html>

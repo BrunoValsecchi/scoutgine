@@ -7,6 +7,7 @@ from .models import Posicion, Equipo, EstadisticasEquipo, Jugador
 import json
 import random
 import numpy as np
+from .estadistica_jugador import grafico_jugador_view
 
 # ============================================================================
 # VISTAS PRINCIPALES
@@ -60,7 +61,9 @@ def jugador_detalle(request, jugador_id):
 def posiciones(request):
     from .posiciones import posiciones as posiciones_func
     return posiciones_func(request)
-
+def grafico_jugador(request, jugador_id, estadistica):
+    # Tu lógica aquí
+    pass
 def buscar(request):
     from .buscar import buscar as buscar_func
     return buscar_func(request)
