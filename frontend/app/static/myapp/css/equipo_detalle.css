@@ -1,3 +1,7 @@
+*{
+    text-decoration: none;
+    color: whitesmoke;
+}
 .equipo-detalle-container {
     padding: 2rem;
     max-width: 1200px;

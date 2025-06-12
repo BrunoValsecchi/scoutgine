@@ -1,6 +1,7 @@
 /* --- PLANTILLA TABLA MODERNA Y OSCURA --- */
 *{
     text-decoration: none;
+    color: whitesmoke;
 }
 .jugadores-lista-container {
     background: #17181c;

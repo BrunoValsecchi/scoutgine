@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
@@ -596,4 +597,51 @@ def ajax_boxplot_estadistica(request):
         'valores': equipos_valores,
         'valor_equipo': valor_equipo,
     })
+
+def estadistica_jugador(request, jugador_id, estadistica):
+    try:
+        jugador = get_object_or_404(Jugador, id=jugador_id)
+        
+        # Obtener el valor actual del jugador para esta estadística
+        stat_value = None
+        if hasattr(jugador, estadistica):
+            stat_value = getattr(jugador, estadistica)
+            # Formatear el valor si es necesario
+            if stat_value is not None:
+                if isinstance(stat_value, float):
+                    stat_value = round(stat_value, 2)
+        
+        # Calcular promedio de la liga para esta estadística
+        promedio = None
+        if hasattr(Jugador, estadistica):
+            valores = Jugador.objects.exclude(**{f'{estadistica}__isnull': True}).values_list(estadistica, flat=True)
+            if valores:
+                promedio = round(sum(valores) / len(valores), 2)
+        
+        # Calcular percentil
+        percentil = None
+        if stat_value is not None:
+            valores = list(Jugador.objects.exclude(**{f'{estadistica}__isnull': True}).values_list(estadistica, flat=True))
+            if valores:
+                valores_menores = [v for v in valores if v < stat_value]
+                percentil = round((len(valores_menores) / len(valores)) * 100, 1)
+        
+        # Obtener posiciones para selectores
+        posiciones = Jugador.objects.values_list('posicion', flat=True).distinct()
+        posiciones = [p for p in posiciones if p]
+        
+        context = {
+            'jugador': jugador,
+            'estadistica': estadistica,
+            'stat_value': stat_value,
+            'promedio': promedio,
+            'percentil': percentil,
+            'posiciones': posiciones,
+        }
+        
+        return render(request, 'estadistica_jugador.html', context)
+        
+    except Exception as e:
+        messages.error(request, f'Error al cargar estadística: {str(e)}')
+        return redirect('jugador_detalle', jugador_id=jugador_id)
 
