@@ -9,7 +9,7 @@ import json
 import random
 import numpy as np
 from .estadistica_jugador import grafico_jugador_view
-
+from .comparacion import GRUPOS_STATS
 # ============================================================================
 # VISTAS PRINCIPALES
 # ============================================================================
@@ -42,6 +42,60 @@ def equipo_detalle(request, equipo_id):
 def ligas(request):
     from .ligas import ligas as ligas_func
     return ligas_func(request)
+
+import numpy as np
+
+def comparacion(request):
+    equipos_qs = Equipo.objects.all().order_by('nombre')
+    stats_qs = EstadisticasEquipo.objects.all()
+    equipos = []
+    # Prepara un dict: campo -> lista de valores de todos los equipos
+    campos = []
+    for grupo in GRUPOS_STATS.values():
+        for _, field in grupo:
+            if field not in campos:
+                campos.append(field)
+    valores_por_campo = {field: [] for field in campos}
+    stats_por_equipo = {}
+
+    for stats in stats_qs:
+        stats_por_equipo[stats.equipo_id] = stats
+        for field in campos:
+            val = getattr(stats, field, None)
+            try:
+                val = float(val)
+            except (TypeError, ValueError):
+                val = 0
+            valores_por_campo[field].append(val)
+
+    # Calcula percentiles para cada equipo
+    for eq in equipos_qs:
+        stats = stats_por_equipo.get(eq.id)
+        equipo_dict = {"id": eq.id, "nombre": eq.nombre}
+        if stats:
+            for field in campos:
+                val = getattr(stats, field, None)
+                try:
+                    val = float(val)
+                except (TypeError, ValueError):
+                    val = 0
+                # Calcula percentil
+                valores = np.array(valores_por_campo[field])
+                if len(valores) > 1:
+                    percentil = float(np.sum(valores < val) / (len(valores) - 1) * 100)
+                else:
+                    percentil = 0
+                equipo_dict[field] = round(percentil, 2)
+        else:
+            for field in campos:
+                equipo_dict[field] = 0
+        equipos.append(equipo_dict)
+
+    context = {
+        "equipos": equipos,
+        "GRUPOS_STATS": GRUPOS_STATS,
+    }
+    return render(request, "comparacion.html", context)
 
 def stats_equipos(request):
     from .statsequipo import stats_equipos as stats_equipos_func
@@ -136,34 +190,8 @@ def grafico_equipo(request, equipo_id, stat_name):
             'Centros precisos por partido': 'accurate_crosses_per_match',
             'Toques en el área rival': 'touches_in_opposition_box',
             'Tiros de esquina': 'corners',
-            'Recuperaciones en el último tercio': 'possession_won_final_3rd_per_match',
-            'Penales a favor': 'penalties_awarded',
+            'Recuperaciones en el último tercio': 'possession_won_final'
         }
-        
-        # Obtener valor de la estadística
-        stat_value = None
-        field_name = STAT_MAPPING.get(stat_name)
-        
-        if estadisticas_obj and field_name:
-            stat_value = getattr(estadisticas_obj, field_name, None)
-        
-        # Obtener datos de todos los equipos
-        equipos_nombres = []
-        equipos_valores = []
-        
-        if field_name:
-            todos_equipos = EstadisticasEquipo.objects.select_related('equipo').exclude(**{f"{field_name}__isnull": True})
-            
-            for eq_stat in todos_equipos:
-                valor = getattr(eq_stat, field_name, 0)
-                if valor is not None:
-                    nombre = eq_stat.equipo.nombre_corto or eq_stat.equipo.nombre[:15]
-                    equipos_nombres.append(nombre)
-                    equipos_valores.append(float(valor))
-        
-        # Calcular métricas
-        promedio = sum(equipos_valores) / len(equipos_valores) if equipos_valores else 0
-        
         # Calcular posición
         if stat_value and equipos_valores:
             valores_ordenados = sorted(equipos_valores, reverse=True)

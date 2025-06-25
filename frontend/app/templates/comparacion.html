@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScoutGine | Ligas</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css"
+    />
+    
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>    <link rel="stylesheet" href="{% static 'myapp/css/statsequipo.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/ligas.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}" />
+    <link rel="stylesheet" href="{% static 'myapp/css/comparacion.css' %}">
+
+    <script src="{% static 'myapp/js/ligas.js' %}"></script>
+    <script src="{% static 'myapp/js/topnav.js' %}"></script>
+    <script src="{% static 'myapp/js/comparacion.js' %}"></script>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+        {% include 'partials/header.html' %} {% include 'partials/topnav.html' %}
+
+    <!-- Ejemplo visual básico para comparacion.html -->
+  <div class="comparacion-container">
+    <h2>Comparar Equipos</h2>
+    <div class="comparacion-flex">
+    <div class="equipo-selector">
+        <label for="equipo1-select">Equipo 1</label>
+        <select name="equipo1" id="equipo1-select" required>
+            <option value="">Selecciona equipo</option>
+            {% for equipo in equipos %}
+                <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="radar-center">
+        <form method="post" id="form-comparar-equipos">
+            {% csrf_token %}
+            <div class="grupo-select">
+                <label for="grupo-select">Grupo de estadísticas:</label>
+                <select name="grupo" id="grupo-select" required>
+                    {% for grupo in GRUPOS_STATS.keys %}
+                        <option value="{{ grupo }}">{{ grupo }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" id="btn-graficos" class="modo-btn modo-activo">Gráficos</button>
+                <button type="button" id="btn-estadisticas" class="modo-btn">Estadísticas</button>
+            </div>
+        </form>
+        <div id="radar-comparacion-equipos" style="width:420px;height:420px;margin:0 auto;"></div>
+    </div>
+    <div class="equipo-selector">
+        <label for="equipo2-select">Equipo 2</label>
+        <select name="equipo2" id="equipo2-select" required>
+            <option value="">Selecciona equipo</option>
+            {% for equipo in equipos %}
+                <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+    {% if equipo1 and equipo2 and comparacion_grupos %}
+    <div class="equipos-comparados">
+        <h3>{{ equipo1.nombre }} vs {{ equipo2.nombre }}</h3>
+        <div class="grupos-stats-comparacion">
+            {% for grupo, stats in comparacion_grupos.items %}
+                <div class="grupo-stats">
+                    <h4>{{ grupo }}</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Estadística</th>
+                                <th>{{ equipo1.nombre }}</th>
+                                <th>{{ equipo2.nombre }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for label, val1, val2 in stats %}
+                            <tr>
+                                <td>{{ label }}</td>
+                                <td>{{ val1 }}</td>
+                                <td>{{ val2 }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="max-width: 600px; margin: 2rem auto;">
+        <canvas id="radarChart"
+            data-radar='{
+                "labels": [{% for label, val1, val2 in stats %}"{{ label }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+                "datasets": [
+                    {
+                        "label": "{{ equipo1.nombre }}",
+                        "data": [{% for label, val1, val2 in stats %}{{ val1|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+                        "fill": true,
+                        "backgroundColor": "rgba(255,99,132,0.2)",
+                        "borderColor": "rgba(255,99,132,1)",
+                        "pointBackgroundColor": "rgba(255,99,132,1)"
+                    },
+                    {
+                        "label": "{{ equipo2.nombre }}",
+                        "data": [{% for label, val1, val2 in stats %}{{ val2|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
+                        "fill": true,
+                        "backgroundColor": "rgba(54,162,235,0.2)",
+                        "borderColor": "rgba(54,162,235,1)",
+                        "pointBackgroundColor": "rgba(54,162,235,1)"
+                    }
+                ]
+            }'>
+        </canvas>
+    </div>
+    {% endif %}
+</div>
+<div id="estadisticas-comparacion" style="display:none;"></div>
+{{ equipos|json_script:"equipos-data" }}
+{{ GRUPOS_STATS|json_script:"grupos-stats-data" }}
+  </body>
+</html>

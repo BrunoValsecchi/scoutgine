@@ -1,0 +1,322 @@
+body {
+    background: #0a0e13;
+    color: #e2e8f0;
+    font-family: 'Rajdhani', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.comparacion-container {
+    background: #181f2a;
+    color: #f8fafc;
+    border-radius: 22px;
+    padding: 2.5rem 1rem 2rem 1rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    box-shadow: 0 8px 32px #0005;
+}
+.comparacion-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+}
+.comparacion-container form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.comparacion-container select, .comparacion-container button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+}
+.comparacion-container button {
+    background: #ff6b6b;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.comparacion-container button:hover {
+    background: #d84343;
+}
+/* Layout principal: equipos en las puntas */
+.comparacion-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    gap: 2rem;
+}
+
+/* Selectores de equipos en las puntas */
+.equipo-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 15px;
+    padding: 2rem 1.5rem;
+    min-width: 220px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.equipo-selector:hover {
+    border-color: #00d4ff;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.equipo-selector label {
+    font-size: 1.3rem;
+    color: #00d4ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.equipo-selector select {
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    border: 2px solid #2d3748;
+    font-size: 1.1rem;
+    background: #0f1419;
+    color: #e2e8f0;
+    font-weight: 600;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.equipo-selector select:focus {
+    border-color: #00d4ff;
+    background: #1a202c;
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+/* Centro: controles y radar */
+.radar-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 20px;
+    padding: 2rem;
+    min-width: 480px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+}
+
+/* Controles superiores */
+.grupo-select {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.grupo-select label {
+    color: #00d4ff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.grupo-select select {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 2px solid #2d3748;
+    font-size: 1rem;
+    background: #0f1419;
+    color: #e2e8f0;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.grupo-select select:focus {
+    border-color: #00d4ff;
+    background: #1a202c;
+}
+
+/* Botones de modo - SIEMPRE VISIBLES */
+.modo-btn {
+    background: #2d3748;
+    color: #a0aec0;
+    border: 2px solid #2d3748;
+    border-radius: 8px;
+    padding: 0.6rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modo-btn:hover {
+    background: #4a5568;
+    color: #e2e8f0;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modo-btn.modo-activo {
+    background: #00d4ff;
+    color: #0a0e13;
+    border-color: #00d4ff;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Radar */
+#radar-comparacion-equipos {
+    width: 450px;
+    height: 450px;
+    margin: 0 auto;
+    background: transparent;
+    border-radius: 15px;
+}
+
+/* Tabla de estadísticas */
+.tabla-estadisticas {
+    width: 98%;
+    margin: 2rem auto 0 auto;
+    border-collapse: collapse;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.tabla-estadisticas th,
+.tabla-estadisticas td {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #2d3748;
+}
+
+.tabla-estadisticas th {
+    background: #2d3748;
+    color: #00d4ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+}
+
+.tabla-estadisticas tr:nth-child(even) {
+    background: #1e2a38;
+}
+
+.tabla-estadisticas tr:nth-child(odd) {
+    background: #1a202c;
+}
+
+.tabla-estadisticas tr:hover {
+    background: #2d3748;
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+/* Resaltado sutil para ganador */
+.resalta {
+    background: #1e3a4a !important;
+    color: #00d4ff !important;
+    font-weight: 700;
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.resalta::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #00d4ff;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+}
+
+/* Título */
+.comparacion-container h2 {
+    text-align: center;
+    color: #00d4ff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .comparacion-flex {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+    
+    .equipo-selector {
+        min-width: 0;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .radar-center {
+        min-width: 0;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    #radar-comparacion-equipos {
+        width: 100%;
+        height: 70vw;
+        min-height: 350px;
+        max-height: 450px;
+    }
+    
+    .tabla-estadisticas {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .grupo-select {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .modo-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .comparacion-container h2 {
+        font-size: 1.8rem;
+    }
+}

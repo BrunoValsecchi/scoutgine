@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .grafico_equipo import ajax_radar_equipo
 from .estadistica_jugador import *
-
+from . import comparacion
 
 
 
@@ -19,8 +19,7 @@ urlpatterns = [
     path('equipo/<int:equipo_id>/<str:stat_name>/', views.grafico_equipo, name='grafico_equipo'),
     path('jugador/<int:jugador_id>/', views.jugador_detalle, name='jugador_detalle'),
    path('jugador/<int:jugador_id>/grafico/<str:estadistica>/', views.grafico_jugador_view,  name='grafico_jugador'),
-    
-
+    path('comparacion/', views.comparacion, name='comparacion'),
 
     path('ajax/grafico-dispersion/', views.ajax_grafico_dispersion, name='ajax_grafico_dispersion'),
     path('ajax/analisis-correlacion/', views.ajax_analisis_correlacion, name='ajax_analisis_correlacion'),
