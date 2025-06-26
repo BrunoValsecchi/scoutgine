@@ -135,6 +135,11 @@ function setupNavButtons() {
         setupLigasEquiposButtons();
     }
     
+    // CONFIGURACIÓN PARA PÁGINAS DE COMPARACIÓN
+    if (currentPath.includes('/comparacion/')) {
+        setupComparacionButtons();
+    }
+    
     // CONFIGURACIÓN PARA PÁGINAS DE JUGADORES
     if (currentPath.match(/^\/jugador\/\d+\/$/)) {
         setupJugadorButtons();
@@ -262,6 +267,83 @@ function setupLigasEquiposButtons() {
                     });
             }
         });
+    }
+}
+
+// NUEVA: Configuración para páginas de comparación
+function setupComparacionButtons() {
+    console.log("=== CONFIGURANDO BOTONES DE COMPARACIÓN ===");
+    
+    const btnEquipos = document.getElementById('btn-equipos');
+    const btnJugadores = document.getElementById('btn-jugadores');
+    
+    // Contenedores (ahora ambos están en el HTML)
+    const equiposContainer = document.getElementById('equipos-comparacion-container');
+    const jugadoresContainer = document.getElementById('jugadores-comparacion-container');
+
+    console.log("Elementos de comparación encontrados:", {
+        btnEquipos: !!btnEquipos,
+        btnJugadores: !!btnJugadores,
+        equiposContainer: !!equiposContainer,
+        jugadoresContainer: !!jugadoresContainer
+    });
+
+    function removeAllActiveComparacion() {
+        btnEquipos?.classList.remove('active');
+        btnJugadores?.classList.remove('active');
+    }
+
+    function hideAllContainersComparacion() {
+        if (equiposContainer) equiposContainer.style.display = 'none';
+        if (jugadoresContainer) jugadoresContainer.style.display = 'none';
+    }
+
+    // Botón Equipos
+    if (btnEquipos) {
+        btnEquipos.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN EQUIPOS CLICKEADO ===");
+            removeAllActiveComparacion();
+            hideAllContainersComparacion();
+            btnEquipos.classList.add('active');
+            
+            if (equiposContainer) {
+                equiposContainer.style.display = '';
+                console.log("✅ Mostrando comparación de equipos");
+            }
+            
+            // Actualizar header
+            if (window.HeaderManager) {
+                window.HeaderManager.updatePageHeader('bx-scatter-chart', 'Comparación de Equipos', '/ Análisis de Clubes');
+            }
+        });
+    }
+
+    // Botón Jugadores
+    if (btnJugadores) {
+        btnJugadores.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("=== BOTÓN JUGADORES CLICKEADO ===");
+            removeAllActiveComparacion();
+            hideAllContainersComparacion();
+            btnJugadores.classList.add('active');
+            
+            if (jugadoresContainer) {
+                jugadoresContainer.style.display = '';
+                console.log("✅ Mostrando comparación de jugadores");
+            }
+            
+            // Actualizar header
+            if (window.HeaderManager) {
+                window.HeaderManager.updatePageHeader('bx-user', 'Comparación de Jugadores', '/ Análisis de Jugadores');
+            }
+        });
+    }
+
+    // Mostrar equipos por defecto
+    if (btnEquipos && equiposContainer) {
+        btnEquipos.classList.add('active');
+        equiposContainer.style.display = '';
     }
 }
 

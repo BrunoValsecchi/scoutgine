@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ScoutGine | Ligas</title>
+    <title>ScoutGine | Comparación</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css"
@@ -19,7 +19,8 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
-<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>    <link rel="stylesheet" href="{% static 'myapp/css/statsequipo.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="{% static 'myapp/css/statsequipo.css' %}" />
     <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}" />
     <link rel="stylesheet" href="{% static 'myapp/css/ligas.css' %}" />
     <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}" />
@@ -35,105 +36,169 @@
   </head>
 
   <body>
-        {% include 'partials/header.html' %} {% include 'partials/topnav.html' %}
+    {% include 'partials/header.html' %} 
+    {% include 'partials/topnav.html' %}
 
-    <!-- Ejemplo visual básico para comparacion.html -->
-  <div class="comparacion-container">
-    <h2>Comparar Equipos</h2>
-    <div class="comparacion-flex">
-    <div class="equipo-selector">
-        <label for="equipo1-select">Equipo 1</label>
-        <select name="equipo1" id="equipo1-select" required>
-            <option value="">Selecciona equipo</option>
-            {% for equipo in equipos %}
-                <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="radar-center">
-        <form method="post" id="form-comparar-equipos">
-            {% csrf_token %}
-            <div class="grupo-select">
-                <label for="grupo-select">Grupo de estadísticas:</label>
-                <select name="grupo" id="grupo-select" required>
-                    {% for grupo in GRUPOS_STATS.keys %}
-                        <option value="{{ grupo }}">{{ grupo }}</option>
-                    {% endfor %}
-                </select>
-                <button type="button" id="btn-graficos" class="modo-btn modo-activo">Gráficos</button>
-                <button type="button" id="btn-estadisticas" class="modo-btn">Estadísticas</button>
-            </div>
-        </form>
-        <div id="radar-comparacion-equipos" style="width:420px;height:420px;margin:0 auto;"></div>
-    </div>
-    <div class="equipo-selector">
-        <label for="equipo2-select">Equipo 2</label>
-        <select name="equipo2" id="equipo2-select" required>
-            <option value="">Selecciona equipo</option>
-            {% for equipo in equipos %}
-                <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
-            {% endfor %}
-        </select>
-    </div>
-</div>
-    {% if equipo1 and equipo2 and comparacion_grupos %}
-    <div class="equipos-comparados">
-        <h3>{{ equipo1.nombre }} vs {{ equipo2.nombre }}</h3>
-        <div class="grupos-stats-comparacion">
-            {% for grupo, stats in comparacion_grupos.items %}
-                <div class="grupo-stats">
-                    <h4>{{ grupo }}</h4>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Estadística</th>
-                                <th>{{ equipo1.nombre }}</th>
-                                <th>{{ equipo2.nombre }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for label, val1, val2 in stats %}
-                            <tr>
-                                <td>{{ label }}</td>
-                                <td>{{ val1 }}</td>
-                                <td>{{ val2 }}</td>
-                            </tr>
+    <!-- COMPARACIÓN DE EQUIPOS -->
+    <div class="comparacion-container" id="equipos-comparacion-container">
+        <h2>Comparar Equipos</h2>
+        
+        <!-- ✅ CONTROLES SUPERIORES PARA EQUIPOS (IGUAL QUE JUGADORES) -->
+        <div class="controles-superiores-equipos">
+            <!-- ✅ SELECTOR DE GRUPO -->
+            <div class="controles-filtros">
+                <div class="grupo-select-container">
+                    <label for="grupo-select-equipos">Grupo de estadísticas:</label>
+                    <select name="grupo" id="grupo-select-equipos" required>
+                        {% for grupo in GRUPOS_STATS_EQUIPOS.keys %}
+                            <option value="{{ grupo }}">{{ grupo }}</option>
                         {% endfor %}
-                        </tbody>
-                    </table>
+                    </select>
                 </div>
-            {% endfor %}
+            </div>
+            
+            <!-- ✅ BOTONES DE MODO -->
+            <div class="botones-modo">
+                <button type="button" id="btn-graficos-equipos" class="modo-btn modo-activo">Gráficos</button>
+                <button type="button" id="btn-estadisticas-equipos" class="modo-btn">Estadísticas</button>
+            </div>
         </div>
+
+        <div class="comparacion-flex">
+            <!-- ✅ EQUIPO 1 CON NUEVO DISEÑO -->
+            <div class="equipo-selector">
+                <div class="selector-equipo">
+                    <label for="equipo1-select">Equipo 1</label>
+                    <select name="equipo1" id="equipo1-select" required>
+                        <option value="">Selecciona equipo</option>
+                        {% for equipo in equipos %}
+                            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <!-- ✅ CENTRO CON RADAR -->
+            <div class="radar-center">
+                <div id="radar-comparacion-equipos" style="width:420px;height:420px;margin:0 auto;"></div>
+            </div>
+            
+            <!-- ✅ EQUIPO 2 CON NUEVO DISEÑO -->
+            <div class="equipo-selector">
+                <div class="selector-equipo">
+                    <label for="equipo2-select">Equipo 2</label>
+                    <select name="equipo2" id="equipo2-select" required>
+                        <option value="">Selecciona equipo</option>
+                        {% for equipo in equipos %}
+                            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="estadisticas-comparacion-equipos" style="display:none;"></div>
     </div>
-    <div style="max-width: 600px; margin: 2rem auto;">
-        <canvas id="radarChart"
-            data-radar='{
-                "labels": [{% for label, val1, val2 in stats %}"{{ label }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-                "datasets": [
-                    {
-                        "label": "{{ equipo1.nombre }}",
-                        "data": [{% for label, val1, val2 in stats %}{{ val1|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
-                        "fill": true,
-                        "backgroundColor": "rgba(255,99,132,0.2)",
-                        "borderColor": "rgba(255,99,132,1)",
-                        "pointBackgroundColor": "rgba(255,99,132,1)"
-                    },
-                    {
-                        "label": "{{ equipo2.nombre }}",
-                        "data": [{% for label, val1, val2 in stats %}{{ val2|default:0 }}{% if not forloop.last %},{% endif %}{% endfor %}],
-                        "fill": true,
-                        "backgroundColor": "rgba(54,162,235,0.2)",
-                        "borderColor": "rgba(54,162,235,1)",
-                        "pointBackgroundColor": "rgba(54,162,235,1)"
-                    }
-                ]
-            }'>
-        </canvas>
+
+    <!-- COMPARACIÓN DE JUGADORES -->
+    <div class="comparacion-container" id="jugadores-comparacion-container" style="display: none;">
+        <h2>Comparar Jugadores</h2>
+        
+        <!-- ✅ CONTROLES SUPERIORES PARA JUGADORES -->
+        <div class="controles-superiores-jugadores">
+            <!-- ✅ SELECTOR DE GRUPO Y POSICIÓN -->
+            <div class="controles-filtros">
+                <div class="grupo-select-container">
+                    <label for="grupo-select-jugadores">Grupo de estadísticas:</label>
+                    <select name="grupo" id="grupo-select-jugadores" required>
+                        {% for grupo in GRUPOS_STATS_JUGADORES.keys %}
+                            <option value="{{ grupo }}">{{ grupo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="posicion-select-container">
+                    <label for="posicion-select-jugadores">Posición:</label>
+                    <select name="posicion" id="posicion-select-jugadores">
+                        <option value="">Todas las posiciones</option>
+                        <!-- ✅ POSICIONES REALES DE LA BASE DE DATOS -->
+                        <option value="GK">Arquero (GK)</option>
+                        <option value="RB">Lateral Derecho (RB)</option>
+                        <option value="CB">Defensor Central (CB)</option>
+                        <option value="LB">Lateral Izquierdo (LB)</option>
+                        <option value="Defender">Defensor</option>
+                        <option value="DM">Mediocampista Defensivo (DM)</option>
+                        <option value="CM">Mediocampista Central (CM)</option>
+                        <option value="RM">Mediocampista Derecho (RM)</option>
+                        <option value="LM">Mediocampista Izquierdo (LM)</option>
+                        <option value="AM">Mediocampista Ofensivo (AM)</option>
+                        <option value="Midfielder">Mediocampista</option>
+                        <option value="RW">Extremo Derecho (RW)</option>
+                        <option value="LW">Extremo Izquierdo (LW)</option>
+                        <option value="ST">Delantero (ST)</option>
+                        <option value="Attacker">Delantero</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- ✅ BOTONES DE MODO -->
+            <div class="botones-modo">
+                <button type="button" id="btn-graficos-jugadores" class="modo-btn modo-activo">Gráficos</button>
+                <button type="button" id="btn-estadisticas-jugadores" class="modo-btn">Estadísticas</button>
+            </div>
+        </div>
+
+        <div class="comparacion-flex">
+            <!-- ✅ JUGADOR 1 CON FILTROS DE EQUIPO -->
+            <div class="jugador-selector">
+                <div class="filtros-jugador">
+                    <label for="equipo-jugador1-select">Equipo del Jugador 1</label>
+                    <select name="equipo-jugador1" id="equipo-jugador1-select" required>
+                        <option value="">Selecciona equipo</option>
+                        {% for equipo in equipos %}
+                            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="selector-jugador">
+                    <label for="jugador1-select">Jugador 1</label>
+                    <select name="jugador1" id="jugador1-select" required disabled>
+                        <option value="">Primero selecciona equipo</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- ✅ CENTRO CON RADAR -->
+            <div class="radar-center">
+                <div id="radar-comparacion-jugadores" style="width:420px;height:420px;margin:0 auto;"></div>
+            </div>
+            
+            <!-- ✅ JUGADOR 2 CON FILTROS DE EQUIPO -->
+            <div class="jugador-selector">
+                <div class="filtros-jugador">
+                    <label for="equipo-jugador2-select">Equipo del Jugador 2</label>
+                    <select name="equipo-jugador2" id="equipo-jugador2-select" required>
+                        <option value="">Selecciona equipo</option>
+                        {% for equipo in equipos %}
+                            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="selector-jugador">
+                    <label for="jugador2-select">Jugador 2</label>
+                    <select name="jugador2" id="jugador2-select" required disabled>
+                        <option value="">Primero selecciona equipo</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="estadisticas-comparacion-jugadores" style="display:none;"></div>
     </div>
-    {% endif %}
-</div>
-<div id="estadisticas-comparacion" style="display:none;"></div>
-{{ equipos|json_script:"equipos-data" }}
-{{ GRUPOS_STATS|json_script:"grupos-stats-data" }}
+
+    <script id="equipos-data" type="application/json">{{ equipos_data|safe }}</script>
+    <script id="grupos-stats-equipos-data" type="application/json">{{ GRUPOS_STATS_EQUIPOS_JSON|safe }}</script>
+    <script id="jugadores-data" type="application/json">{{ jugadores_data|safe }}</script>
+    <script id="grupos-stats-jugadores-data" type="application/json">{{ GRUPOS_STATS_JUGADORES_JSON|safe }}</script>
   </body>
 </html>

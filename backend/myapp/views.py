@@ -9,8 +9,7 @@ import json
 import random
 import numpy as np
 from .estadistica_jugador import grafico_jugador_view
-from .comparacion import GRUPOS_STATS
-# ============================================================================
+from .comparacion import GRUPOS_STATS, GRUPOS_STATS_EQUIPOS, GRUPOS_STATS_JUGADORES# ============================================================================
 # VISTAS PRINCIPALES
 # ============================================================================
 
@@ -46,56 +45,9 @@ def ligas(request):
 import numpy as np
 
 def comparacion(request):
-    equipos_qs = Equipo.objects.all().order_by('nombre')
-    stats_qs = EstadisticasEquipo.objects.all()
-    equipos = []
-    # Prepara un dict: campo -> lista de valores de todos los equipos
-    campos = []
-    for grupo in GRUPOS_STATS.values():
-        for _, field in grupo:
-            if field not in campos:
-                campos.append(field)
-    valores_por_campo = {field: [] for field in campos}
-    stats_por_equipo = {}
-
-    for stats in stats_qs:
-        stats_por_equipo[stats.equipo_id] = stats
-        for field in campos:
-            val = getattr(stats, field, None)
-            try:
-                val = float(val)
-            except (TypeError, ValueError):
-                val = 0
-            valores_por_campo[field].append(val)
-
-    # Calcula percentiles para cada equipo
-    for eq in equipos_qs:
-        stats = stats_por_equipo.get(eq.id)
-        equipo_dict = {"id": eq.id, "nombre": eq.nombre}
-        if stats:
-            for field in campos:
-                val = getattr(stats, field, None)
-                try:
-                    val = float(val)
-                except (TypeError, ValueError):
-                    val = 0
-                # Calcula percentil
-                valores = np.array(valores_por_campo[field])
-                if len(valores) > 1:
-                    percentil = float(np.sum(valores < val) / (len(valores) - 1) * 100)
-                else:
-                    percentil = 0
-                equipo_dict[field] = round(percentil, 2)
-        else:
-            for field in campos:
-                equipo_dict[field] = 0
-        equipos.append(equipo_dict)
-
-    context = {
-        "equipos": equipos,
-        "GRUPOS_STATS": GRUPOS_STATS,
-    }
-    return render(request, "comparacion.html", context)
+    # ✅ Usar la función de comparacion.py en lugar de duplicar lógica
+    from .comparacion import comparacion as comparacion_func
+    return comparacion_func(request)
 
 def stats_equipos(request):
     from .statsequipo import stats_equipos as stats_equipos_func
@@ -150,90 +102,157 @@ def posiciones_api(request):
 # ============================================================================
 
 def grafico_equipo(request, equipo_id, stat_name):
-    """Vista para mostrar gráfico individual de una estadística"""
-    print(f"🎯 Gráfico: equipo {equipo_id}, stat: {stat_name}")
-    
+    """Vista para mostrar gráfico de estadística específica de un equipo"""
     try:
-        # Verificar disponibilidad de PyECharts
-        try:
-            from pyecharts.charts import Line, Bar, Gauge
-            from pyecharts import options as opts
-            pyecharts_available = True
-        except ImportError:
-            pyecharts_available = False
-            print("⚠️ PyECharts no disponible")
-        
         equipo = get_object_or_404(Equipo, id=equipo_id)
-        estadisticas_obj = EstadisticasEquipo.objects.filter(equipo=equipo).first()
         
-        # Mapeo de estadísticas
+        # Decodificar el nombre de la estadística desde la URL
+        from urllib.parse import unquote
+        stat_name = unquote(stat_name)
+        
+        # ✅ Inicializar variables correctamente
+        stat_value = None
+        posicion = None
+        total_equipos = 0
+        equipos_valores = []
+        promedio = 0
+        
+        # Mapeo de nombres de estadísticas a campos de base de datos
         STAT_MAPPING = {
-            'Rating': 'fotmob_rating',
-            'Goles por partido': 'goals_per_match',
-            'Goles concedidos por partido': 'goals_conceded_per_match',
-            'Posesión promedio': 'average_possession',
-            'Vallas invictas': 'clean_sheets',
-            'Goles esperados (xG)': 'expected_goals_xg',
-            'Tiros al arco por partido': 'shots_on_target_per_match',
-            'Ocasiones claras': 'big_chances',
-            'Ocasiones claras falladas': 'big_chances_missed',
-            'xG concedido': 'xg_concedido',
-            'Intercepciones por partido': 'interceptions_per_match',
-            'Entradas exitosas por partido': 'successful_tackles_per_match',
-            'Despejes por partido': 'clearances_per_match',
-            'Atajadas por partido': 'saves_per_match',
-            'Faltas por partido': 'fouls_per_match',
-            'Tarjetas amarillas': 'yellow_cards',
-            'Tarjetas rojas': 'red_cards',
-            'Pases precisos por partido': 'accurate_passes_per_match',
-            'Pases largos precisos por partido': 'accurate_long_balls_per_match',
-            'Centros precisos por partido': 'accurate_crosses_per_match',
-            'Toques en el área rival': 'touches_in_opposition_box',
-            'Tiros de esquina': 'corners',
-            'Recuperaciones en el último tercio': 'possession_won_final'
+            "Goles por partido": "goals_per_match",
+            "Tiros al arco por partido": "shots_on_target_per_match",
+            "Ocasiones claras": "big_chances",
+            "Ocasiones claras falladas": "big_chances_missed",
+            "Goles esperados (xG)": "expected_goals_xg",
+            "Penales a favor": "penalties_awarded",
+            "Goles concedidos por partido": "goals_conceded_per_match",
+            "Vallas invictas": "clean_sheets",
+            "xG concedido": "expected_goals_conceded_xgc",
+            "Intercepciones por partido": "interceptions_per_match",
+            "Entradas exitosas por partido": "tackles_won_per_match",
+            "Despejes por partido": "clearances_per_match",
+            "Recuperaciones en el último tercio": "recoveries_final_third",
+            "Atajadas por partido": "saves_per_match",
+            "Pases precisos por partido": "accurate_passes_per_match",
+            "Pases largos precisos por partido": "accurate_long_balls_per_match",
+            "Centros precisos por partido": "accurate_crosses_per_match",
+            "Toques en el área rival": "touches_in_opposition_box",
+            "Tiros de esquina": "corners_taken",
+            "Rating": "average_rating",
+            "Posesión promedio": "average_possession",
+            "Faltas por partido": "fouls_per_match",
+            "Tarjetas amarillas": "yellow_cards",
+            "Tarjetas rojas": "red_cards",
         }
-        # Calcular posición
-        if stat_value and equipos_valores:
-            valores_ordenados = sorted(equipos_valores, reverse=True)
-            try:
-                posicion = valores_ordenados.index(float(stat_value)) + 1
-            except ValueError:
-                posicion = len(valores_ordenados) + 1
-        else:
-            posicion = "N/A"
         
-        # Generar gráficos
-        graficos = {}
-        if pyecharts_available and stat_value and equipos_valores:
-            graficos = generar_graficos_completos(
-                equipo, stat_name, float(stat_value), 
-                equipos_nombres, equipos_valores, estadisticas_obj
-            )
+        # Obtener el campo de base de datos correspondiente
+        campo_bd = STAT_MAPPING.get(stat_name)
+        if not campo_bd:
+            print(f"❌ Estadística no encontrada: {stat_name}")
+            return render(request, 'estadistica_detalle.html', {
+                'equipo': equipo,
+                'stat_name': stat_name,
+                'title': f"{stat_name} - {equipo.nombre}",
+                'error': f"Estadística '{stat_name}' no encontrada",
+                'stat_value': None,
+                'posicion': None,
+                'total_equipos': 0,
+                'promedio': 0,
+            })
         
+        try:
+            # Obtener estadísticas del equipo
+            equipo_stats = EstadisticasEquipo.objects.filter(equipo=equipo).first()
+            
+            if equipo_stats:
+                # ✅ Obtener valor de forma segura
+                raw_value = getattr(equipo_stats, campo_bd, None)
+                if raw_value is not None:
+                    try:
+                        stat_value = float(raw_value)
+                        if isinstance(raw_value, float):
+                            stat_value = round(stat_value, 2)
+                        else:
+                            stat_value = int(stat_value)
+                    except (ValueError, TypeError):
+                        stat_value = 0
+                        print(f"⚠️ Error convertiendo valor: {raw_value}")
+                
+                print(f"📊 Valor del equipo {equipo.nombre}: {stat_value}")
+            else:
+                print(f"❌ No hay estadísticas para el equipo {equipo.nombre}")
+        
+        except Exception as e:
+            print(f"❌ Error obteniendo estadísticas del equipo: {e}")
+            stat_value = None
+        
+        # Obtener valores de todos los equipos para comparación
+        try:
+            all_stats = EstadisticasEquipo.objects.all()
+            equipos_valores = []
+            
+            for stats in all_stats:
+                try:
+                    valor = getattr(stats, campo_bd, None)
+                    if valor is not None:
+                        equipos_valores.append(float(valor))
+                except (ValueError, TypeError, AttributeError):
+                    continue
+            
+            total_equipos = len(equipos_valores)
+            
+            # Calcular promedio
+            if equipos_valores:
+                promedio = round(sum(equipos_valores) / len(equipos_valores), 2)
+            
+            # Calcular posición si tenemos el valor del equipo
+            if stat_value is not None and equipos_valores:
+                valores_ordenados = sorted(equipos_valores, reverse=True)
+                try:
+                    posicion = valores_ordenados.index(float(stat_value)) + 1
+                except ValueError:
+                    # Si el valor exacto no está, encontrar la posición aproximada
+                    posicion = sum(1 for v in valores_ordenados if v > stat_value) + 1
+            
+            print(f"📊 Estadísticas: valor={stat_value}, posición={posicion}/{total_equipos}, promedio={promedio}")
+        
+        except Exception as e:
+            print(f"❌ Error calculando comparaciones: {e}")
+            equipos_valores = []
+            total_equipos = 0
+            promedio = 0
+            posicion = None
+        
+        # ✅ Preparar contexto completo para estadistica_detalle.html
         context = {
             'equipo': equipo,
             'stat_name': stat_name,
+            'title': f"{stat_name} - {equipo.nombre}",
             'stat_value': stat_value,
-            'promedio': round(promedio, 2) if promedio else "N/A",
             'posicion': posicion,
-            'title': f'{stat_name} - {equipo.nombre}',
-            'error': None if stat_value else f"No hay datos para {stat_name}",
-            **graficos
+            'total_equipos': total_equipos,
+            'promedio': promedio,
+            'error': None if stat_value is not None else f"No hay datos para {stat_name}",
         }
         
-        print(f"✅ Datos: {stat_name} = {stat_value}, pos: {posicion}")
-        return render(request, 'estadistica_detalle.html', context)
+        print(f"✅ Contexto final: {stat_name} = {stat_value}, pos: {posicion}")
+        return render(request, 'estadistica_detalle.html', context)  # ✅ Usar el template correcto
         
     except Exception as e:
-        print(f"❌ Error: {e}")
-        context = {
-            'error': str(e),
-            'title': 'Error - Gráfico',
-            'equipo': {'id': equipo_id, 'nombre': 'Error'},
-            'stat_name': stat_name
-        }
-        return render(request, 'estadistica_detalle.html', context)
-
+        print(f"❌ Error general en grafico_equipo: {e}")
+        import traceback
+        traceback.print_exc()
+        
+        return render(request, 'estadistica_detalle.html', {
+            'equipo': equipo if 'equipo' in locals() else None,
+            'stat_name': stat_name if 'stat_name' in locals() else 'Estadística',
+            'title': f"Error - {stat_name if 'stat_name' in locals() else 'Estadística'}",
+            'stat_value': None,
+            'posicion': None,
+            'total_equipos': 0,
+            'promedio': 0,
+            'error': f"Error cargando estadística: {str(e)}",
+        })
 def generar_graficos_completos(equipo, estadistica, valor_equipo, equipos_nombres, equipos_valores, estadisticas_obj):
     """Genera todos los gráficos para la estadística"""
     from pyecharts.charts import Bar, Line, Gauge

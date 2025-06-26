@@ -15,6 +15,16 @@
 </div>
 {% endif %}
 
+{% if request.resolver_match.url_name == 'comparacion' %}
+<div class="topnav-searchbar">
+    <input type="text" placeholder="Buscar..." class="topnav-search-input">
+</div>
+<div class="top-nav-actions">
+    <a href="#" id="btn-equipos" class="nav-action-btn active">Equipos</a>
+    <a href="#" id="btn-jugadores" class="nav-action-btn">Jugadores</a>
+</div>
+{% endif %}
+
 {% if request.resolver_match.url_name == 'equipo_detalle' %}
 <div class="topnav-searchbar">
     <input type="text" placeholder="Buscar..." class="topnav-search-input">
