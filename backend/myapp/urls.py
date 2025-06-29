@@ -3,6 +3,7 @@ from . import views
 from .grafico_equipo import ajax_radar_equipo
 from .estadistica_jugador import *
 from . import comparacion
+from .statsequipo import stats_equipos  # ← IMPORTAR DIRECTAMENTE
 
 
 
@@ -11,14 +12,14 @@ urlpatterns = [
     path('grafico/', views.grafico, name='grafico'),
     path('menu/', views.menu, name='menu'),
     path('ligas/', views.ligas, name='ligas'),
-    path('stats_equipos/', views.stats_equipos, name='stats_equipos'),
+    path('stats_equipos/', stats_equipos, name='stats_equipos'),  # ← USAR DIRECTAMENTE
     path('stats_jugadores/', views.stats_jugadores, name='stats_jugadores'),
     path('equipo/', views.equipo, name='equipo'),
     path('equipo/<int:equipo_id>/', views.equipo_detalle, name='equipo_detalle'),
     path('equipo/<int:equipo_id>/estadistica/<str:estadistica>/', views.grafico_equipo, name='grafico_equipo'),
     path('equipo/<int:equipo_id>/<str:stat_name>/', views.grafico_equipo, name='grafico_equipo'),
     path('jugador/<int:jugador_id>/', views.jugador_detalle, name='jugador_detalle'),
-   path('jugador/<int:jugador_id>/grafico/<str:estadistica>/', views.grafico_jugador_view,  name='grafico_jugador'),
+    path('jugador/<int:jugador_id>/grafico/<str:estadistica>/', views.grafico_jugador_view,  name='grafico_jugador'),
     path('comparacion/', views.comparacion, name='comparacion'),
 
     path('ajax/grafico-dispersion/', views.ajax_grafico_dispersion, name='ajax_grafico_dispersion'),

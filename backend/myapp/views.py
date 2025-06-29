@@ -49,9 +49,6 @@ def comparacion(request):
     from .comparacion import comparacion as comparacion_func
     return comparacion_func(request)
 
-def stats_equipos(request):
-    from .statsequipo import stats_equipos as stats_equipos_func
-    return stats_equipos_func(request)
 
 def stats_jugadores(request):
     from .statsjugadores import stats_jugadores as stats_jugadores_func

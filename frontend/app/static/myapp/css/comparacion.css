@@ -7,13 +7,11 @@ body {
 }
 
 .comparacion-container {
-    background: #181f2a;
     color: #f8fafc;
     border-radius: 22px;
     padding: 2.5rem 1rem 2rem 1rem;
     max-width: 1200px;
     margin: 2rem auto;
-    box-shadow: 0 8px 32px #0005;
 }
 .comparacion-container h2 {
     text-align: center;

@@ -43,8 +43,20 @@ def ligas(request):
                     posiciones_unicas.append(pos)
                     equipos_vistos.add(pos['equipo'])
             zona['posiciones'] = sorted(posiciones_unicas, key=lambda x: x['posicion'])
+        
+        # ✅ AGREGAR DATOS DE STATS EQUIPOS
+        from .statsequipo import obtener_stats_resumen  # Crear esta función
+        
+        try:
+            top3_por_estadistica = obtener_stats_resumen()
+            print(f"🏆 Datos stats agregados a ligas: {len(top3_por_estadistica)} estadísticas")
+        except Exception as e:
+            print(f"❌ Error al obtener stats: {e}")
+            top3_por_estadistica = {}
+        
         context = {
-            'torneos': zonas_dict
+            'torneos': zonas_dict,
+            'stats_equipos_data': top3_por_estadistica,  # ← CAMBIO AQUÍ
         }
         return render(request, "ligas.html", context)
     except Exception as e:

@@ -1,110 +1,41 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'myapp/css/statsequipo.css' %}">
+<script src="{% static 'myapp/js/statsequipo.js' %}" defer></script>
 
+<!-- ✅ MISMO ESTILO QUE STATS JUGADORES -->
 <div class="stats-equipos-container">
-    <!-- Vista Resumen -->
-    <div id="vista-resumen" class="vista-container">
-        <div class="stats-header">
-            <h2>🏆 Top 3 Equipos por Estadística</h2>
-            <div class="view-controls">
-                <button id="btn-vista-resumen" class="view-btn active">📋 Vista Resumen</button>
-                <button id="btn-vista-completa" class="view-btn">📈 Vista Completa</button>
-            </div>
-        </div>
-        
-        {% if top3_por_estadistica %}
-            <div class="stats-equipos-list">
-                {% for label, equipos in top3_por_estadistica.items %}
-                    <div class="stat-block">
-                        <h3>{{ label }}</h3>
-                        {% if equipos %}
-                            <ol>
-                                {% for equipo in equipos %}
-                                    <li>
+    <h2>🏆 Estadísticas de Equipos</h2>
+    
+    {% if stats_equipos_data %}
+        <div class="stats-equipos-list">
+            {% for estadistica, equipos in stats_equipos_data.items %}
+                <div class="stat-block">
+                    <h3>{{ estadistica }}</h3>
+                    {% if equipos %}
+                        <ol>
+                            {% for equipo in equipos %}
+                                <li>
+                                    <div class="equipo-info">
                                         <span class="equipo-nombre">{{ equipo.nombre }}</span>
-                                        <span class="stat-valor">{{ equipo.valor }}</span>
-                                    </li>
-                                {% endfor %}
-                            </ol>
-                        {% else %}
-                            <div style="text-align: center; color: #a0a8c0; padding: 1rem;">
-                                Sin datos disponibles
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div style="text-align: center; color: #a0a8c0; padding: 2rem;">
-                <p>No hay estadísticas disponibles en este momento.</p>
-            </div>
-        {% endif %}
-    </div>
-
-    <!-- Vista Completa -->
-    <div id="vista-completa" class="vista-container" style="display: none;">
-        <div class="stats-header">
-            <h2>📊 Estadísticas Completas de Equipos</h2>
-            <div class="view-controls">
-                <button id="btn-vista-resumen-2" class="view-btn">📋 Vista Resumen</button>
-                <button id="btn-vista-completa-2" class="view-btn active">📈 Vista Completa</button>
-            </div>
-        </div>
-
-        <!-- ✨ DROPDOWN DE ESTADÍSTICAS - ESTO ES LO QUE FALTABA ✨ -->
-        <div class="estadistica-selector">
-            <div class="selector-container">
-                <label for="estadistica-select" style="color: white; margin-right: 10px;">Seleccionar Estadística:</label>
-                <select id="estadistica-select" class="estadistica-dropdown" style="padding: 8px; border-radius: 4px; background: #2c3e50; color: white; border: 1px solid #34495e;">
-                    <option value="">-- Selecciona una estadística --</option>
-                    <option value="fotmob_rating">Rating</option>
-                    <option value="goals_per_match">Goles por partido</option>
-                    <option value="goals_conceded_per_match">Menos goles recibidos</option>
-                    <option value="average_possession">Posesión (%)</option>
-                    <option value="clean_sheets">Vallas invictas</option>
-                    <option value="expected_goals_xg">xG</option>
-                    <option value="shots_on_target_per_match">Tiros al arco/partido</option>
-                    <option value="big_chances">Grandes chances</option>
-                    <option value="big_chances_missed">Grandes chances falladas</option>
-                    <option value="accurate_passes_per_match">Pases precisos/partido</option>
-                    <option value="accurate_long_balls_per_match">Pases largos precisos/partido</option>
-                    <option value="accurate_crosses_per_match">Centros precisos/partido</option>
-                    <option value="penalties_awarded">Penales a favor</option>
-                    <option value="touches_in_opposition_box">Toques en área rival</option>
-                    <option value="corners">Corners</option>
-                    <option value="xg_conceded">xG concedido</option>
-                    <option value="interceptions_per_match">Intercepciones/partido</option>
-                    <option value="successful_tackles_per_match">Entradas exitosas/partido</option>
-                    <option value="clearances_per_match">Despejes/partido</option>
-                    <option value="possession_won_final_3rd_per_match">Recuperaciones en 1/3 final/partido</option>
-                    <option value="saves_per_match">Atajadas/partido</option>
-                    <option value="fouls_per_match">Faltas/partido</option>
-                    <option value="yellow_cards">Amarillas</option>
-                    <option value="red_cards">Rojas</option>
-                </select>
-            </div>
-            <div class="stats-info" style="margin-top: 10px;">
-                <span class="current-stat-label" id="current-stat-label" style="color: #3498db;">Selecciona una estadística</span>
-                <span class="total-equipos" id="total-equipos" style="color: #95a5a6; margin-left: 20px;">0 equipos</span>
-            </div>
-        </div>
-
-        <!-- RANKING -->
-        <div class="equipos-ranking">
-            <div class="ranking-header" style="display: flex; justify-content: space-between; padding: 10px; background: rgba(52,73,94,0.3); margin: 20px 0 10px 0; border-radius: 5px;">
-                <span class="pos-header" style="color: white; font-weight: bold;">#</span>
-                <span class="equipo-header" style="color: white; font-weight: bold;">Equipo</span>
-                <span class="valor-header" id="valor-header" style="color: white; font-weight: bold;">Valor</span>
-            </div>
-            
-            <div class="ranking-list" id="ranking-list">
-                <div class="loading" style="color: #95a5a6; padding: 40px; text-align: center;">
-                    🔄 Selecciona una estadística para comenzar
+                                        <span class="equipo-liga">Primera División</span>
+                                    </div>
+                                    <span class="stat-valor">{{ equipo.valor }}</span>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <p style="color: #999; text-align: center; padding: 1rem;">Sin datos</p>
+                    {% endif %}
                 </div>
-            </div>
+            {% endfor %}
         </div>
-
-        
-    </div>
+    {% else %}
+        <div style="color: #999; text-align: center; padding: 2rem;">
+            <h3>📊 No hay estadísticas disponibles</h3>
+            <button onclick="verStatsCompletos('fotmob_rating')" class="btn-test">
+                🧪 Probar con datos AJAX
+            </button>
+        </div>
+    {% endif %}
 </div>
