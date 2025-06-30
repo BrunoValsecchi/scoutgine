@@ -688,4 +688,73 @@ def estadistica_jugador(request, jugador_id, estadistica):
     except Exception as e:
         messages.error(request, f'Error al cargar estadística: {str(e)}')
         return redirect('jugador_detalle', jugador_id=jugador_id)
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from .recomendacion import (
+    recomendar_jugadores_por_perfil, 
+    obtener_perfiles_disponibles,
+    PERFILES_JUGADORES
+)
+from .models import Equipo
+
+def recomendacion(request):
+    """Página principal de recomendación de jugadores"""
+    perfiles = obtener_perfiles_disponibles()
+    
+    context = {
+        'perfiles': perfiles,
+        'title': 'Recomendación de Jugadores por Perfil',
+        'equipos': Equipo.objects.all().order_by('nombre')
+    }
+    
+    return render(request, 'recomendacion.html', context)
+
+
+def ajax_recomendar_jugadores(request):
+    """AJAX para obtener recomendaciones"""
+    perfil = request.GET.get('perfil')
+    limite = int(request.GET.get('limite', 10))
+    equipo_excluir = request.GET.get('equipo_excluir')
+    
+    if not perfil or perfil not in PERFILES_JUGADORES:
+        return JsonResponse({'error': 'Perfil no válido'}, status=400)
+    
+    equipo_excluir_id = None
+    if equipo_excluir and equipo_excluir.isdigit():
+        equipo_excluir_id = int(equipo_excluir)
+    
+    try:
+        recomendaciones = recomendar_jugadores_por_perfil(
+            perfil, limite, equipo_excluir_id
+        )
+        
+        # Formatear respuesta para JSON
+        jugadores_json = []
+        for rec in recomendaciones:
+            jugador = rec['jugador']
+            jugadores_json.append({
+                'id': jugador.id,
+                'nombre': jugador.nombre,
+                'posicion': jugador.posicion,
+                'equipo': jugador.equipo.nombre if jugador.equipo else 'Sin equipo',
+                'equipo_logo': jugador.equipo.logo if jugador.equipo and jugador.equipo.logo else None,
+                'edad': jugador.edad,
+                'pais': jugador.pais,
+                'puntuacion': rec['puntuacion'],
+                'perfil': rec['perfil'],
+                'descripcion_perfil': rec['descripcion_perfil'],
+                'stats_destacadas': rec['stats_destacadas']
+            })
+        
+        return JsonResponse({
+            'jugadores': jugadores_json,
+            'total': len(jugadores_json),
+            'perfil_info': {
+                'nombre': perfil,
+                'descripcion': PERFILES_JUGADORES[perfil]['descripcion']
+            }
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 

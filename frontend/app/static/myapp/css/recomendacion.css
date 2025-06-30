@@ -1,0 +1,336 @@
+/* ✅ ESTILOS PARA RECOMENDACIÓN DE JUGADORES */
+.recomendacion-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #0a0a0a;
+    min-height: 100vh;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.page-header p {
+    color: #a0a8c0;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ✅ FILTROS */
+.filtros-container {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    align-items: end;
+}
+
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filtro-grupo label {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filtro-select {
+    background: rgba(52, 152, 219, 0.1);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    color: #ffffff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.filtro-select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.filtro-select option {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.buscar-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 2rem;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.buscar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.buscar-btn:active {
+    transform: translateY(0);
+}
+
+/* ✅ PERFIL INFO */
+.perfil-info {
+    background: rgba(52, 152, 219, 0.1);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.perfil-descripcion h3 {
+    color: #3498db;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    text-transform: capitalize;
+}
+
+.perfil-descripcion p {
+    color: #a0a8c0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* ✅ LOADING */
+.loading-container {
+    text-align: center;
+    padding: 3rem;
+    color: #3498db;
+}
+
+.loading-spinner i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.loading-container p {
+    font-size: 1.1rem;
+    color: #a0a8c0;
+}
+
+/* ✅ RESULTADOS */
+.resultados-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.resultados-header h2 {
+    color: #3498db;
+    font-size: 1.8rem;
+    font-family: 'Orbitron', monospace;
+}
+
+.resultados-contador {
+    background: rgba(52, 152, 219, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* ✅ LISTA DE JUGADORES */
+.jugadores-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.jugador-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.jugador-card:hover {
+    transform: translateY(-5px);
+    border-color: #3498db;
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+}
+
+.jugador-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.jugador-info h3 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.jugador-info .posicion {
+    color: #3498db;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.puntuacion-badge {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: #ffffff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.jugador-equipo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.jugador-equipo img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.jugador-equipo .equipo-info {
+    flex: 1;
+}
+
+.jugador-equipo .equipo-nombre {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.jugador-equipo .jugador-edad {
+    color: #a0a8c0;
+    font-size: 0.8rem;
+}
+
+.stats-destacadas {
+    margin-top: 1rem;
+}
+
+.stats-destacadas h4 {
+    color: #3498db;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stats-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 6px;
+}
+
+.stat-nombre {
+    color: #a0a8c0;
+    font-size: 0.85rem;
+}
+
+.stat-valor {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ✅ NO RESULTADOS */
+.no-resultados {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #a0a8c0;
+}
+
+.no-resultados-icon i {
+    font-size: 4rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.no-resultados h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ✅ RESPONSIVE */
+@media (max-width: 768px) {
+    .recomendacion-container {
+        padding: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .filtros-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .jugadores-lista {
+        grid-template-columns: 1fr;
+    }
+    
+    .resultados-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}

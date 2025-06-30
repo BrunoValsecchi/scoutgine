@@ -1,35 +1,51 @@
-  <aside class="sidebar">
-    <a href="{% url 'menu' %}" class="logo-menu">
-      <img src="https://res.cloudinary.com/dgc07kho5/image/upload/v1746370646/image__2_-removebg-preview_u7jt6u.png" alt="ScoutGine Logo" class="logo-icon" />
-      <span class="logo-text">ScoutGine</span>
+<aside class="sidebar">
+  <a href="{% url 'menu' %}" class="logo-menu">
+    <img
+      src="https://res.cloudinary.com/dgc07kho5/image/upload/v1746370646/image__2_-removebg-preview_u7jt6u.png"
+      alt="ScoutGine Logo"
+      class="logo-icon"
+    />
+    <span class="logo-text">ScoutGine</span>
+  </a>
+  <nav class="menu">
+    <a
+      href="{% url 'ligas' %}"
+      class="{% if request.resolver_match.url_name == 'ligas' %}active{% endif %}"
+    >
+      <i class="bx bx-trophy"></i>
+      <span>Tabla de posiciones</span>
     </a>
-    <nav class="menu">
-      <a href="{% url 'ligas' %}" class="{% if request.resolver_match.url_name == 'ligas' %}active{% endif %}">
-        <i class='bx bx-trophy'></i>
-        <span>Tabla de posiciones</span>
-      </a>
-      <a href="{% url 'equipo' %}" class="{% if request.resolver_match.url_name == 'equipos' %}active{% endif %}">
-        <i class='bx bx-football'></i>
-        <span>Equipos</span>
-      </a>
-      <a href="#" class="{% if request.resolver_match.url_name == 'estadisticas' %}active{% endif %}">
-        <i class='bx bx-line-chart'></i>
-        <span>Estadísticas</span>
-      </a>
-      <a href="{% url 'comparacion' %}" class="{% if request.resolver_match.url_name == 'comparacion' %}active{% endif %}">
-        <i class='bx bx-scatter-chart'></i>
-        <span>Comparación</span>
-      </a>
-      <a href="#" class="{% if request.resolver_match.url_name == 'recomendacion' %}active{% endif %}">
-        <i class='bx bx-user-pin'></i>
-        <span>Recomendación</span>
-      </a>
-      <a href="#" class="{% if request.resolver_match.url_name == 'club' %}active{% endif %}">
-        <i class='bx bx-badge-check'></i>
-        <span>Club favorito</span>
-      </a>
-    </nav>
-     
-  </aside>
-  
-  
+    <a
+      href="{% url 'equipo' %}"
+      class="{% if request.resolver_match.url_name == 'equipos' %}active{% endif %}"
+    >
+      <i class="bx bx-football"></i>
+      <span>Equipos</span>
+    </a>
+    <a
+      href="#"
+      class="{% if request.resolver_match.url_name == 'estadisticas' %}active{% endif %}"
+    >
+      <i class="bx bx-line-chart"></i>
+      <span>Estadísticas</span>
+    </a>
+    <a
+      href="{% url 'comparacion' %}"
+      class="{% if request.resolver_match.url_name == 'comparacion' %}active{% endif %}"
+    >
+      <i class="bx bx-scatter-chart"></i>
+      <span>Comparación</span>
+    </a>
+    <a href="{% url 'recomendacion' %}">
+      <i class="bx bx-search-alt-2"></i>
+      <span class="nav-item">Recomendación</span>
+    </a>
+    <a
+      href="#"
+      class="{% if request.resolver_match.url_name == 'club' %}active{% endif %}"
+    >
+      <i class="bx bx-badge-check"></i>
+      <span>Club favorito</span>
+    </a>
+  </nav>
+</aside>

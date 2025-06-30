@@ -21,7 +21,8 @@ urlpatterns = [
     path('jugador/<int:jugador_id>/', views.jugador_detalle, name='jugador_detalle'),
     path('jugador/<int:jugador_id>/grafico/<str:estadistica>/', views.grafico_jugador_view,  name='grafico_jugador'),
     path('comparacion/', views.comparacion, name='comparacion'),
-
+    path('recomendacion/', views.recomendacion, name='recomendacion'),  # ← CAMBIAR name A 'recomendacion'
+    path('ajax/recomendar-jugadores/', views.ajax_recomendar_jugadores, name='ajax_recomendar_jugadores'),
     path('ajax/grafico-dispersion/', views.ajax_grafico_dispersion, name='ajax_grafico_dispersion'),
     path('ajax/analisis-correlacion/', views.ajax_analisis_correlacion, name='ajax_analisis_correlacion'),
     path('ajax/radar-equipo/', ajax_radar_equipo, name='ajax_radar_equipo'),
@@ -33,7 +34,4 @@ urlpatterns = [
     path('ajax/grafico-dispersion-jugador/', ajax_grafico_dispersion_jugador, name='ajax_grafico_dispersion_jugador'),
     path('api/jugador/<int:jugador_id>/posiciones/', api_jugador_posiciones, name='api_jugador_posiciones'),
     path('ajax/boxplot-jugador/', ajax_boxplot_jugador, name='ajax_boxplot_jugador'),
-
-
-
 ]

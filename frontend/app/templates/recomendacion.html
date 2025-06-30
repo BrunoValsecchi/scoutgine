@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | ScoutGine</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'myapp/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/topnav.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/recomendacion.css' %}">
+</head>
+<body>
+    {% include 'partials/header.html' %}
+    {% include 'partials/topnav.html' %}
+
+    <main class="main-content">
+        <div class="recomendacion-container">
+            <div class="page-header">
+                <h1><i class='bx bx-search-alt-2'></i> Recomendación de Jugadores</h1>
+                <p>Encuentra jugadores ideales según perfiles específicos basados en estadísticas</p>
+            </div>
+
+            <!-- ✅ FILTROS -->
+            <div class="filtros-container">
+                <div class="filtro-grupo">
+                    <label for="perfil-select">
+                        <i class='bx bx-target-lock'></i> Perfil del Jugador:
+                    </label>
+                    <select id="perfil-select" class="filtro-select">
+                        <option value="">Selecciona un perfil...</option>
+                        {% for categoria, perfiles_lista in perfiles.items %}
+                            <optgroup label="{{ categoria }}">
+                                {% for perfil in perfiles_lista %}
+                                    <option value="{{ perfil.key }}" data-descripcion="{{ perfil.descripcion }}">
+                                        {{ perfil.nombre }}
+                                    </option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label for="equipo-excluir">
+                        <i class='bx bx-shield-x'></i> Excluir Equipo:
+                    </label>
+                    <select id="equipo-excluir" class="filtro-select">
+                        <option value="">Todos los equipos</option>
+                        {% for equipo in equipos %}
+                            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filtro-grupo">
+                    <label for="limite-jugadores">
+                        <i class='bx bx-list-ol'></i> Cantidad:
+                    </label>
+                    <select id="limite-jugadores" class="filtro-select">
+                        <option value="10">Top 10</option>
+                        <option value="20">Top 20</option>
+                        <option value="30">Top 30</option>
+                        <option value="50">Top 50</option>
+                    </select>
+                </div>
+
+                <button id="buscar-btn" class="buscar-btn">
+                    <i class='bx bx-search'></i> Buscar Jugadores
+                </button>
+            </div>
+
+            <!-- ✅ DESCRIPCIÓN DEL PERFIL -->
+            <div id="perfil-info" class="perfil-info" style="display: none;">
+                <div class="perfil-descripcion">
+                    <h3 id="perfil-nombre"></h3>
+                    <p id="perfil-desc"></p>
+                </div>
+            </div>
+
+            <!-- ✅ LOADING -->
+            <div id="loading" class="loading-container" style="display: none;">
+                <div class="loading-spinner">
+                    <i class='bx bx-loader-alt bx-spin'></i>
+                </div>
+                <p>Analizando jugadores...</p>
+            </div>
+
+            <!-- ✅ RESULTADOS -->
+            <div id="resultados-container" class="resultados-container" style="display: none;">
+                <div id="resultados-header" class="resultados-header">
+                    <h2 id="resultados-titulo"></h2>
+                    <div id="resultados-contador" class="resultados-contador"></div>
+                </div>
+
+                <div id="jugadores-lista" class="jugadores-lista">
+                    <!-- Los jugadores se cargarán aquí vía AJAX -->
+                </div>
+            </div>
+
+            <!-- ✅ NO RESULTADOS -->
+            <div id="no-resultados" class="no-resultados" style="display: none;">
+                <div class="no-resultados-icon">
+                    <i class='bx bx-search-alt-2'></i>
+                </div>
+                <h3>No se encontraron jugadores</h3>
+                <p>Intenta con otro perfil o ajusta los filtros</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'myapp/js/recomendacion.js' %}"></script>
+</body>
+</html>
