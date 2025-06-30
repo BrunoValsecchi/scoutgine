@@ -1,0 +1,9 @@
+{
+  "name": "scoutgine-frontend",
+  "version": "1.0.0",
+  "description": "ScoutGine Frontend",
+  "scripts": {
+    "build": "echo Build complete",
+    "start": "echo Frontend ready"
+  }
+}
