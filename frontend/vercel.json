@@ -13,12 +13,12 @@
       "dest": "/app/static/$1"
     },
     {
-      "src": "/templates/(.*)",
-      "dest": "/app/templates/$1"
+      "src": "/myapp/(.*)",
+      "dest": "/app/myapp/$1"
     },
     {
       "src": "/",
-      "dest": "/app/templates/index.html"
+      "dest": "/app/index.html"
     },
     {
       "src": "/(.*)",
