@@ -133,15 +133,15 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
-# CORS CONFIGURATION - Para conectar con frontend
+# CORS CONFIGURATION - Actualizar con la URL real del frontend
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Para desarrollo local
     "http://127.0.0.1:3000",
-    "https://tu-frontend-scoutgine.vercel.app",  # Cambia por tu URL real
+    "https://scoutgine-frontend.vercel.app",  # 👈 TU URL REAL DEL FRONTEND
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = False  # Solo para desarrollo, cambiar a False en producción
+CORS_ALLOW_ALL_ORIGINS = False
 
 # Headers permitidos
 CORS_ALLOWED_HEADERS = [

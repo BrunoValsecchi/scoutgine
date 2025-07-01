@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "scoutgine/wsgi.py",
+      "src": "manage.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "scoutgine/wsgi.py"
+      "dest": "manage.py"
     }
   ]
 }
