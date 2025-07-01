@@ -3,41 +3,13 @@
   "builds": [
     {
       "src": "scoutgine/wsgi.py",
-      "use": "@vercel/python",
-      "config": { 
-        "maxLambdaSize": "15mb", 
-        "runtime": "python3.9"
-      }
-    },
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "staticfiles_build"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/admin",
-      "dest": "scoutgine/wsgi.py"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "scoutgine/wsgi.py"
-    },
-    {
       "src": "/(.*)",
       "dest": "scoutgine/wsgi.py"
     }
-  ],
-  "functions": {
-    "scoutgine/wsgi.py": {
-      "runtime": "python3.9"
-    }
-  }
+  ]
 }

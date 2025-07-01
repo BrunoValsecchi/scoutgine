@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: #0a0a0a;
+    color: #ffffff;
+}
+
+/* Contenedor principal */
+.equipos-container {
+    background: #0a0a0a;
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Card individual - solo border CON ANIMACIÓN */
+.equipo-card {
+    background: transparent;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: 2px solid #333333;
+    transition: all 0.3s ease;
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 👈 ANIMACIÓN DE BRILLO - Efecto de luz que pasa */
+.equipo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.equipo-card:hover::before {
+    left: 100%;
+}
+
+/* Hover effect mejorado */
+.equipo-card:hover {
+    transform: translateY(-5px);
+    border-color: #555555;
+    text-decoration: none;
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Logo del equipo */
+.equipo-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    background: transparent;
+    padding: 5px;
+    transition: transform 0.3s ease;
+    display: block;
+    filter: brightness(1.1);
+    position: relative;
+    z-index: 2;
+}
+
+.equipo-card:hover .equipo-logo {
+    transform: scale(1.1);
+}
+
+/* Placeholder para equipos sin logo */
+.equipo-logo-placeholder {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    background: #222222;
+    border: 1px solid #444444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cccccc;
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.equipo-card:hover .equipo-logo-placeholder {
+    transform: scale(1.1);
+    background: #333333;
+    border-color: #666666;
+}
+
+/* Nombre del equipo */
+.equipo-nombre {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    position: relative;
+    z-index: 2;
+}
+
+/* Liga del equipo */
+.equipo-liga {
+    font-size: 0.8rem;
+    color: #888888;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+}
+
+/* 👈 ANIMACIÓN DE ENTRADA - Los cards aparecen uno por uno */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.equipo-card {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.equipo-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.equipo-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.equipo-card:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.equipo-card:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+.equipo-card:nth-child(6) {
+    animation-delay: 0.5s;
+}
+
+.equipo-card:nth-child(7) {
+    animation-delay: 0.1s;
+}
+
+.equipo-card:nth-child(8) {
+    animation-delay: 0.2s;
+}
+
+.equipo-card:nth-child(9) {
+    animation-delay: 0.3s;
+}
+
+.equipo-card:nth-child(10) {
+    animation-delay: 0.4s;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .equipos-container {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .equipos-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 20px 10px;
+    }
+    
+    .equipo-logo,
+    .equipo-logo-placeholder {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .equipo-nombre {
+        font-size: 0.9rem;
+    }
+    
+    .equipo-card {
+        padding: 25px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .equipos-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .equipo-logo,
+    .equipo-logo-placeholder {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .equipo-nombre {
+        font-size: 0.85rem;
+    }
+    
+    .equipo-liga {
+        font-size: 0.7rem;
+    }
+    
+    .equipo-card {
+        padding: 20px 10px;
+    }
+}

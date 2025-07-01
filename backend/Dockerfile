@@ -3,10 +3,15 @@ FROM python:3.9-slim
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 # Instala el cliente de PostgreSQL
 RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
+# Copiar archivos estáticos del frontend
+COPY ../frontend/app/static ./static_frontend/
+COPY ../frontend/app/templates ./templates_frontend/
 
 COPY . .
 

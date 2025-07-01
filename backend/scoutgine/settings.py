@@ -19,7 +19,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.vercel.app',
-    '.now.sh'
+    '.now.sh',
+    '*'  # Temporal para debug
 ]
 
 # Application definition
@@ -30,15 +31,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',        # Para API
-    'corsheaders',          # Para frontend separado
+    'rest_framework',
+    'corsheaders',
     'myapp',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',     # CORS primero
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Para archivos estáticos
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,11 +50,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'scoutgine.urls'
 
+# TEMPLATES - SIN FRONTEND
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),  # Templates locales si las tienes
+            os.path.join(BASE_DIR, 'templates'),
+            # ELIMINADO: referencia al frontend
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -69,34 +72,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'scoutgine.wsgi.application'
 
-# DATABASE - Configuración para Vercel
+# DATABASE
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('SUPABASE_DB_NAME', 'postgres'),
+        'USER': os.environ.get('SUPABASE_DB_USER', 'postgres.gvgmhdxarjgvfykoyqyw'),
+        'PASSWORD': os.environ.get('SUPABASE_DB_PASSWORD', 'brunovalsecchi'),
+        'HOST': os.environ.get('SUPABASE_DB_HOST', 'aws-0-sa-east-1.pooler.supabase.com'),
+        'PORT': os.environ.get('SUPABASE_DB_PORT', '5432'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
-
-# Si hay DATABASE_URL (Supabase), usar esa
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
-
-# O configuración manual de Supabase
-elif os.environ.get('SUPABASE_DB_HOST'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('SUPABASE_DB_NAME', 'postgres'),
-            'USER': os.environ.get('SUPABASE_DB_USER', 'postgres.gvgmhdxarjgvfykoyqyw'),
-            'PASSWORD': os.environ.get('SUPABASE_DB_PASSWORD', 'brunovalsecchi'),
-            'HOST': os.environ.get('SUPABASE_DB_HOST', 'aws-0-sa-east-1.pooler.supabase.com'),
-            'PORT': os.environ.get('SUPABASE_DB_PORT', '5432'),
-            'OPTIONS': {
-                'sslmode': 'require',
-            },
-        }
-    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -120,28 +109,22 @@ TIME_ZONE = 'America/Argentina/Buenos_Aires'
 USE_I18N = True
 USE_TZ = True
 
-# ARCHIVOS ESTÁTICOS PARA VERCEL
+# STATIC FILES - SOLO PARA DJANGO
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
-# Solo incluir si la carpeta existe
-STATICFILES_DIRS = []
-static_dir = os.path.join(BASE_DIR, 'static')
-if os.path.exists(static_dir):
-    STATICFILES_DIRS.append(static_dir)
+# CONFIGURACIÓN SIMPLIFICADA PARA VERCEL
+# Deshabilitar archivos estáticos completamente
+if not DEBUG:
+    # Deshabilitar collectstatic en producción
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    STATIC_ROOT = None
+    
+# NO CORS para prueba inicial - comentar temporalmente
+# CORS_ALLOWED_ORIGINS = [...]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Permitir todos los hosts temporalmente
 
-# CORS CONFIGURATION (para conectar con frontend)
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://scoutgine-frontend.vercel.app",  # Tu frontend
-]
-
-CORS_ALLOW_CREDENTIALS = True
-
-# REST FRAMEWORK CONFIGURATION
+# REST FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -150,27 +133,27 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# CORS CONFIGURATION - Para conectar con frontend
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Para desarrollo local
+    "http://127.0.0.1:3000",
+    "https://tu-frontend-scoutgine.vercel.app",  # Cambia por tu URL real
+]
 
-# LOGGING SIMPLIFICADO PARA VERCEL
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',  # Cambiar a INFO en producción
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-}
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False  # Solo para desarrollo, cambiar a False en producción
+
+# Headers permitidos
+CORS_ALLOWED_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,0 +1,229 @@
+.ligas-dos-filas {
+  background: #0a0a0f;
+  min-height: 100vh;
+  padding: 0.3rem 0.5rem;
+}
+
+.leagues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem; /* Más separación entre las cards */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.tournament-card {
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  padding: 0.8rem; /* Más padding interno */
+  min-width: 280px;
+  border: 1px solid #3498db;
+  transition: all 0.2s ease;
+  height: auto;
+  margin-bottom: 0.8rem; /* Separación adicional abajo */
+}
+
+/* HOVER EN LA CARD COMPLETA */
+.tournament-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+  border-color: #2980b9;
+}
+
+.tournament-title {
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.8rem; /* Más separación del título */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.tournament-title:after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 1px;
+  background: #3498db;
+  border-radius: 1px;
+}
+
+.zone-section {
+  margin-bottom: 1rem; /* Más separación entre zonas */
+}
+
+.zone-title {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.9rem;
+  color: #a0a8c0;
+  margin-bottom: 0.5rem; /* Más separación del título de zona */
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 4px;
+  background: #050508;
+  padding: 0.4rem; /* Más padding en el contenedor */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.6rem; /* Separación entre tablas */
+}
+
+/* ESTILOS PARA AG GRID - NÚMEROS MÁS PEQUEÑOS */
+.ag-theme-dark-custom {
+  --ag-background-color: #050508;
+  --ag-header-background-color: #0f0f14;
+  --ag-header-foreground-color: #e1e1e6;
+  --ag-foreground-color: #e1e1e6;
+  --ag-border-color: rgba(255, 255, 255, 0.1);
+  --ag-row-border-color: rgba(255, 255, 255, 0.05);
+  --ag-odd-row-background-color: rgba(255, 255, 255, 0.02);
+  --ag-even-row-background-color: rgba(255, 255, 255, 0.04);
+  --ag-selected-row-background-color: rgba(255, 215, 0, 0.3);
+  --ag-row-height: 28px; /* Filas un poco más altas para mejor centrado */
+  --ag-header-height: 32px; /* Headers más altos */
+  font-family: "Rajdhani", sans-serif;
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 0.8rem; /* Texto general más pequeño */
+}
+
+/* HOVER COLOR ORO EN AG GRID */
+.ag-theme-dark-custom .ag-row:hover {
+  background-color: rgba(255, 215, 0, 0.25) !important;
+  border-left: 2px solid #ffd700 !important;
+  cursor: pointer;
+}
+
+.ag-theme-dark-custom .ag-row:hover .ag-cell {
+  color: #000000 !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+
+/* Hover específico para la columna de posición */
+.ag-theme-dark-custom .ag-row:hover .ag-cell:first-child {
+  background-color: #ffd700 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  border-radius: 2px;
+}
+
+/* Hover específico para la columna de puntos (última) */
+.ag-theme-dark-custom .ag-row:hover .ag-cell:last-child {
+  background-color: #ff8c00 !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  border-radius: 2px;
+}
+
+.ag-theme-dark-custom .ag-header {
+  border-bottom: 1px solid #3498db;
+}
+
+.ag-theme-dark-custom .ag-header-cell {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: 0.75rem; /* Headers más pequeños */
+  padding: 0.4rem 0.2rem; /* Padding vertical más equilibrado */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ag-theme-dark-custom .ag-cell {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  font-size: 0.75rem; /* Números y texto más pequeños */
+  line-height: 1; /* Line-height más ajustado */
+  transition: all 0.1s ease;
+  padding: 0.5rem 0.2rem; /* Padding vertical más equilibrado */
+  display: flex !important; /* Usar flexbox */
+  align-items: center !important; /* Centrar verticalmente */
+  justify-content: center !important; /* Centrar horizontalmente */
+}
+
+/* Columna de puntos específicamente más pequeña */
+.ag-theme-dark-custom .ag-cell:last-child {
+  font-size: 0.7rem !important; /* Puntos aún más pequeños */
+  font-weight: 600;
+}
+
+/* Columna de posición más pequeña */
+.ag-theme-dark-custom .ag-cell:first-child {
+  font-size: 0.7rem !important; /* Posición más pequeña */
+  font-weight: 600;
+}
+
+/* Nombre del equipo alineado a la izquierda */
+.ag-theme-dark-custom .ag-cell:nth-child(2) {
+  justify-content: flex-start !important; /* Alinear nombre del equipo a la izquierda */
+  padding-left: 0.4rem; /* Más padding izquierdo para el nombre */
+}
+
+/* Estilos para filas alternas sin hover */
+.ag-theme-dark-custom .ag-row:nth-child(even):not(:hover) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.ag-theme-dark-custom .ag-row:nth-child(odd):not(:hover) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 1200px) {
+  .leagues-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .leagues-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  .tournament-card {
+    padding: 0.6rem;
+    min-width: 250px;
+    margin-bottom: 0.6rem;
+  }
+  .tournament-title {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ligas-dos-filas {
+    padding: 0.3rem;
+  }
+  .leagues-grid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .tournament-card {
+    padding: 0.5rem;
+    min-width: 220px;
+    margin-bottom: 0.5rem;
+  }
+  .tournament-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+  }
+  .ag-theme-dark-custom {
+    font-size: 0.7rem;
+    --ag-row-height: 26px;
+    --ag-header-height: 30px;
+  }
+}

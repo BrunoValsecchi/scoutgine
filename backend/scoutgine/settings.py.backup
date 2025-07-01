@@ -53,7 +53,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),  # Templates locales si las tienes
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR.parent, 'frontend', 'app', 'templates'),  # Para local
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -69,24 +70,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'scoutgine.wsgi.application'
 
-# DATABASE - Configuración para Vercel
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# Si hay DATABASE_URL (Supabase), usar esa
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
 
 # O configuración manual de Supabase
-elif os.environ.get('SUPABASE_DB_HOST'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('SUPABASE_DB_NAME', 'postgres'),
             'USER': os.environ.get('SUPABASE_DB_USER', 'postgres.gvgmhdxarjgvfykoyqyw'),
             'PASSWORD': os.environ.get('SUPABASE_DB_PASSWORD', 'brunovalsecchi'),
@@ -125,10 +113,20 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 # Solo incluir si la carpeta existe
-STATICFILES_DIRS = []
-static_dir = os.path.join(BASE_DIR, 'static')
-if os.path.exists(static_dir):
-    STATICFILES_DIRS.append(static_dir)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR.parent, 'frontend', 'app', 'static'),
+]
+
+# Debug: ver las rutas reales
+print("=== DEBUG STATIC FILES ===")
+print("BASE_DIR:", BASE_DIR)
+print("BASE_DIR.parent:", BASE_DIR.parent) 
+print("STATICFILES_DIRS:", STATICFILES_DIRS)
+for static_dir in STATICFILES_DIRS:
+    print(f"¿Existe {static_dir}? {os.path.exists(static_dir)}")
+    if os.path.exists(static_dir):
+        print(f"  Contenido: {os.listdir(static_dir)}")
+print("========================")
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

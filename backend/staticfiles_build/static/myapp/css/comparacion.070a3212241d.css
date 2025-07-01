@@ -1,0 +1,1827 @@
+body {
+    background: #0a0e13;
+    color: #e2e8f0;
+    font-family: 'Rajdhani', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.comparacion-container {
+    color: #f8fafc;
+    border-radius: 22px;
+    padding: 2.5rem 1rem 2rem 1rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+.comparacion-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+}
+.comparacion-container form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.comparacion-container select, .comparacion-container button {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+}
+.comparacion-container button {
+    background: #ff6b6b;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.comparacion-container button:hover {
+    background: #d84343;
+}
+/* Layout principal: equipos en las puntas */
+.comparacion-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    gap: 2rem;
+}
+
+/* Selectores de equipos en las puntas */
+.equipo-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 15px;
+    padding: 2rem 1.5rem;
+    min-width: 220px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.equipo-selector:hover {
+    border-color: #00d4ff;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.equipo-selector label {
+    font-size: 1.3rem;
+    color: #00d4ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.equipo-selector select {
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    border: 2px solid #2d3748;
+    font-size: 1.1rem;
+    background: #0f1419;
+    color: #e2e8f0;
+    font-weight: 600;
+    outline: none;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.equipo-selector select:focus {
+    border-color: #00d4ff;
+    background: #1a202c;
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+/* Centro: controles y radar */
+.radar-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 20px;
+    padding: 2rem;
+    min-width: 480px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ CONTROLES SUPERIORES PARA EQUIPOS (IGUAL QUE JUGADORES) */
+.controles-superiores-equipos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    border-radius: 15px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* ✅ CONTROLES SUPERIORES PARA JUGADORES (MANTENIDO) */
+.controles-superiores-jugadores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    border-radius: 15px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.controles-filtros {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.grupo-select-container,
+.posicion-select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 180px;
+}
+
+.grupo-select-container label,
+.posicion-select-container label {
+    color: #00d4ff;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 5px rgba(0,212,255,0.3);
+}
+
+.grupo-select-container select,
+.posicion-select-container select {
+    background: linear-gradient(135deg, #0f1419 0%, #1a202c 100%);
+    color: #e2e8f0;
+    border: 2px solid #2d3748;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.grupo-select-container select:hover,
+.grupo-select-container select:focus,
+.posicion-select-container select:hover,
+.posicion-select-container select:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    background: #1a202c;
+}
+
+/* ✅ SELECTORES DE JUGADORES MEJORADOS */
+.jugador-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 15px;
+    padding: 25px 20px;
+    min-width: 250px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.jugador-selector:hover {
+    border-color: #00d4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ FILTROS DE JUGADOR */
+.filtros-jugador {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filtros-jugador label {
+    color: #00d4ff;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.filtros-jugador select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid #2d3748;
+    font-size: 14px;
+    background: #0f1419;
+    color: #e2e8f0;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.filtros-jugador select:focus {
+    border-color: #00d4ff;
+    background: #1a202c;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+/* ✅ SELECTOR DE JUGADOR ESPECÍFICO */
+.selector-jugador {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.selector-jugador label {
+    color: #ffd700;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    text-align: center;
+}
+
+.selector-jugador select {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 2px solid #2d3748;
+    font-size: 15px;
+    background: #0f1419;
+    color: #e2e8f0;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.selector-jugador select:focus {
+    border-color: #ffd700;
+    background: #1a202c;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.selector-jugador select:disabled {
+    background: #0a0e13;
+    color: #4a5568;
+    cursor: not-allowed;
+    border-color: #1a202c;
+}
+
+/* ✅ EFECTOS ESPECIALES PARA SELECTS ACTIVOS */
+.filtros-jugador select:not(:disabled):hover,
+.selector-jugador select:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ INDICADORES VISUALES PARA JUGADORES */
+.jugador-selector:nth-child(1) {
+    border-left: 4px solid #00d4ff;
+}
+
+.jugador-selector:nth-child(3) {
+    border-left: 4px solid #ffd700;
+}
+
+.jugador-selector:nth-child(1) .selector-jugador label {
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.jugador-selector:nth-child(3) .selector-jugador label {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.jugador-selector:nth-child(1) .selector-jugador select:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.jugador-selector:nth-child(3) .selector-jugador select:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* ✅ RESPONSIVE PARA JUGADORES */
+@media (max-width: 1200px) {
+    .controles-superiores-jugadores {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .controles-filtros {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .grupo-select-container,
+    .posicion-select-container {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .jugador-selector {
+        min-width: 200px;
+        padding: 20px 15px;
+    }
+    
+    .controles-filtros {
+        gap: 10px;
+    }
+    
+    .grupo-select-container,
+    .posicion-select-container {
+        min-width: 100%;
+    }
+    
+    .controles-superiores-jugadores {
+        padding: 15px 20px;
+    }
+    
+    .botones-modo {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ✅ ESTILOS PARA TABLA DE ESTADÍSTICAS */
+.estadisticas-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+}
+
+.estadisticas-header h3 {
+    color: #00d4ff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(0,212,255,0.4);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ✅ CONTENEDOR GENERAL CON SCROLL */
+.tabla-comparacion {
+    background: linear-gradient(135deg, #181f2a 0%, #1a202c 100%);
+    border-radius: 15px;
+    padding: 25px;
+    overflow-y: auto;
+    max-height: 75vh;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ GRUPOS DE ESTADÍSTICAS */
+.grupo-estadisticas {
+    margin-bottom: 35px;
+    background: rgba(45, 47, 71, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.grupo-estadisticas:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.1);
+}
+
+.grupo-estadisticas:last-child {
+    margin-bottom: 0;
+}
+
+/* ✅ TÍTULOS DE GRUPOS */
+.grupo-titulo {
+    color: #00d4ff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-radius: 10px;
+    border-left: 4px solid #00d4ff;
+    text-shadow: 0 0 10px rgba(0,212,255,0.3);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.grupo-titulo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 212, 255, 0.1) 50%, transparent 70%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ✅ TABLA DE ESTADÍSTICAS */
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Rajdhani', sans-serif;
+    background: rgba(26, 32, 44, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ CABECERAS DE TABLA */
+.stats-table th {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #00d4ff;
+    padding: 15px 12px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    text-shadow: 0 0 5px rgba(0,212,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.stats-table th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    opacity: 0.6;
+}
+
+/* ✅ CELDAS DE TABLA */
+.stats-table td {
+    padding: 12px 10px;
+    text-align: center;
+    border: 1px solid rgba(45, 55, 72, 0.5);
+    background: rgba(26, 32, 44, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.stats-table tr:hover td {
+    background: rgba(0, 212, 255, 0.08);
+    transform: scale(1.01);
+    box-shadow: 0 2px 10px rgba(0, 212, 255, 0.1);
+}
+
+/* ✅ NOMBRES DE ESTADÍSTICAS */
+.stat-name {
+    color: #e2e8f0 !important;
+    font-weight: 600;
+    text-align: left !important;
+    font-size: 14px;
+    padding-left: 15px !important;
+}
+
+/* ✅ VALORES DE ESTADÍSTICAS */
+.stat-value {
+    color: #fff;
+    font-weight: 600;
+    position: relative;
+}
+
+.valor-principal {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.percentil {
+    font-size: 11px;
+    color: #ffd700;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* ✅ IDENTIFICADORES DE EQUIPOS */
+.equipo1-col {
+    border-left: 3px solid #00d4ff !important;
+    position: relative;
+}
+
+.equipo2-col {
+    border-left: 3px solid #ffd700 !important;
+    position: relative;
+}
+
+/* ✅ MEJOR VALOR CON SOMBREADO GANADOR */
+.mejor-valor {
+    background: linear-gradient(135deg, 
+        rgba(0, 212, 255, 0.25) 0%, 
+        rgba(0, 212, 255, 0.15) 50%, 
+        rgba(0, 212, 255, 0.25) 100%) !important;
+    color: #00d4ff !important;
+    font-weight: 700 !important;
+    border-radius: 8px;
+    box-shadow: 
+        0 0 15px rgba(0, 212, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.mejor-valor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    animation: sweep 2s infinite;
+}
+
+@keyframes sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.mejor-valor .valor-principal {
+    color: #00d4ff;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+    font-size: 17px;
+}
+
+.mejor-valor .percentil {
+    color: #ffd700;
+    font-weight: 600;
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.5);
+}
+
+/* ✅ EFECTO PULSO PARA MEJOR VALOR */
+.mejor-valor {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 10px rgba(0, 212, 255, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 20px rgba(0, 212, 255, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* ✅ COLUMNA DE DIFERENCIAS */
+.diferencia {
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    position: relative;
+}
+
+.diferencia.positiva {
+    color: #48bb78;
+    background: rgba(72, 187, 120, 0.1);
+    border: 1px solid rgba(72, 187, 120, 0.3);
+    text-shadow: 0 0 5px rgba(72, 187, 120, 0.3);
+}
+
+.diferencia.negativa {
+    color: #f56565;
+    background: rgba(245, 101, 101, 0.1);
+    border: 1px solid rgba(245, 101, 101, 0.3);
+    text-shadow: 0 0 5px rgba(245, 101, 101, 0.3);
+}
+
+.diferencia.neutra {
+    color: #a0aec0;
+    background: rgba(160, 174, 192, 0.1);
+    border: 1px solid rgba(160, 174, 192, 0.3);
+}
+
+/* ✅ MENSAJE SIN DATOS */
+.no-data {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 18px;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #181f2a 0%, #1a202c 100%);
+    border-radius: 15px;
+    border: 2px dashed rgba(160, 174, 192, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ✅ SCROLLBAR PERSONALIZADO */
+.tabla-comparacion::-webkit-scrollbar {
+    width: 10px;
+}
+
+.tabla-comparacion::-webkit-scrollbar-track {
+    background: rgba(26, 32, 44, 0.5);
+    border-radius: 5px;
+}
+
+.tabla-comparacion::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.tabla-comparacion::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #0099cc 0%, #007acc 100%);
+}
+
+/* ✅ RESPONSIVE PARA ESTADÍSTICAS */
+@media (max-width: 768px) {
+    .grupo-titulo {
+        font-size: 16px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+    }
+    
+    .stats-table {
+        font-size: 12px;
+    }
+    
+    .stats-table th,
+    .stats-table td {
+        padding: 8px 6px;
+    }
+    
+    .valor-principal {
+        font-size: 14px;
+    }
+    
+    .percentil {
+        font-size: 10px;
+    }
+    
+    .stat-name {
+        font-size: 12px;
+    }
+    
+    .grupo-estadisticas {
+        margin-bottom: 25px;
+        padding: 15px;
+    }
+    
+    .tabla-comparacion {
+        max-height: 70vh;
+        padding: 15px;
+    }
+    
+    .estadisticas-header h3 {
+        font-size: 20px;
+    }
+}
+
+/* ✅ ALTERNANCIA DE COLORES PARA FILAS */
+.stats-table tr:nth-child(even) td {
+    background: rgba(30, 42, 56, 0.3);
+}
+
+.stats-table tr:nth-child(odd) td {
+    background: rgba(26, 32, 44, 0.3);
+}
+
+/* ✅ ESTILOS ESPECÍFICOS PARA INFORMACIÓN DE JUGADORES */
+.info-jugadores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 20px;
+    background: rgba(26, 32, 44, 0.4);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.jugador-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    padding: 10px;
+}
+
+.jugador1-info {
+    border-right: 2px solid rgba(0, 212, 255, 0.3);
+}
+
+.jugador2-info {
+    border-left: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.vs-separator {
+    color: #ffd700;
+    font-weight: 900;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-family: 'Orbitron', sans-serif;
+    padding: 0 20px;
+    animation: pulse-vs 2s ease-in-out infinite;
+}
+
+@keyframes pulse-vs {
+    0%, 100% { 
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    50% { 
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+}
+
+.nombre-jugador {
+    color: #00d4ff;
+    font-weight: 700;
+    font-size: 16px;
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.jugador2-info .nombre-jugador {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.equipo-jugador {
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.posicion-jugador {
+    color: #a0aec0;
+    font-weight: 500;
+    font-size: 12px;
+    background: rgba(160, 174, 192, 0.1);
+    padding: 3px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(160, 174, 192, 0.2);
+}
+
+/* ✅ COLUMNAS ESPECÍFICAS PARA JUGADORES */
+.jugador-col {
+    position: relative;
+}
+
+.jugador1-col {
+    border-left: 3px solid #00d4ff !important;
+    background: rgba(0, 212, 255, 0.05) !important;
+}
+
+.jugador2-col {
+    border-left: 3px solid #ffd700 !important;
+    background: rgba(255, 215, 0, 0.05) !important;
+}
+
+/* ✅ EFECTOS HOVER ESPECÍFICOS PARA JUGADORES */
+.stats-table tr:hover .jugador1-col {
+    background: rgba(0, 212, 255, 0.15) !important;
+    border-left-color: #00d4ff !important;
+    box-shadow: inset 3px 0 0 #00d4ff, 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.stats-table tr:hover .jugador2-col {
+    background: rgba(255, 215, 0, 0.15) !important;
+    border-left-color: #ffd700 !important;
+    box-shadow: inset 3px 0 0 #ffd700, 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+/* ✅ MEJORES VALORES PARA JUGADORES */
+.jugador1-col.mejor-valor {
+    background: linear-gradient(135deg, 
+        rgba(0, 212, 255, 0.25) 0%, 
+        rgba(0, 212, 255, 0.15) 50%, 
+        rgba(0, 212, 255, 0.25) 100%) !important;
+    border-left: 4px solid #00d4ff !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.jugador2-col.mejor-valor {
+    background: linear-gradient(135deg, 
+        rgba(255, 215, 0, 0.25) 0%, 
+        rgba(255, 215, 0, 0.15) 50%, 
+        rgba(255, 215, 0, 0.25) 100%) !important;
+    border-left: 4px solid #ffd700 !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.jugador1-col.mejor-valor .valor-principal {
+    color: #00d4ff !important;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.6);
+    font-weight: 800;
+}
+
+.jugador2-col.mejor-valor .valor-principal {
+    color: #ffd700 !important;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
+    font-weight: 800;
+}
+
+/* ✅ ANIMACIÓN ESPECÍFICA PARA MEJOR VALOR DE JUGADORES */
+.jugador1-col.mejor-valor {
+    animation: pulse-glow-jugador1 3s ease-in-out infinite;
+}
+
+.jugador2-col.mejor-valor {
+    animation: pulse-glow-jugador2 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-jugador1 {
+    0%, 100% {
+        box-shadow: 
+            inset 4px 0 0 #00d4ff,
+            0 0 10px rgba(0, 212, 255, 0.3);
+    }
+    50% {
+        box-shadow: 
+            inset 4px 0 0 #00d4ff,
+            0 0 20px rgba(0, 212, 255, 0.6);
+    }
+}
+
+@keyframes pulse-glow-jugador2 {
+    0%, 100% {
+        box-shadow: 
+            inset 4px 0 0 #ffd700,
+            0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow: 
+            inset 4px 0 0 #ffd700,
+            0 0 20px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* ✅ EFECTOS ESPECIALES PARA CABECERAS DE JUGADORES */
+.stats-table th.jugador1-col::after {
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+}
+
+.stats-table th.jugador2-col::after {
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+/* ✅ RESPONSIVE ESPECÍFICO PARA JUGADORES */
+@media (max-width: 768px) {
+    .info-jugadores {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .jugador1-info,
+    .jugador2-info {
+        border: none;
+        border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        padding-bottom: 10px;
+        flex: none;
+        width: 100%;
+    }
+    
+    .jugador2-info {
+        border-bottom-color: rgba(255, 215, 0, 0.3);
+    }
+    
+    .vs-separator {
+        font-size: 20px;
+        padding: 10px 0;
+    }
+    
+    .nombre-jugador {
+        font-size: 14px;
+    }
+    
+    .equipo-jugador {
+        font-size: 12px;
+    }
+    
+    .posicion-jugador {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+}
+
+/* ✅ ESTILOS PARA BOTONES DE MODO JUGADORES */
+.controles-superiores-jugadores .modo-btn {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #e2e8f0;
+    border: 2px solid #2d3748;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.controles-superiores-jugadores .modo-btn:hover {
+    border-color: #00d4ff;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: #00d4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+}
+
+.controles-superiores-jugadores .modo-btn.modo-activo {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    color: #0f1419;
+    border-color: #00d4ff;
+    font-weight: 700;
+    box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.controles-superiores-jugadores .modo-btn.modo-activo:hover {
+    background: linear-gradient(135deg, #0099cc 0%, #007acc 100%);
+    transform: translateY(-1px);
+}
+
+/* ✅ CONTENEDOR DE BOTONES DE MODO JUGADORES */
+.controles-superiores-jugadores .botones-modo {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* ✅ SELECTORES DE EQUIPOS MEJORADOS (IGUAL QUE JUGADORES) */
+.equipo-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #1a202c;
+    border: 2px solid #2d3748;
+    border-radius: 15px;
+    padding: 25px 20px;
+    min-width: 250px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.equipo-selector:hover {
+    border-color: #00d4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ SELECTOR DE EQUIPO ESPECÍFICO (IGUAL QUE JUGADORES) */
+.selector-equipo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.selector-equipo label {
+    color: #ffd700;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    text-align: center;
+}
+
+.selector-equipo select {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 2px solid #2d3748;
+    font-size: 15px;
+    background: #0f1419;
+    color: #e2e8f0;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.selector-equipo select:focus {
+    border-color: #ffd700;
+    background: #1a202c;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.selector-equipo select:disabled {
+    background: #0a0e13;
+    color: #4a5568;
+    cursor: not-allowed;
+    border-color: #1a202c;
+}
+
+/* ✅ EFECTOS ESPECIALES PARA SELECTS ACTIVOS DE EQUIPOS */
+.selector-equipo select:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ INDICADORES VISUALES PARA EQUIPOS */
+.equipo-selector:nth-child(1) {
+    border-left: 4px solid #00d4ff;
+}
+
+.equipo-selector:nth-child(3) {
+    border-left: 4px solid #ffd700;
+}
+
+.equipo-selector:nth-child(1) .selector-equipo label {
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.equipo-selector:nth-child(3) .selector-equipo label {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.equipo-selector:nth-child(1) .selector-equipo select:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.equipo-selector:nth-child(3) .selector-equipo select:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* ✅ ESTILOS PARA BOTONES DE MODO EQUIPOS (IGUAL QUE JUGADORES) */
+.controles-superiores-equipos .modo-btn {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #e2e8f0;
+    border: 2px solid #2d3748;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.controles-superiores-equipos .modo-btn:hover {
+    border-color: #00d4ff;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: #00d4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+}
+
+.controles-superiores-equipos .modo-btn.modo-activo {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    color: #0f1419;
+    border-color: #00d4ff;
+    font-weight: 700;
+    box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.controles-superiores-equipos .modo-btn.modo-activo:hover {
+    background: linear-gradient(135deg, #0099cc 0%, #007acc 100%);
+    transform: translateY(-1px);
+}
+
+/* ✅ CONTENEDOR DE BOTONES DE MODO EQUIPOS */
+.controles-superiores-equipos .botones-modo {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* ✅ RESPONSIVE PARA EQUIPOS (IGUAL QUE JUGADORES) */
+@media (max-width: 1200px) {
+    .controles-superiores-equipos {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .controles-superiores-equipos .controles-filtros {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .controles-superiores-equipos .grupo-select-container {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .equipo-selector {
+        min-width: 200px;
+        padding: 20px 15px;
+    }
+    
+    .controles-superiores-equipos .controles-filtros {
+        gap: 10px;
+    }
+    
+    .controles-superiores-equipos .grupo-select-container {
+        min-width: 100%;
+    }
+    
+    .controles-superiores-equipos {
+        padding: 15px 20px;
+    }
+    
+    .controles-superiores-equipos .botones-modo {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ✅ ESTILOS PARA TABLA DE ESTADÍSTICAS */
+.estadisticas-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 20px;
+}
+
+.estadisticas-header h3 {
+    color: #00d4ff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(0,212,255,0.4);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ✅ CONTENEDOR GENERAL CON SCROLL */
+.tabla-comparacion {
+    background: linear-gradient(135deg, #181f2a 0%, #1a202c 100%);
+    border-radius: 15px;
+    padding: 25px;
+    overflow-y: auto;
+    max-height: 75vh;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ GRUPOS DE ESTADÍSTICAS */
+.grupo-estadisticas {
+    margin-bottom: 35px;
+    background: rgba(45, 47, 71, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.grupo-estadisticas:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.1);
+}
+
+.grupo-estadisticas:last-child {
+    margin-bottom: 0;
+}
+
+/* ✅ TÍTULOS DE GRUPOS */
+.grupo-titulo {
+    color: #00d4ff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-radius: 10px;
+    border-left: 4px solid #00d4ff;
+    text-shadow: 0 0 10px rgba(0,212,255,0.3);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.grupo-titulo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 212, 255, 0.1) 50%, transparent 70%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ✅ TABLA DE ESTADÍSTICAS */
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Rajdhani', sans-serif;
+    background: rgba(26, 32, 44, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ CABECERAS DE TABLA */
+.stats-table th {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #00d4ff;
+    padding: 15px 12px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    text-shadow: 0 0 5px rgba(0,212,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.stats-table th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    opacity: 0.6;
+}
+
+/* ✅ CELDAS DE TABLA */
+.stats-table td {
+    padding: 12px 10px;
+    text-align: center;
+    border: 1px solid rgba(45, 55, 72, 0.5);
+    background: rgba(26, 32, 44, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.stats-table tr:hover td {
+    background: rgba(0, 212, 255, 0.08);
+    transform: scale(1.01);
+    box-shadow: 0 2px 10px rgba(0, 212, 255, 0.1);
+}
+
+/* ✅ NOMBRES DE ESTADÍSTICAS */
+.stat-name {
+    color: #e2e8f0 !important;
+    font-weight: 600;
+    text-align: left !important;
+    font-size: 14px;
+    padding-left: 15px !important;
+}
+
+/* ✅ VALORES DE ESTADÍSTICAS */
+.stat-value {
+    color: #fff;
+    font-weight: 600;
+    position: relative;
+}
+
+.valor-principal {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.percentil {
+    font-size: 11px;
+    color: #ffd700;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* ✅ IDENTIFICADORES DE EQUIPOS */
+.equipo1-col {
+    border-left: 3px solid #00d4ff !important;
+    position: relative;
+}
+
+.equipo2-col {
+    border-left: 3px solid #ffd700 !important;
+    position: relative;
+}
+
+/* ✅ MEJOR VALOR CON SOMBREADO GANADOR */
+.mejor-valor {
+    background: linear-gradient(135deg, 
+        rgba(0, 212, 255, 0.25) 0%, 
+        rgba(0, 212, 255, 0.15) 50%, 
+        rgba(0, 212, 255, 0.25) 100%) !important;
+    color: #00d4ff !important;
+    font-weight: 700 !important;
+    border-radius: 8px;
+    box-shadow: 
+        0 0 15px rgba(0, 212, 255, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.mejor-valor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent);
+    animation: sweep 2s infinite;
+}
+
+@keyframes sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.mejor-valor .valor-principal {
+    color: #00d4ff;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+    font-size: 17px;
+}
+
+.mejor-valor .percentil {
+    color: #ffd700;
+    font-weight: 600;
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.5);
+}
+
+/* ✅ EFECTO PULSO PARA MEJOR VALOR */
+.mejor-valor {
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 10px rgba(0, 212, 255, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 20px rgba(0, 212, 255, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* ✅ COLUMNA DE DIFERENCIAS */
+.diferencia {
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    position: relative;
+}
+
+.diferencia.positiva {
+    color: #48bb78;
+    background: rgba(72, 187, 120, 0.1);
+    border: 1px solid rgba(72, 187, 120, 0.3);
+    text-shadow: 0 0 5px rgba(72, 187, 120, 0.3);
+}
+
+.diferencia.negativa {
+    color: #f56565;
+    background: rgba(245, 101, 101, 0.1);
+    border: 1px solid rgba(245, 101, 101, 0.3);
+    text-shadow: 0 0 5px rgba(245, 101, 101, 0.3);
+}
+
+.diferencia.neutra {
+    color: #a0aec0;
+    background: rgba(160, 174, 192, 0.1);
+    border: 1px solid rgba(160, 174, 192, 0.3);
+}
+
+/* ✅ MENSAJE SIN DATOS */
+.no-data {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 18px;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #181f2a 0%, #1a202c 100%);
+    border-radius: 15px;
+    border: 2px dashed rgba(160, 174, 192, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ✅ SCROLLBAR PERSONALIZADO */
+.tabla-comparacion::-webkit-scrollbar {
+    width: 10px;
+}
+
+.tabla-comparacion::-webkit-scrollbar-track {
+    background: rgba(26, 32, 44, 0.5);
+    border-radius: 5px;
+}
+
+.tabla-comparacion::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.tabla-comparacion::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #0099cc 0%, #007acc 100%);
+}
+
+/* ✅ RESPONSIVE PARA ESTADÍSTICAS */
+@media (max-width: 768px) {
+    .grupo-titulo {
+        font-size: 16px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+    }
+    
+    .stats-table {
+        font-size: 12px;
+    }
+    
+    .stats-table th,
+    .stats-table td {
+        padding: 8px 6px;
+    }
+    
+    .valor-principal {
+        font-size: 14px;
+    }
+    
+    .percentil {
+        font-size: 10px;
+    }
+    
+    .stat-name {
+        font-size: 12px;
+    }
+    
+    .grupo-estadisticas {
+        margin-bottom: 25px;
+        padding: 15px;
+    }
+    
+    .tabla-comparacion {
+        max-height: 70vh;
+        padding: 15px;
+    }
+    
+    .estadisticas-header h3 {
+        font-size: 20px;
+    }
+}
+
+/* ✅ ALTERNANCIA DE COLORES PARA FILAS */
+.stats-table tr:nth-child(even) td {
+    background: rgba(30, 42, 56, 0.3);
+}
+
+.stats-table tr:nth-child(odd) td {
+    background: rgba(26, 32, 44, 0.3);
+}
+
+/* ✅ ESTILOS ESPECÍFICOS PARA INFORMACIÓN DE JUGADORES */
+.info-jugadores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 20px;
+    background: rgba(26, 32, 44, 0.4);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.jugador-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    padding: 10px;
+}
+
+.jugador1-info {
+    border-right: 2px solid rgba(0, 212, 255, 0.3);
+}
+
+.jugador2-info {
+    border-left: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.vs-separator {
+    color: #ffd700;
+    font-weight: 900;
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-family: 'Orbitron', sans-serif;
+    padding: 0 20px;
+    animation: pulse-vs 2s ease-in-out infinite;
+}
+
+@keyframes pulse-vs {
+    0%, 100% { 
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    50% { 
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+}
+
+.nombre-jugador {
+    color: #00d4ff;
+    font-weight: 700;
+    font-size: 16px;
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.jugador2-info .nombre-jugador {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.equipo-jugador {
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.posicion-jugador {
+    color: #a0aec0;
+    font-weight: 500;
+    font-size: 12px;
+    background: rgba(160, 174, 192, 0.1);
+    padding: 3px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(160, 174, 192, 0.2);
+}
+
+/* ✅ COLUMNAS ESPECÍFICAS PARA JUGADORES */
+.jugador-col {
+    position: relative;
+}
+
+.jugador1-col {
+    border-left: 3px solid #00d4ff !important;
+    background: rgba(0, 212, 255, 0.05) !important;
+}
+
+.jugador2-col {
+    border-left: 3px solid #ffd700 !important;
+    background: rgba(255, 215, 0, 0.05) !important;
+}
+
+/* ✅ EFECTOS HOVER ESPECÍFICOS PARA JUGADORES */
+.stats-table tr:hover .jugador1-col {
+    background: rgba(0, 212, 255, 0.15) !important;
+    border-left-color: #00d4ff !important;
+    box-shadow: inset 3px 0 0 #00d4ff, 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.stats-table tr:hover .jugador2-col {
+    background: rgba(255, 215, 0, 0.15) !important;
+    border-left-color: #ffd700 !important;
+    box-shadow: inset 3px 0 0 #ffd700, 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+/* ✅ MEJORES VALORES PARA JUGADORES */
+.jugador1-col.mejor-valor {
+    background: linear-gradient(135deg, 
+        rgba(0, 212, 255, 0.25) 0%, 
+        rgba(0, 212, 255, 0.15) 50%, 
+        rgba(0, 212, 255, 0.25) 100%) !important;
+    border-left: 4px solid #00d4ff !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.jugador2-col.mejor-valor {
+    background: linear-gradient(135deg, 
+        rgba(255, 215, 0, 0.25) 0%, 
+        rgba(255, 215, 0, 0.15) 50%, 
+        rgba(255, 215, 0, 0.25) 100%) !important;
+    border-left: 4px solid #ffd700 !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.jugador1-col.mejor-valor .valor-principal {
+    color: #00d4ff !important;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.6);
+    font-weight: 800;
+}
+
+.jugador2-col.mejor-valor .valor-principal {
+    color: #ffd700 !important;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
+    font-weight: 800;
+}
+
+/* ✅ ANIMACIÓN ESPECÍFICA PARA MEJOR VALOR DE JUGADORES */
+.jugador1-col.mejor-valor {
+    animation: pulse-glow-jugador1 3s ease-in-out infinite;
+}
+
+.jugador2-col.mejor-valor {
+    animation: pulse-glow-jugador2 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-jugador1 {
+    0%, 100% {
+        box-shadow: 
+            inset 4px 0 0 #00d4ff,
+            0 0 10px rgba(0, 212, 255, 0.3);
+    }
+    50% {
+        box-shadow: 
+            inset 4px 0 0 #00d4ff,
+            0 0 20px rgba(0, 212, 255, 0.6);
+    }
+}
+
+@keyframes pulse-glow-jugador2 {
+    0%, 100% {
+        box-shadow: 
+            inset 4px 0 0 #ffd700,
+            0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow: 
+            inset 4px 0 0 #ffd700,
+            0 0 20px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* ✅ EFECTOS ESPECIALES PARA CABECERAS DE JUGADORES */
+.stats-table th.jugador1-col::after {
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+}
+
+.stats-table th.jugador2-col::after {
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+/* ✅ RESPONSIVE ESPECÍFICO PARA JUGADORES */
+@media (max-width: 768px) {
+    .info-jugadores {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .jugador1-info,
+    .jugador2-info {
+        border: none;
+        border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        padding-bottom: 10px;
+        flex: none;
+        width: 100%;
+    }
+    
+    .jugador2-info {
+        border-bottom-color: rgba(255, 215, 0, 0.3);
+    }
+    
+    .vs-separator {
+        font-size: 20px;
+        padding: 10px 0;
+    }
+    
+    .nombre-jugador {
+        font-size: 14px;
+    }
+    
+    .equipo-jugador {
+        font-size: 12px;
+    }
+    
+    .posicion-jugador {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+}
+
+/* ✅ ESTILOS PARA BOTONES DE MODO JUGADORES */
+.controles-superiores-jugadores .modo-btn {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #e2e8f0;
+    border: 2px solid #2d3748;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.controles-superiores-jugadores .modo-btn:hover {
+    border-color: #00d4ff;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: #00d4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+}
+
+.controles-superiores-jugadores .modo-btn.modo-activo {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    color: #0f1419;
+    border-color: #00d4ff;
+    font-weight: 700;
+    box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.controles-superiores-jugadores .modo-btn.modo-activo:hover {
+    background: linear-gradient(135deg, #0099cc 0%, #007acc 100%);
+    transform: translateY(-1px);
+}
+
+/* ✅ CONTENEDOR DE BOTONES DE MODO JUGADORES */
+.controles-superiores-jugadores .botones-modo {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}

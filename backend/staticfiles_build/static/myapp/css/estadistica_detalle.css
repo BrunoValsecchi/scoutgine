@@ -1,0 +1,678 @@
+.main-content {
+    background: linear-gradient(135deg, #0d0e14 0%, #15161d 50%, #1a1b24 100%);
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+.estadistica-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 4vw;
+    background: linear-gradient(135deg, #15161d 0%, #1a1b24 100%);
+    border-bottom: 1px solid #23242a;
+    flex-wrap: wrap;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #67aaff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.back-button:hover {
+    color: #4f8fff;
+}
+
+.estadistica-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: #e3e6ee;
+    margin: 0;
+    letter-spacing: 0.5px;
+    text-align: center;
+    flex: 1;
+}
+
+.equipo-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #a6b6d9;
+    font-size: 0.95rem;
+}
+
+.equipo-logo-small {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.equipo-logo-placeholder-small {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #67aaff, #4f8fff);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* CARDS MINI FORZADAS A LA DERECHA */
+.estadistica-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end; /* ← Alinear a la derecha */
+    align-content: flex-start; /* ← Alinear contenido arriba */
+    gap: 6px;
+    padding: 12px 4vw;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 60px; /* ← Altura mínima */
+    width: 100%; /* ← Width completo */
+}
+
+/* Alternativa: usar margin-left auto para forzar a la derecha */
+.estadistica-stats-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 4vw;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.estadistica-stats-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: 60%; /* ← Limitar ancho para que se vea a la derecha */
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #181a1f 0%, #23243a 100%);
+    border-radius: 8px;
+    padding: 6px 10px;
+    text-align: center;
+    border: 1px solid #23242a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 80px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0; /* ← No permitir que se encojan */
+}
+
+.stat-card:hover {
+    transform: translateY(-1px) scale(1.05); /* ← Menos movimiento */
+    box-shadow: 0 4px 16px rgba(103, 170, 255, 0.2);
+    border-color: #67aaff;
+}
+
+.stat-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem; /* ← Muy pequeño */
+    font-weight: 800;
+    color: #67aaff;
+    margin-bottom: 1px;
+    line-height: 1;
+}
+
+.stat-label {
+    color: #a6b6d9;
+    font-size: 0.45rem; /* ← Texto súper pequeño */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    line-height: 1;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Quitar efectos complejos para cards tan pequeñas */
+.stat-card::before {
+    display: none; /* ← Quitar el shimmer effect */
+}
+
+.graficos-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 0 4vw 30px 4vw;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grafico-card {
+    background: linear-gradient(135deg, #181a1f 0%, #1e2028 100%);
+    border-radius: 12px;
+    border: 1px solid #23242a;
+    padding: 16px;
+    min-height: 320px;
+    position: relative;
+}
+
+.grafico-card h3 {
+    color: #e3e6ee;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+}
+
+.grafico-card canvas {
+    width: 100% !important;
+    height: 260px !important;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #ff6b6b;
+    padding: 24px 4vw;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #1d1515 0%, #241a1a 100%);
+    border: 1px solid #ff6b6b;
+    border-radius: 12px;
+    margin: 20px 4vw;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-message i {
+    font-size: 1.3rem;
+}
+
+.graficos-especificos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 24px;
+    padding: 0 4vw 40px 4vw;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grafico-content {
+    width: 100%;
+    height: 420px;      /* Cambia aquí el alto a lo que quieras, pero NO uses min-height ni max-height */
+    background: #181b23;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    display: block;     /* No uses flex aquí */
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+/* ===================================
+   GRÁFICO DE DISPERSIÓN HERMOSO
+   =================================== */
+
+.grafico-interactivo {
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+
+
+.grafico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.grafico-header h3 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00d4ff 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls label {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.stat-selector {
+    background: linear-gradient(135deg, #1a1f29 0%, #2a3441 100%);
+    color: #ffffff;
+    border: 2px solid #00d4ff;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+}
+
+.stat-selector:hover {
+    border-color: #00ff88;
+    background: linear-gradient(135deg, #2a3441 0%, #1a1f29 100%);
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+    transform: translateY(-2px);
+}
+
+.stat-selector:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+}
+
+.loading-indicator {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: #00d4ff;
+    padding: 50px;
+    height: calc(100% - 100px);
+    font-size: 1.2rem;
+    font-weight: 600;
+    flex-direction: column;
+}
+
+.loading-indicator i {
+    font-size: 3rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.grafico-content-interactivo {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    border-radius: 12px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ===================================
+   GRÁFICO DE DISPERSIÓN MODERNO
+   =================================== */
+
+.grafico-interactivo {
+    margin: 40px auto;
+    max-width: 1600px;
+    padding: 0 2vw;
+}
+
+.grafico-dispersion-card {
+    background: #1e2028;
+    border-radius: 20px;
+    border: none;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    height: 85vh;
+    min-height: 700px;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.grafico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.grafico-header h3 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 300;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 16px 24px;
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.controls label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.stat-selector {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 220px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.stat-selector:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.stat-selector:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #67aaff;
+    box-shadow: 0 0 0 4px rgba(103, 170, 255, 0.2);
+}
+
+.loading-indicator {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    color: #67aaff;
+    padding: 80px;
+    height: calc(100% - 150px);
+    font-size: 1.3rem;
+    font-weight: 500;
+    flex-direction: column;
+}
+
+.loading-indicator i {
+    font-size: 4rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+.grafico-content-interactivo {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    border-radius: 12px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* --- GRÁFICO DE DISPERSIÓN SIMPLE Y RESPONSIVO --- */
+.grafico-dispersion-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    padding: 0 10px;
+}
+
+.grafico-dispersion-titulo {
+    color: #00d4ff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+    text-align: left;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.grafico-dispersion-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.grafico-dispersion-controls label {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.grafico-dispersion-select {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #00d4ff;
+    background: #181b23;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.grafico-dispersion-content {
+   
+    min-height: 700px;
+    background: #181b23;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+#chart-dispersion {
+    width: 100%;
+    height: 700px;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .grafico-dispersion-content {
+        height: 320px;
+        min-height: 200px;
+    }
+    .grafico-dispersion-titulo {
+        font-size: 1.1rem;
+    }
+}
+
+/* RESPONSIVE DESIGN MEJORADO */
+@media (max-width: 1200px) {
+    .grafico-interactivo {
+        max-width: 95vw;
+        padding: 0 1vw;
+    }
+    
+    .grafico-dispersion-card {
+        height: 80vh;
+        min-height: 650px;
+        padding: 30px;
+    }
+    
+    .grafico-header h3 {
+        font-size: 1.7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grafico-interactivo {
+        margin: 20px auto;
+        padding: 0 0.5vw;
+    }
+    
+    .grafico-dispersion-card {
+        height: 75vh;
+        min-height: 600px;
+        padding: 24px;
+    }
+    
+    .grafico-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .grafico-header h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+    
+    .controls {
+        justify-content: center;
+        padding: 14px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .stat-selector {
+        width: 100%;
+        min-width: auto;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    .grafico-content-interactivo {
+        min-height: 450px;
+    }
+}
+
+@media (max-width: 480px) {
+    .grafico-dispersion-card {
+        padding: 20px;
+        height: 70vh;
+        min-height: 550px;
+    }
+    
+    .grafico-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .controls {
+        padding: 12px 16px;
+    }
+    
+    .stat-selector {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ANIMACIONES ELEGANTES */
+.grafico-dispersion-card {
+    animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* EFECTOS SUTILES */
+.grafico-dispersion-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(103, 170, 255, 0.5) 50%, transparent 100%);
+}
+
+.grafico-dispersion-card:hover {
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.graficos-superiores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto 32px auto;
+    padding: 0 4vw;
+    align-items: center; /* Centra verticalmente ambos gráficos */
+}
+
+.grafico-superior-card {
+    background: linear-gradient(135deg, #181a1f 0%, #23243a 100%);
+    border-radius: 12px;
+    padding: 18px 18px 12px 18px;
+    min-width: 0;
+    min-height: 380px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente el contenido */
+    justify-content: center; /* Centra verticalmente el contenido */
+}
+
+#boxplot-chart-container {
+    width: 90%;
+    max-width: 600px;
+    height: 340px;
+    margin: 0 auto;
+    background: #181b23;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1100px) {
+    .graficos-superiores {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .grafico-superior-card {
+        min-height: 320px;
+    }
+    #boxplot-chart-container {
+        width: 100%;
+        max-width: 100vw;
+    }
+}

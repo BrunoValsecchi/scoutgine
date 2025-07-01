@@ -22,13 +22,7 @@
       <i class="bx bx-football"></i>
       <span>Equipos</span>
     </a>
-    <a
-      href="#"
-      class="{% if request.resolver_match.url_name == 'estadisticas' %}active{% endif %}"
-    >
-      <i class="bx bx-line-chart"></i>
-      <span>Estadísticas</span>
-    </a>
+    
     <a
       href="{% url 'comparacion' %}"
       class="{% if request.resolver_match.url_name == 'comparacion' %}active{% endif %}"

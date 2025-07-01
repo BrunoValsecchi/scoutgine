@@ -16,11 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
 
+def api_root(request):
+    """Vista para la raíz de la API"""
+    return JsonResponse({
+        'message': 'ScoutGine API Backend',
+        'status': 'running',
+        'version': '1.0.0',
+        'endpoints': {
+            'admin': '/admin/',
+            'api': '/api/',
+            'jugadores': '/jugadores/',
+            'equipos': '/equipos/',
+            'ligas': '/ligas/',
+        }
+    })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('myapp.urls')),
-
-
+    path('', api_root, name='api_root'),  # Página principal
+    path('api/', api_root, name='api_info'),  # Info de API
+    path('', include('myapp.urls')),  # Incluir URLs de tu app
 ]

@@ -1,0 +1,295 @@
+/* Contenedor principal alineado a la derecha */
+.equipo-stats-simple {
+    background: #0c0c13;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px #0003;
+    padding: 28px 30px 18px 30px;
+    max-width: 340px;
+    float: right;
+    margin: 32px 3vw 32px 32px;
+    color: #e3e6ee;
+    min-width: 240px;
+}
+
+.equipo-stats-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.45rem;
+    color: #e3e6ee;
+    margin: 0 0 32px 0;
+    letter-spacing: 1px;
+    padding-left: 4vw;
+    padding-top: 24px;
+}
+
+.equipo-stats-title i {
+    font-size: 2.3rem;
+    color: #67aaff;
+}
+
+.equipo-stats-list-simple {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.equipo-stats-list-simple li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #23242a;
+    font-size: 1.01rem;
+    transition: background 0.18s;
+}
+
+.equipo-stats-list-simple li:last-child {
+    border-bottom: none;
+}
+
+.stat-label-simple {
+    color: #a6b6d9;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 8px 12px 8px 12px;
+    border: none;
+    text-align: left;
+    letter-spacing: 0.1px;
+    width: 70%;
+}
+
+.stat-value-simple {
+    color: #67aaff;
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+    padding: 8px 12px 8px 8px;
+    border: none;
+    text-align: right;
+    width: 30%;
+}
+
+.equipo-stats-empty-simple {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #8fa2c7;
+    padding: 48px 0 10px 0;
+    font-size: 1.18rem;
+    gap: 12px;
+}
+
+.equipo-stats-empty-simple i {
+    font-size: 2.2rem;
+    color: #6c7a89;
+}
+
+.equipo-stats-graficos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-end;
+    margin-bottom: 32px;
+}
+
+.grafico-card {
+    background: #181a1f;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px #0003;
+    padding: 10px 10px 0 10px;
+    min-width: 340px;
+    max-width: 340px;
+    min-height: 320px;
+}
+
+/* Contenedor principal de estadísticas */
+.equipo-stats-full {
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0 0 40px 0;
+    background: none;
+    box-shadow: none;
+}
+
+/* Grid de cards */
+.equipo-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 36px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 5vw 0 5vw;
+}
+
+/* Card de estadística */
+.equipo-stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: linear-gradient(120deg, #1a1b24 70%, #23243a 100%);
+    border-radius: 22px;
+    box-shadow: 0 6px 32px #0007;
+    padding: 32px 32px 28px 32px;
+    text-decoration: none;
+    color: #e3e6ee;
+    transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
+    min-height: 120px;
+    border: 2px solid transparent;
+    font-size: 1.13rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.equipo-stat-card:hover {
+    background: linear-gradient(120deg, #23243a 60%, #181921 100%);
+    border-color: #67aaff;
+    transform: translateY(-6px) scale(1.035);
+    color: #fff;
+    box-shadow: 0 12px 32px #000a;
+}
+
+.equipo-stats-categorias {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4vw 24px 4vw;
+}
+
+.equipo-stats-col {
+    background: linear-gradient(135deg, #15161d 0%, #1a1b24 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px #0004;
+    padding: 24px 20px 20px 20px;
+    min-width: 0;
+    border: 1px solid #23242a;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.equipo-stats-col:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px #0006;
+}
+
+.equipo-stats-col-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.equipo-stats-col-title.generales { color: #4faaff; }
+.equipo-stats-col-title.ofensivos { color: #ff4f4f; }
+.equipo-stats-col-title.defensivos { color: #4fff7b; }
+.equipo-stats-col-title.creacion { color: #ffe14f; }
+
+.equipo-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: none;
+}
+
+.equipo-stat-row {
+    border-bottom: 1px solid #23242a;
+    transition: background 0.15s;
+    cursor: pointer;
+    height: 40px;
+}
+
+.equipo-stat-row:hover {
+    background: rgba(103, 170, 255, 0.1);
+}
+
+.equipo-stat-row:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 1100px) {
+    .equipo-stats-categorias {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        max-width: 600px;
+    }
+    
+    .equipo-stats-title {
+        font-size: 1.25rem;
+        padding-left: 3vw;
+    }
+}
+
+@media (max-width: 900px) {
+    .equipo-stats-simple {
+        float: none;
+        margin: 24px auto;
+        display: block;
+        max-width: 98vw;
+    }
+    .equipo-stats-graficos {
+        flex-direction: column;
+        align-items: center;
+    }
+    .grafico-card {
+        min-width: 98vw;
+        max-width: 98vw;
+    }
+    .equipo-stats-grid {
+        grid-template-columns: 1fr;
+        padding: 0 2vw 0 2vw;
+        gap: 22px;
+    }
+    .equipo-stats-title {
+        padding-left: 2vw;
+        font-size: 1.08rem;
+        padding-top: 16px;
+    }
+    .equipo-stat-card {
+        padding: 22px 18px 18px 18px;
+        min-height: 90px;
+    }
+}
+
+@media (max-width: 700px) {
+    .equipo-stats-full {
+        max-width: 98vw;
+        padding: 0 0 12px 0;
+    }
+    .equipo-stats-categorias {
+        gap: 20px;
+        padding: 0 2vw 16px 2vw;
+    }
+    
+    .equipo-stats-col {
+        padding: 16px 12px 12px 12px;
+    }
+    
+    .equipo-stats-col-title {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    
+    .stat-label-simple {
+        font-size: 0.95rem;
+        padding: 6px 8px;
+    }
+    
+    .stat-value-simple {
+        font-size: 1.05rem;
+        padding: 6px 8px;
+    }
+    
+    .equipo-stats-title {
+        padding-left: 2vw;
+        font-size: 1.15rem;
+    }
+}

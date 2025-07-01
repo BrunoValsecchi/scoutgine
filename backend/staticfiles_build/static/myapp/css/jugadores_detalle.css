@@ -1,0 +1,511 @@
+/* ========== RESET Y BASE ========== */
+* {
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-content {
+    padding: 100px 4vw 40px;
+    max-width: 100%;  /* Cambio aquí: de 1000px a 100% */
+    margin: 0 auto;
+    width: 100%;      /* Agregado para asegurar el ancho completo */
+}
+
+/* ========== HERO SECTION ========== */
+.player-hero {
+    margin-bottom: 40px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64b5f6;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: rgba(100, 181, 246, 0.1);
+}
+
+.back-btn:hover {
+    background: rgba(100, 181, 246, 0.2);
+    color: #90caf9;
+}
+
+.player-card {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 24px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border: 1px solid rgba(100, 181, 246, 0.1);
+    max-width: 1200px;  /* Limitar el card principal */
+    margin: 0 auto;     /* Centrar el card */
+}
+
+.player-avatar {
+    flex-shrink: 0;
+}
+
+.player-image, .team-badge, .player-initial {
+    width: 140px;
+    height: 140px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.player-image {
+    object-fit: cover;
+    border: 3px solid #64b5f6;
+}
+
+.team-badge {
+    background: #fff;
+    border: 3px solid #94a3b8;
+}
+
+.team-badge img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.player-initial {
+    background: linear-gradient(145deg, #64b5f6 0%, #42a5f5 100%);
+    color: #fff;
+    font-size: 4rem;
+    font-weight: 900;
+}
+
+.player-info {
+    flex: 1;
+}
+
+.player-name {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0 0 20px 0;
+    color: #fff;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.player-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: fit-content;
+}
+
+.badge.goalkeeper {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: #fff;
+}
+
+.badge.defender {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: #fff;
+}
+
+.badge.midfielder {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: #fff;
+}
+
+.badge.forward {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+}
+
+.badge.default {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: #fff;
+}
+
+.team-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.team-mini-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: #fff;
+    padding: 2px;
+}
+
+/* ========== ESTADÍSTICAS ========== */
+.player-stats {
+    margin-bottom: 40px;
+    max-width: 1200px;  /* Limitar las estadísticas */
+    margin-left: auto;  /* Centrar */
+    margin-right: auto;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;  /* Aumentar gap para más espacio */
+    margin-bottom: 24px;
+}
+
+.stat-item {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid rgba(100, 181, 246, 0.1);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    border-color: rgba(100, 181, 246, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #64b5f6;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.stat-number.valor-market {
+    color: #22c55e;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nationality-section {
+    display: flex;
+    justify-content: center;
+}
+
+.nationality-card {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 16px;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(100, 181, 246, 0.1);
+}
+
+.flag {
+    width: 32px;
+    height: 24px;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.country {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* ========== WIKIPEDIA ========== */
+.wikipedia-section {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid rgba(100, 181, 246, 0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    max-width: 1200px;  /* Limitar la sección de Wikipedia */
+    margin: 0 auto;     /* Centrar la sección */
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.section-header i {
+    font-size: 2rem;
+    color: #64b5f6;
+}
+
+.section-header h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+    color: #fff;
+}
+
+.wiki-content {
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.wiki-content p {
+    margin-bottom: 20px;
+}
+
+/* ========== ESTADÍSTICAS DETALLADAS ========== */
+.rating-highlight {
+    background: linear-gradient(135deg, #00d4ff 0%, #67aaff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+/* ========== ESTADÍSTICAS DETALLADAS COMO EQUIPO ========== */
+.jugador-stats-detalladas {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.stats-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0 0 32px 0;
+    color: #fff;
+}
+
+.stats-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+
+.stats-category {
+    background: linear-gradient(135deg, #181a1f 60%, #23243a 100%);
+    border-radius: 18px;
+    padding: 28px 32px 18px 32px;
+    border: 1px solid #23243a;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.stats-category h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 24px 0;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.circle-red { color: #ef4444; font-size: 1.3rem; }
+.circle-green { color: #22c55e; font-size: 1.3rem; }
+.circle-yellow { color: #eab308; font-size: 1.3rem; }
+.circle-blue { color: #3b82f6; font-size: 1.3rem; }
+
+.stats-category:nth-child(1) h4 { color: #ef4444; }
+.stats-category:nth-child(2) h4 { color: #22c55e; }
+.stats-category:nth-child(3) h4 { color: #eab308; }
+.stats-category:nth-child(4) h4 { color: #3b82f6; }
+
+.stats-grid-detailed {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.stat-item-detailed {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid #23243a;
+    transition: background 0.2s;
+}
+
+.stat-item-detailed:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    color: #b0b8c9;
+    font-weight: 500;
+    font-size: 1.08rem;
+    flex: 1;
+    text-align: left;
+}
+
+.stat-value {
+    color: #67aaff;
+    font-weight: 800;
+    font-size: 1.15rem;
+    text-align: right;
+    min-width: 48px;
+    letter-spacing: 0.5px;
+}
+
+.stats-category .stat-value.rating-highlight {
+    background: linear-gradient(135deg, #00d4ff 0%, #67aaff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stats-category .stat-value[style*="fbbf24"] { color: #fbbf24 !important; }
+.stats-category .stat-value[style*="ef4444"] { color: #ef4444 !important; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .stats-categories {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .stats-category {
+        padding: 24px 16px 16px 16px;
+    }
+    .stats-title {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 80px 4vw 40px;
+    }
+
+    .player-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+        padding: 32px 24px;
+    }
+
+    .player-name {
+        font-size: 2.2rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .stat-item {
+        padding: 20px 16px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .wikipedia-section {
+        padding: 24px;
+    }
+
+    .section-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .jugador-stats-detalladas {
+        padding: 24px;
+    }
+    
+    .stats-title {
+        font-size: 1.3rem;
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-image, .team-badge, .player-initial {
+        width: 120px;
+        height: 120px;
+    }
+
+    .player-initial {
+        font-size: 3rem;
+    }
+
+    .player-name {
+        font-size: 1.8rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+
+    .stats-category {
+        padding: 20px 16px;
+    }
+}
+
+@media (max-width: 900px) {
+    .jugador-stats-detalladas {
+        max-width: 98vw;
+    }
+    .stats-categories {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .stats-category {
+        padding: 18px 10px 10px 10px;
+    }
+}
+

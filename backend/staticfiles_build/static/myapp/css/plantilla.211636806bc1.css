@@ -1,0 +1,178 @@
+/* --- PLANTILLA TABLA MODERNA Y OSCURA --- */
+*{
+    text-decoration: none;
+    color: whitesmoke;
+}
+.jugadores-lista-container {
+    background: #17181c;
+    border-radius: 18px;
+    padding: 0;
+    border: 1px solid #23242a;
+    box-shadow: 0 4px 32px #0004;
+    margin-bottom: 32px;
+    overflow-x: auto;
+}
+
+.header-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 2px 8px #0002;
+}
+.jugadores-tabla {
+    width: 100%;
+    min-width: 700px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.jugadores-tabla-header, .jugador-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1.2fr 1.5fr 0.7fr 0.7fr 1fr 1.2fr;
+    align-items: center;
+    min-height: 54px;
+    border-bottom: 1px solid #23242a;
+    background: none;
+}
+
+.jugadores-tabla-header {
+    color: #bfc9d6;
+    font-size: 1.05rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #23242a 60%, #23243a 100%);
+    border-radius: 18px 18px 0 0;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px #0002;
+    text-transform: uppercase;
+}
+
+.jugador-row {
+    background: linear-gradient(90deg, #191a1f 60%, #1a1b22 100%);
+    transition: background 0.18s, box-shadow 0.18s;
+    font-size: 1.04rem;
+    border-left: 4px solid transparent;
+    position: relative;
+}
+.jugador-row:hover {
+    background: linear-gradient(90deg, #23243a 60%, #23243a 100%);
+    border-left: 4px solid #667eea;
+    box-shadow: 0 2px 12px #0003;
+    z-index: 2;
+}
+
+.jugador-th, .jugador-td {
+    padding: 12px 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Rajdhani', 'Orbitron', Arial, sans-serif;
+}
+
+.jugador-th {
+    letter-spacing: 1px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #8fa2c7;
+    background: none;
+    border: none;
+}
+
+.jugador-td {
+    color: #e3e6ee;
+    font-weight: 500;
+    background: none;
+    border: none;
+}
+
+.jugador-td.nacionalidad {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #b6c3e0;
+    font-weight: 600;
+}
+
+.bandera {
+    width: 22px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: middle;
+    box-shadow: 0 1px 2px #0002;
+    border: 1px solid #23242a;
+}
+
+.jugador-td.valor {
+    font-weight: 700;
+    color: #7ed957;
+    font-size: 1.01rem;
+}
+
+.jugador-td.posicion .pos-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.93em;
+    font-weight: 700;
+    padding: 4px 13px;
+    border-radius: 14px;
+    background: #23243a;
+    border: 1.5px solid #232b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 4px #0001;
+    transition: background 0.2s, color 0.2s;
+}
+.pos-tag.arquero { color: #f39c12; background: #2a2114; border-color: #f39c12; }
+.pos-tag.defensor { color: #e74c3c; background: #2a1818; border-color: #e74c3c; }
+.pos-tag.mediocampista { color: #3498db; background: #18212a; border-color: #3498db; }
+.pos-tag.delantero { color: #2ecc71; background: #182a1c; border-color: #2ecc71; }
+
+.jugador-td.dorsal {
+    text-align: center;
+    font-weight: 700;
+    color: #bfc9d6;
+    font-size: 1.01rem;
+    letter-spacing: 1px;
+}
+
+.jugador-td.altura {
+    color: #bfc9d6;
+    font-size: 0.98rem;
+}
+
+@media (max-width: 900px) {
+    .jugadores-tabla-header, .jugador-row {
+        grid-template-columns: 2fr 1fr 1.2fr 0.7fr 0.7fr 0.8fr 1fr;
+        font-size: 0.97rem;
+    }
+    .jugador-th, .jugador-td {
+        padding: 8px 7px;
+    }
+    .bandera {
+        width: 16px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .jugadores-lista-container {
+        border-radius: 10px;
+    }
+    .jugadores-tabla-header, .jugador-row {
+        grid-template-columns: 2fr 1fr 1fr 0.7fr 0.7fr;
+    }
+    .jugador-th.altura, .jugador-td.altura,
+    .jugador-th.valor, .jugador-td.valor {
+        display: none;
+    }
+    .jugador-th, .jugador-td {
+        font-size: 0.85rem;
+        padding: 5px 3px;
+    }
+}
