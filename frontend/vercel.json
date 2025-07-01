@@ -1,28 +1,22 @@
 {
   "version": 2,
-  "name": "scoutgine-frontend",
-  "builds": [
-    {
-      "src": "app/**",
-      "use": "@vercel/static"
-    }
-  ],
+  "cleanUrls": true,
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/app/static/$1"
+      "dest": "/static/$1"
     },
     {
-      "src": "/myapp/(.*)",
-      "dest": "/app/myapp/$1"
+      "src": "/js/(.*)",
+      "dest": "/js/$1"
     },
     {
       "src": "/",
-      "dest": "/app/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/app/$1"
+      "dest": "/index.html"
     }
   ]
 }

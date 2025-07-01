@@ -2,35 +2,375 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScoutGine | Estadísticas de Jugadores</title>
-  
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-grid.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/styles/ag-theme-alpine.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}" />
-
-  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.noStyle.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-
-  <script src="{% static 'myapp/js/grafico.js' %}"></script>
-  <script src="{% static 'myapp/js/headerlan.js' %}"></script>
-  <script src="{% static 'myapp/js/presentacion.js' %}"></script>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoutGine - Análisis de Fútbol</title>
+    
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/menu.css">
+    <link rel="stylesheet" href="/static/css/ligas.css">
+    <link rel="stylesheet" href="/static/css/equipo.css">
+    <link rel="stylesheet" href="/static/css/comparacion.css">
+    <link rel="stylesheet" href="/static/css/recomendacion.css">
 </head>
 <body>
-  {% include 'partials/headerlan.html' %}
-  {% include 'partials/presentacion.html' %}
-  {% include 'partials/footerlan.html' %}
+    <!-- LANDING PAGE (por defecto) -->
+    <div id="landing-page">
+        <!-- Header Landing -->
+        <header>
+            <nav class="header-landing">
+                <a href="#" onclick="showLanding()" class="a-logo">
+                    <img class="logo" src="https://res.cloudinary.com/dgc07kho5/image/upload/v1746370646/image__2_-removebg-preview_u7jt6u.png" alt="ScoutGine">
+                </a>
+                <div class="div-headerlan">
+                    <ul class="div-headerlan-ul">
+                        <li class="headerlan-ul-li"><a class="li-a-header" href="#servicios">Servicios</a></li>
+                        <li class="headerlan-ul-li"><a class="li-a-header" href="#app-download">App Móvil</a></li>
+                        <li class="headerlan-ul-li"><a class="li-a-header" href="#planes">Planes</a></li>
+                        <li class="headerlan-ul-li"><a class="li-a-header" href="#" onclick="showApp()">Aplicación</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
- 
+        <!-- Contenido de Presentación -->
+        <section class="section-presentacion">
+            <!-- Tu contenido de presentacion.html convertido -->
+            <div class="content-container">
+                <div class="text-column">
+                    <h1 class="animated-title">INTELIGENCIA FUTBOLÍSTICA BASADA EN DATOS</h1>
+                    <p class="animated-text">Convertimos estadísticas en información clave para los usuarios.</p>
+                    <a href="#" onclick="showApp()" class="cta-button">ACCEDER A LA APP</a>
+                </div>
+                <div class="image-column">
+                    <!-- Tus imágenes -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <!-- Tu contenido de footerlan.html -->
+        </footer>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL (oculta por defecto) -->
+    <div id="main-app" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="#" onclick="showSection('menu')" class="logo-menu">
+                <img src="https://res.cloudinary.com/dgc07kho5/image/upload/v1746370646/image__2_-removebg-preview_u7jt6u.png" alt="ScoutGine Logo" class="logo-icon">
+                <span class="logo-text">ScoutGine</span>
+            </a>
+            <nav class="menu">
+                <a href="#" onclick="showSection('ligas')" id="nav-ligas">
+                    <i class="bx bx-trophy"></i>
+                    <span>Tabla de posiciones</span>
+                </a>
+                <a href="#" onclick="showSection('equipos')" id="nav-equipos">
+                    <i class="bx bx-football"></i>
+                    <span>Equipos</span>
+                </a>
+                <a href="#" onclick="showSection('comparacion')" id="nav-comparacion">
+                    <i class="bx bx-scatter-chart"></i>
+                    <span>Comparación</span>
+                </a>
+                <a href="#" onclick="showSection('recomendacion')" id="nav-recomendacion">
+                    <i class="bx bx-search-alt-2"></i>
+                    <span>Recomendación</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <div id="top-nav" class="topnav">
+                <!-- Se actualiza dinámicamente según la sección -->
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="loading-container">
+                <div class="loading-spinner"><i class='bx bx-loader-alt bx-spin'></i></div>
+                <p>Cargando datos...</p>
+            </div>
+
+            <!-- Contenido Dinámico -->
+            <div id="content-container">
+                <!-- El contenido se carga aquí dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/scoutgine-api.js"></script>
+    <script>
+        // Variables globales
+        let currentSection = 'landing';
+        let currentData = {};
+
+        // Mostrar landing page
+        function showLanding() {
+            document.getElementById('landing-page').style.display = 'block';
+            document.getElementById('main-app').style.display = 'none';
+            currentSection = 'landing';
+        }
+
+        // Mostrar aplicación
+        function showApp() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            showSection('menu');
+        }
+
+        // Mostrar sección específica
+        async function showSection(section) {
+            // Actualizar navegación activa
+            document.querySelectorAll('.menu a').forEach(a => a.classList.remove('active'));
+            const navElement = document.getElementById(`nav-${section}`);
+            if (navElement) navElement.classList.add('active');
+
+            currentSection = section;
+
+            // Mostrar loading
+            showLoading();
+
+            try {
+                switch(section) {
+                    case 'menu':
+                        await loadMenu();
+                        break;
+                    case 'ligas':
+                        await loadLigas();
+                        break;
+                    case 'equipos':
+                        await loadEquipos();
+                        break;
+                    case 'comparacion':
+                        await loadComparacion();
+                        break;
+                    case 'recomendacion':
+                        await loadRecomendacion();
+                        break;
+                }
+            } catch (error) {
+                showError('Error cargando ' + section + ': ' + error.message);
+            }
+        }
+
+        // Funciones de carga de datos
+        async function loadMenu() {
+            updateTopNav('menu');
+            const content = `
+                <div class="menu-dashboard">
+                    <h1>Dashboard ScoutGine</h1>
+                    <div class="dashboard-cards">
+                        <div class="dashboard-card" onclick="showSection('ligas')">
+                            <i class="bx bx-trophy"></i>
+                            <h3>Ligas</h3>
+                            <p>Tabla de posiciones</p>
+                        </div>
+                        <div class="dashboard-card" onclick="showSection('equipos')">
+                            <i class="bx bx-football"></i>
+                            <h3>Equipos</h3>
+                            <p>Análisis de equipos</p>
+                        </div>
+                        <div class="dashboard-card" onclick="showSection('comparacion')">
+                            <i class="bx bx-scatter-chart"></i>
+                            <h3>Comparación</h3>
+                            <p>Comparar jugadores y equipos</p>
+                        </div>
+                        <div class="dashboard-card" onclick="showSection('recomendacion')">
+                            <i class="bx bx-search-alt-2"></i>
+                            <h3>Recomendación</h3>
+                            <p>Encuentra jugadores ideales</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            showContent(content);
+        }
+
+        async function loadLigas() {
+            updateTopNav('ligas');
+            const data = await ScoutGineAPI.getLigas();
+            
+            let content = `
+                <div class="ligas-container">
+                    <h2>🏆 Tabla de Posiciones</h2>
+                    <div id="tablas-container">
+                        ${renderTablasPosiciones(data)}
+                    </div>
+                    <div id="stats-equipos-container" style="display:none;">
+                        <!-- Stats equipos se cargan dinámicamente -->
+                    </div>
+                    <div id="stats-jugadores-container" style="display:none;">
+                        <!-- Stats jugadores se cargan dinámicamente -->
+                    </div>
+                </div>
+            `;
+            showContent(content);
+        }
+
+        async function loadEquipos() {
+            updateTopNav('equipos');
+            const equipos = await ScoutGineAPI.getEquipos();
+            
+            let content = `
+                <div class="equipos-container">
+                    <h2>⚽ Equipos</h2>
+                    <div class="equipos-grid">
+                        ${equipos.map(equipo => `
+                            <div class="equipo-card" onclick="showEquipoDetalle(${equipo.id})">
+                                ${equipo.logo ? 
+                                    `<img src="${equipo.logo}" alt="${equipo.nombre}" class="equipo-logo">` :
+                                    `<div class="equipo-logo-placeholder">${equipo.nombre.charAt(0)}</div>`
+                                }
+                                <div class="equipo-nombre">${equipo.nombre}</div>
+                                <div class="equipo-liga">${equipo.liga || 'Primera División'}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            showContent(content);
+        }
+
+        async function loadComparacion() {
+            updateTopNav('comparacion');
+            const [equipos, jugadores] = await Promise.all([
+                ScoutGineAPI.getEquipos(),
+                ScoutGineAPI.getJugadores()
+            ]);
+            
+            let content = `
+                <div class="comparacion-container">
+                    <h2>📊 Comparación</h2>
+                    
+                    <div class="comparacion-tabs">
+                        <button class="tab-btn active" onclick="showComparacionTab('equipos')">Equipos</button>
+                        <button class="tab-btn" onclick="showComparacionTab('jugadores')">Jugadores</button>
+                    </div>
+                    
+                    <div id="comparacion-equipos" class="comparacion-content">
+                        ${renderComparacionEquipos(equipos)}
+                    </div>
+                    
+                    <div id="comparacion-jugadores" class="comparacion-content" style="display:none;">
+                        ${renderComparacionJugadores(jugadores)}
+                    </div>
+                </div>
+            `;
+            showContent(content);
+        }
+
+        async function loadRecomendacion() {
+            updateTopNav('recomendacion');
+            const equipos = await ScoutGineAPI.getEquipos();
+            
+            let content = `
+                <div class="recomendacion-container">
+                    <h2>🔍 Recomendación de Jugadores</h2>
+                    <div class="filtros-container">
+                        <select id="perfil-select">
+                            <option value="">Selecciona un perfil...</option>
+                            <option value="goleador">Goleador</option>
+                            <option value="creador">Creador de juego</option>
+                            <option value="defensor">Defensor sólido</option>
+                        </select>
+                        <select id="equipo-excluir">
+                            <option value="">Todos los equipos</option>
+                            ${equipos.map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}
+                        </select>
+                        <button onclick="buscarRecomendaciones()">Buscar</button>
+                    </div>
+                    <div id="recomendaciones-resultados">
+                        <!-- Resultados se cargan aquí -->
+                    </div>
+                </div>
+            `;
+            showContent(content);
+        }
+
+        // Funciones auxiliares
+        function updateTopNav(section) {
+            const topNavs = {
+                'menu': '<div class="topnav-searchbar"><input type="text" placeholder="Buscar..."></div>',
+                'ligas': `
+                    <div class="topnav-searchbar"><input type="text" placeholder="Buscar..."></div>
+                    <div class="top-nav-actions">
+                        <a href="#" id="btn-tablas" class="nav-action-btn active" onclick="showLigasTab('tablas')">Tabla</a>
+                        <a href="#" id="btn-stats-equipo" class="nav-action-btn" onclick="showLigasTab('stats-equipos')">Stats Equipo</a>
+                        <a href="#" id="btn-stats-jugadores" class="nav-action-btn" onclick="showLigasTab('stats-jugadores')">Stats Jugadores</a>
+                    </div>
+                `,
+                'equipos': '<div class="topnav-searchbar"><input type="text" placeholder="Buscar equipos..."></div>',
+                'comparacion': `
+                    <div class="topnav-searchbar"><input type="text" placeholder="Buscar..."></div>
+                    <div class="top-nav-actions">
+                        <a href="#" id="btn-equipos" class="nav-action-btn active">Equipos</a>
+                        <a href="#" id="btn-jugadores" class="nav-action-btn">Jugadores</a>
+                    </div>
+                `,
+                'recomendacion': '<div class="topnav-searchbar"><input type="text" placeholder="Buscar..."></div>'
+            };
+            document.getElementById('top-nav').innerHTML = topNavs[section] || '';
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('content-container').style.display = 'none';
+        }
+
+        function showContent(html) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content-container').style.display = 'block';
+            document.getElementById('content-container').innerHTML = html;
+        }
+
+        function showError(message) {
+            showContent(`
+                <div class="error-container">
+                    <i class="bx bx-error-circle"></i>
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                    <button onclick="location.reload()">Reintentar</button>
+                </div>
+            `);
+        }
+
+        // Renderizadores específicos
+        function renderTablasPosiciones(data) {
+            // Lógica para renderizar las tablas de posiciones
+            return '<div class="tablas-placeholder">Tablas de posiciones aquí</div>';
+        }
+
+        function renderComparacionEquipos(equipos) {
+            return `
+                <div class="comparacion-equipos">
+                    <div class="selectors">
+                        <select id="equipo1">${equipos.map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}</select>
+                        <select id="equipo2">${equipos.map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}</select>
+                    </div>
+                    <div id="radar-chart-equipos"></div>
+                </div>
+            `;
+        }
+
+        function renderComparacionJugadores(jugadores) {
+            return '<div class="comparacion-jugadores">Comparación de jugadores</div>';
+        }
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 ScoutGine iniciado');
+            // Mostrar landing page por defecto
+            showLanding();
+        });
+    </script>
 </body>
 </html>
 
